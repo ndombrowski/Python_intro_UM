@@ -1,0 +1,6 @@
+*.quarto/
+*.xlsx
+*.pdf
+*.png
+*.DS_Store
+*.Rhistory

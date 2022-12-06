@@ -1,0 +1,233 @@
+[
+  {
+    "objectID": "code/1_introduction.html",
+    "href": "code/1_introduction.html",
+    "title": "2  Programming for everyone",
+    "section": "",
+    "text": "Central Processing Unit (CPU): electronic machinery that carries out instructions from programs that allows a computer or other device to perform its tasks. Its goal is to run the program, its dumb but very fast.\nInput devices: Keyboard, Mouse, Touch screen\nOutput devices: Screen, Speakers, Printer, DVD burner\nWhen you write a program you create a file on the secondary memory, like a Python file, and then at some point that is loaded into the main memory and translated. And then when the CPU says what next, your program feeds its first instruction, the second instruction, third instruction, fourth instruction. It’s called the fetch-execute cycle. And these two parts, the CPU and the main memory, are what participate in this cycle.\nIn contrast to main memory, the fast small temporary storage where data is lost on Reboot (=RAM), data/programs stored on the secondary memory, which is slower and larger (= disk drive, memory stick), is permanent."
+  },
+  {
+    "objectID": "code/1_introduction.html#writing-paragraphs-of-code",
+    "href": "code/1_introduction.html#writing-paragraphs-of-code",
+    "title": "2  Programming for everyone",
+    "section": "2.2 Writing Paragraphs of Code",
+    "text": "2.2 Writing Paragraphs of Code\n\nReserved words: if we use these words, we must use them to mean the thing that Python expects them to mean. Another way to put that is we can’t use them elsewhere.\nPython scripts : stored sets of instruction in text files that you can then hand to Python to run them. By convention end with .py.\n\nLet’s first start by doing some Sequential steps in python. Here, we flow from one step to the next, i.e. we set up paths for the program to follow. Sequential flow is not indented.\n\n#write an assignment statement\nx = 1\n\n#do some math\ny = x + 1\n\n#use the print function\nprint(y)\n\n2\n\n\nWhen we write conditional statements, i.e. if x is less than 10 evaluates to true, then it’s going to execute; otherwise, it’s going to be skipped. The if statement is an example of a reserved word.\n\nx = 5\n\nif x < 10:\n    print(\"Smaller\")\nif x > 20:\n    print(\"Bigger\")\n    \nprint(\"Finis\")\n\nSmaller\nFinis\n\n\nFinally, lets have a look at repeat statements. A repeat statement defines a set of statements to be executed until a condition that is evaluated at the end of the REPEAT loop is true. The repeat-loop-condition is evaluated at the completion of each iteration of the loop.\n\nn = 5\n\nwhile n > 0:\n    print(n)\n    n = n-1\n    \nprint(\"Blastoff!\")\n\n5\n4\n3\n2\n1\nBlastoff!\n\n\nHere, the while statement asks: Is n greater than 0? If this is true then the code below is run. By having the same indents, we can have more than one statement within each level.\nA loop (repeated steps) has iteration variables, that change each time we go trough the loop."
+  },
+  {
+    "objectID": "code/1_introduction.html#doing-the-hello-world-assignment",
+    "href": "code/1_introduction.html#doing-the-hello-world-assignment",
+    "title": "2  Programming for everyone",
+    "section": "2.3 Doing the “Hello World” Assignment",
+    "text": "2.3 Doing the “Hello World” Assignment"
+  },
+  {
+    "objectID": "code/2_expressions.html",
+    "href": "code/2_expressions.html",
+    "title": "3  Expressions",
+    "section": "",
+    "text": "Fixed values such as numbers, letters and strings are called constants because their values don’t change\nNumeric constants look like this 123\nString constants use single or double quotes"
+  },
+  {
+    "objectID": "code/2_expressions.html#reserved-words",
+    "href": "code/2_expressions.html#reserved-words",
+    "title": "3  Expressions",
+    "section": "3.2 Reserved words",
+    "text": "3.2 Reserved words\n\nWords that have a special meaning in python\nYou can not use them as variable names/identifiers\nExamples; False, None, and, as, break, else, etc."
+  },
+  {
+    "objectID": "code/2_expressions.html#variables",
+    "href": "code/2_expressions.html#variables",
+    "title": "3  Expressions",
+    "section": "3.3 Variables",
+    "text": "3.3 Variables\n\nA variable is a named place in the memory where a programmer can store and later retrieve data using the variable name\nProgrammers get to choose the names of the variables\nYou can change the contents of a variable in a later statement\n\nNaming rules for variables:\n\nYou can start variables with letters or underscores, but we try to avoid underscores because python uses underscores for its own purposes\nMust consist of letters, numbers, underscores\nCase sensitive, ideally use mostly use lowercase\nChoose a sensible variable name that makes sense to other people who might read our code\n\n\n3.3.1 Assignment Statements\n\nWe assign a value to a variable using the assignment statement =\nAn assignment statement consists of an expression on the right hand side and a variable to store the result\n\n\n# assign a number to the variable x and store it in memory\nx = 12.2\nx\n\n12.2\n\n\n\n# assign a different number to x\nx = 100\nx\n\n100"
+  },
+  {
+    "objectID": "code/2_expressions.html#operator-precedence",
+    "href": "code/2_expressions.html#operator-precedence",
+    "title": "3  Expressions",
+    "section": "3.4 Operator precedence",
+    "text": "3.4 Operator precedence\n\nThe general order is: Parenthesis –> Power –> Multiplication –> Addition –> Left to right\nWhen writing code: Use parenthesis\nWhen writing code: keep mathematical expressions simple enough so that they are easy to understand\nBreak long series of mathematical operations up to make them more clear"
+  },
+  {
+    "objectID": "code/2_expressions.html#what-are-types",
+    "href": "code/2_expressions.html#what-are-types",
+    "title": "3  Expressions",
+    "section": "3.5 What are types?",
+    "text": "3.5 What are types?\n\nIn Python variables, literals and constants have a type\nPy knows the difference between an integer number and a string\nSome operations are prohibited, i.e. you and not add 1 to a string\n\n'hello' + 1\n\nYou can identify the type by using the function type()\n\n\ntype(1)\n\nint\n\n\n\ntype('hello')\n\nstr\n\n\nNumbers have two main types:\n\nIntegers are whole numbers, i.e. -14, 0, 123\nFloating numbers have decimal parts and more range but less precision than integers: -2.5, 0.0, 13.0"
+  },
+  {
+    "objectID": "code/2_expressions.html#type-conversions",
+    "href": "code/2_expressions.html#type-conversions",
+    "title": "3  Expressions",
+    "section": "3.6 Type conversions",
+    "text": "3.6 Type conversions\n\nWhen you put an integer and a floating point in an expression, the integer is implicitly converted to a float\nYou can control the type using the functions int() and float()\n\n\nprint(float(99) + 100)\n\n199.0\n\n\n\nint(99.1)\n\n99"
+  },
+  {
+    "objectID": "code/2_expressions.html#py2-versus-py3-differences",
+    "href": "code/2_expressions.html#py2-versus-py3-differences",
+    "title": "3  Expressions",
+    "section": "3.7 Py2 versus Py3 differences:",
+    "text": "3.7 Py2 versus Py3 differences:\nIn Py2 9/2 gives 4 while in Py3 it gives 4.5. The reason was that Py2 kept results as integers while Py3 automatically converts them to floats."
+  },
+  {
+    "objectID": "code/2_expressions.html#string-conversions",
+    "href": "code/2_expressions.html#string-conversions",
+    "title": "3  Expressions",
+    "section": "3.8 String conversions",
+    "text": "3.8 String conversions\n\nYou can use int() and float() to convert between strings and integers\nYou will get an error if the string does not contain numeric numbers\n\n\nsval = '123'\ntype(sval)\n\nstr\n\n\nThis would get an error: sval + 1 and we first need to convert the string to an integer:\n\nint(sval) +1\n\n124\n\n\nWe also would get an error with int('hello bob'), since this string does not contain any digits"
+  },
+  {
+    "objectID": "code/2_expressions.html#user-input",
+    "href": "code/2_expressions.html#user-input",
+    "title": "3  Expressions",
+    "section": "3.9 User Input",
+    "text": "3.9 User Input\n\nWe can instruct python to pause and read data from the user using the input() function\nThe input() function returns a string\n\nnam = input('who are you?')\nprint('Welcome', nam)\nIn the example above, the comma will behave as a space in the output."
+  },
+  {
+    "objectID": "code/2_expressions.html#comments-in-python",
+    "href": "code/2_expressions.html#comments-in-python",
+    "title": "3  Expressions",
+    "section": "3.10 Comments in python",
+    "text": "3.10 Comments in python\n\nEverything after a # is ignored by Py\nWhy comment?\n\nDescribe what is going to happen in a sequence of code\nDocument who wrote the code or add useful info\nTurn off a line of code"
+  },
+  {
+    "objectID": "code/2_expressions.html#our-first-code",
+    "href": "code/2_expressions.html#our-first-code",
+    "title": "3  Expressions",
+    "section": "3.11 Our first code",
+    "text": "3.11 Our first code\n\nThe goal is to read a number from the user and convert it to a string number.\n\nWe want to convert ground floors that start with the 0 or the 1st floor.\nThe executable example will be found in convert_user_input.py\n\nIn the code below, the user input is a string, so we need to convert it to an integer first in the code.\n#convert european to US  elevator floors\ninp = input('Europe floor? \\n')\nusf = int(inp) + 1\nprint('European floor', inp, 'is this floor in the US:', usf)\n\nx = int(98.6)\nx\n\n98"
+  },
+  {
+    "objectID": "code/2_expressions.html#exercise",
+    "href": "code/2_expressions.html#exercise",
+    "title": "3  Expressions",
+    "section": "3.12 Exercise",
+    "text": "3.12 Exercise\nWrite a program to prompt the user for hours and rate per hour using input to compute gross pay. Use 35 hours and a rate of 2.75 per hour to test the program (the pay should be 96.25). You should use input to read a string and float() to convert the string to a number. Do not worry about error checking or bad user data.\nThis script will be found in calculate_pay.py\n# Ask for hours and rate\nhrs = input(\"Enter Hours:\\n\")\nrate = input(\"Enter Rate:\\n\")\n\n#do math\npay = float(hrs) * float(rate)\n\n#print\nprint('Pay:', pay)"
+  },
+  {
+    "objectID": "code/3_conditional_statements.html",
+    "href": "code/3_conditional_statements.html",
+    "title": "4  Conditional Statements",
+    "section": "",
+    "text": "The If statement is the most fundamental decision-making statement, in which the code is executed based on whether it meets the specified condition. It has a code body that only executes if the condition in the if statement is true. The statement can be a single line or a block of code.\nPython indentation is a way of telling a Python interpreter that the group of statements belongs to a particular block of code. A block is a combination of all these statements. Block can be regarded as the grouping of statements for a specific purpose. In python its recommended to indent using 4 spaces"
+  },
+  {
+    "objectID": "code/3_conditional_statements.html#comparison-operators",
+    "href": "code/3_conditional_statements.html#comparison-operators",
+    "title": "4  Conditional Statements",
+    "section": "4.1 Comparison operators",
+    "text": "4.1 Comparison operators\n\nBoolean expressions ask the question and produce a Yes or No result which we use to control the program flow\nBoolean expressions using comparison operators evaluate to True/False or Yes/No\nComparison operators look at variables but do not change variables\n\n\n\nx = 5\n\n#if x is true, print otherwise skip the statement\nif x < 10:\n    print(\"Smaller\")\nif x > 20:\n    print(\"Bigger\")\n    \nprint(\"Finis\")\n\nSmaller\nFinis"
+  },
+  {
+    "objectID": "code/3_conditional_statements.html#else-statements-two-way-decisions",
+    "href": "code/3_conditional_statements.html#else-statements-two-way-decisions",
+    "title": "4  Conditional Statements",
+    "section": "4.2 Else statements, two-way decisions",
+    "text": "4.2 Else statements, two-way decisions\n\nSometimes we want to do one thing if a logical expression is true and something else if the expression is false\nIt is like a fork in the road, we must chose one or the other path\n\n\nx = 4\n\nif x > 2:\n    print('Bigger')\nelse:\n    print('Smaller')\n\nprint('Done')\n\nBigger\nDone"
+  },
+  {
+    "objectID": "code/3_conditional_statements.html#elif-mulit-way-comparisons",
+    "href": "code/3_conditional_statements.html#elif-mulit-way-comparisons",
+    "title": "4  Conditional Statements",
+    "section": "4.3 Elif, mulit-way comparisons",
+    "text": "4.3 Elif, mulit-way comparisons\n\nelif is short for “else if” and is used when the first if statement isn’t true, but you want to check for another condition.\nIn the example below only one out of the 4 will run\nWe can use more than one elif in a statement\n\n\nx = 14\n\nif x < 2:\n    print('Small')\nelif x < 10 :\n    print('Medium')\nelif x < 20:\n    print('Large')\nelse:\n    print('Super-Large')\n    \nprint('Done')\n\nLarge\nDone"
+  },
+  {
+    "objectID": "code/3_conditional_statements.html#try-and-except-structure",
+    "href": "code/3_conditional_statements.html#try-and-except-structure",
+    "title": "4  Conditional Statements",
+    "section": "4.4 Try and except structure",
+    "text": "4.4 Try and except structure\nError in Python can be of two types i.e. Syntax errors and Exceptions.\n\nErrors are the problems in a program due to which the program will stop the execution\nExceptions are raised when some internal events occur which changes the normal flow of the program.\n\nSome of the common Exception Errors are :\n\nIOError: if the file can’t be opened\nKeyboardInterrupt: when an unrequired key is pressed by the user\nValueError: when built-in function receives a wrong argument\nEOFError: if End-Of-File is hit without reading any data\nImportError: if it is unable to find the module\n\nTry and Except statement is used to handle these errors within our code in Python.\n\nThe try block is used to check some code for errors i.e the code inside the try block will execute when there is no error in the program. If the code in the try works, the except is skipped. If the code in try fails, it jumps to the except section.\nWhereas the code inside the except block will execute whenever the program encounters some error in the preceding try block.\n\nRunning example is in `try_except_ex.py``\nIn the example below, the first print statement would result in an error leading to a Traceback and the second part of the code would not run. We can circumvent that by building an try/except statement in which we tell python what to do if we encounter an error and continue with the second part of the code.\nWe should use this kind of structure for parts of the code that are easy for users to run into problems and give the user more information on what is happening while also keeping the code running.\nNotice Py2 and Py3 have different ways to run this, so this only works in Py3\n\nastr = 'Hello'\n\ntry: \n    istr = int(astr)\nexcept:\n    istr = str('Can\\'t convert to integer')\n\nprint('First:', istr)\n\nastr = '123'\ntry:\n    istr = int(astr)\nexcept:\n    istr = str('Can\\'t convert to integer')\n\nprint('Second:', istr)\n\nFirst: Can't convert to integer\nSecond: 123\n\n\nAnother example in try_except_ex2.py\n\nrawstr = input('Enter a number: \\n')\n\ntry:\n    ival = int(rawstr)\nexcept:\n    ival = -1\n\nif ival > 0:\n    print('Nice work!')\nelse:\n    print('Not a number')"
+  },
+  {
+    "objectID": "code/3_conditional_statements.html#exercise",
+    "href": "code/3_conditional_statements.html#exercise",
+    "title": "4  Conditional Statements",
+    "section": "4.5 Exercise",
+    "text": "4.5 Exercise\n\n4.5.1 Exercise 1\nWrite a program to prompt the user for hours and rate per hour using input to compute gross pay. Pay the hourly rate for the hours up to 40 and 1.5 times the hourly rate for all hours worked above 40 hours. Use 45 hours and a rate of 10.50 per hour to test the program (the pay should be 498.75). You should use input to read a string and float() to convert the string to a number. Do not worry about error checking the user input - assume the user types numbers properly.\nWe can quit the program after encountering an error by printing a useful info and then typing quit()\nThe code is found in expression_exercise.py\n\nhrs = input(\"Enter Hours: \")\nrate = input(\"Enter rate per hour: \")\n\ntry:\n    h = float(hrs)\n    r = float(rate)\nexcept:\n    print(\"Error, please enter numeric input\")\n    quit()\n\nif h > 40:\n    calc = (40 * r) + ((h-40)*(r * 1.5))\nelse:\n    calc =h * r\n\nprint('Pay:', calc)\n\n\n\n4.5.2 Exercise 2\nWrite a program to prompt for a score between 0.0 and 1.0. If the score is out of range, print an error. If the score is between 0.0 and 1.0, print a grade using the following table:\nScore Grade\n>= 0.9 A\n>= 0.8 B\n>= 0.7 C\n>= 0.6 D\n< 0.6 F\nIf the user enters a value out of range, print a suitable error message and exit. For the test, enter a score of 0.85.\nThe code is found in expression_exercise2.py\n\nscore = input(\"Enter Score: \")\n\n#convert string to float\ntry:\n    score_nr = float(score)\nexcept:\n    print(\"Error, please enter numeric input\")\n    quit()\n\n#calculate score\nif score_nr >= 0.9:\n    print(\"A\")\nelif score_nr >= 0.8:\n    print(\"B\")\nelif score_nr >= 0.7:\n    print(\"C\")\nelif score_nr >= 0.6:\n    print(\"D\")\nelif score_nr > 0.6:\n    print(\"D\")\nelse:\n    print('F')"
+  },
+  {
+    "objectID": "code/4_functions.html",
+    "href": "code/4_functions.html",
+    "title": "5  Functions",
+    "section": "",
+    "text": "In the context of programming, a function is a named sequence of statements that performs a computation. When you define a function, you specify the name and the sequence of statements.\nA function is some code we use. It takes some input and produces an output.\nWe have already seen one example of a function call:\n\ntype(12)\n\nint\n\n\nThe name of the function is type. The expression in parentheses is called the argument of the function. The argument is a value or variable that we are passing into the function as input to the function. The result, for the type function, is the type of the argument.\nIt is common to say that a function takes an argument and returns a result. The result is called the return value."
+  },
+  {
+    "objectID": "code/4_functions.html#building-functions",
+    "href": "code/4_functions.html#building-functions",
+    "title": "5  Functions",
+    "section": "5.2 Building functions",
+    "text": "5.2 Building functions\nSo far, we have only been using the functions that come with Python, but it is also possible to add new functions. A function definition specifies the name of a new function and the sequence of statements that execute when the function is called. Once we define a function, we can reuse the function over and over throughout our program.\n\nWe create a new function using the def keyword followed by optional parameters in parentheses\nBelow say_sth() is the name of the function\nWe indent the body of the function\nThe def statement only defines the function but does not execute the body of the function\n\nHere is an example:\n\n#write a function\ndef say_sth():\n    print('Hello')\n    print('Fun')\n\n#call/invoke the function\nsay_sth()\n\nHello\nFun\n\n\n\n5.2.1 Arguments\n\nAn argument is a value we pass into the function as its input when we call the function\nWe can use arguments so we can direct the function to do different kinds of work when we call it at different times\nWe put the arguments in parenthesis after the name of the function\n\nLet’s try this with a build-in function:\n\nmax('Hello world!')\n\n'w'\n\n\n\n\n5.2.2 Parameters\nA parameter is a variable, i.e. an alias, which we use in the function definition. It is a handle that allows the code in the function to access the arguments for a particular function invocation.\nIn the example below lang is our alias for whatever first parameter is put in the function below:\n\ndef greet(lang):\n    if lang == 'es':\n        print('Hola')\n    elif lang == 'fr':\n        print('Bonjour')\n    else:\n        print('Hello')\n\ngreet('fr')\n\nBonjour\n\n\n\n\n5.2.3 Return values\nOften a function will take its arguments, do some computations, and return a value to be used as the value of the function call in the calling expression. The return keyword is used for this:\nReturn does two things:\n\nIt stops the function and it jumps to the next line of code\nIt determines the residual value\n\n\ndef greet(lang):\n    if lang == 'es':\n        return 'Hola'\n    elif lang == 'fr':\n        return 'Bonjour'\n    else:\n        return 'Hello'\n\nprint(greet('es'), \"Glenn\")\nprint(greet('en'), \"Sally\")\n\nHola Glenn\nHello Sally\n\n\n\n\n5.2.4 Using multiple parameters\n\nWe can define more than one parameter in the function definition\nWe simply add more arguments when we call the function\nWe match the number and order of arguments and parameters\n\nIn the example below a,b are parameters and 3,5 are arguments:\n\ndef addtwo(a,b):\n    added = a + b\n    return added\n\naddtwo(3,5)\n\n8"
+  },
+  {
+    "objectID": "code/4_functions.html#exercise",
+    "href": "code/4_functions.html#exercise",
+    "title": "5  Functions",
+    "section": "5.3 Exercise",
+    "text": "5.3 Exercise\nWrite a program to prompt the user for hours and rate per hour using input to compute gross pay. Pay should be the normal rate for hours up to 40 and time-and-a-half for the hourly rate for all hours worked above 40 hours. Put the logic to do the computation of pay in a function called computepay() and use the function to do the computation. The function should return a value. Use 45 hours and a rate of 10.50 per hour to test the program (the pay should be 498.75). You should use input to read a string and float() to convert the string to a number. Do not worry about error checking the user input unless you want to - you can assume the user types numbers properly. Do not name your variable sum or use the sum() function.\n\ndef computepay(h,r):\n    if h > 40:\n        calc = (40 * r) + (h-40)*(r * 1.5)\n    else:\n        calc = h * r\n    return calc\n\n#get data\nhrs = input('Enter hours: \\n')\nrate = input('Enter rate: \\n')\n\n#convert to float\ntry:\n    hrs_f = float(hrs)\n    rate_f = float(rate)\nexcept:\n    print('Please, insert a number')\n    quit()\n\n#compute pay\np = computepay(hrs_f, rate_f)\n\nprint('Pay: ', p)"
+  },
+  {
+    "objectID": "code/5_loops_and_iterations.html",
+    "href": "code/5_loops_and_iterations.html",
+    "title": "6  Loops and iteration",
+    "section": "",
+    "text": "Loops, i.e. repeated steps, have iteration variables that change each time through a loop.\nOften these iteration variables go through a sequence of numbers\nIteration variable: Something that changes in the loop."
+  },
+  {
+    "objectID": "code/5_loops_and_iterations.html#while-keyword",
+    "href": "code/5_loops_and_iterations.html#while-keyword",
+    "title": "6  Loops and iteration",
+    "section": "6.1 While keyword",
+    "text": "6.1 While keyword\nIn contrast to an if statement, which gives you once the possibility to do something or not (or something else), a while loop does things as long as the condition is true.\n\nn = 5\n\nwhile n > 0:\n    print(n)\n    n = n - 1\n\nprint(\"We have this number now:\", n)\n\n5\n4\n3\n2\n1\nWe have this number now: 0"
+  },
+  {
+    "objectID": "code/5_loops_and_iterations.html#infinite-loops",
+    "href": "code/5_loops_and_iterations.html#infinite-loops",
+    "title": "6  Loops and iteration",
+    "section": "6.2 Infinite loops",
+    "text": "6.2 Infinite loops\nIn the example below, n is not changing and so the True can not become False and the loop with not stop running:\n\nn = 5\n\nwhile n > 0:\n    print('Hello')\n\nprint('We are done')"
+  },
+  {
+    "objectID": "code/5_loops_and_iterations.html#the-break-statement",
+    "href": "code/5_loops_and_iterations.html#the-break-statement",
+    "title": "6  Loops and iteration",
+    "section": "6.3 The BREAK statement",
+    "text": "6.3 The BREAK statement\n\nThe break statement is for breaking out of a loop\nThe break statement ends the current loop and jumps to the statement immediately following the loop\nIt is like a loop test that can happen anywhere in the body of the loop\n\n\nwhile True:\n    line  = input('> ')\n    if line = 'done':\n        break\n    print(line)\n\nprint('We are out of the loop')"
+  },
+  {
+    "objectID": "code/5_loops_and_iterations.html#the-continue-statement",
+    "href": "code/5_loops_and_iterations.html#the-continue-statement",
+    "title": "6  Loops and iteration",
+    "section": "6.4 The CONTINUE statement",
+    "text": "6.4 The CONTINUE statement\nThe continue statement ends the current iteration and jumps to the top of the loop and starts the next iteration:\n\nwhile True:\n    line = input('> ')\n    if line[0] == '#':\n        continue\n    if line == 'done':\n        break\n    print(line)\n\nprint('We are out of the loop')"
+  },
+  {
+    "objectID": "code/5_loops_and_iterations.html#definite-loops",
+    "href": "code/5_loops_and_iterations.html#definite-loops",
+    "title": "6  Loops and iteration",
+    "section": "6.5 Definite loops",
+    "text": "6.5 Definite loops\nIndefinite loops that use the while keyword just run until some logical condition is false or you hit a break. In contrast, definite loops are finite and use the for keyword.\n\n6.5.1 A simple for loop\n\nfor i in [5,4,3,2,1]:\n    print(i)\nprint('We are done')\n\n5\n4\n3\n2\n1\nWe are done\n\n\n\nFor: Our keyword for a finite loop\ni: The iteration variable we set\na list of collection, i.e. a range of integers\n\n\n\n6.5.2 Looking at in\n\nThe iteration variable (i.e. i) iterates through the sequence (ordered set, i.e. [5,4,3,2,1])\nThe block (body, i.e. print(i)) of code is executed once for each value in the sequence\nThe iteration variable moves through all of the values in the sequence\n\n\n\n6.5.3 A practical example: Finding the largest value\nProblem: Find the largest number in a range of number.\nIn the example below we make a variable that contains the largest value we have seen so far. If the current number we are looking at, the_num, is larger then it becomes the new largest value we have seen so far.\n\nlargest_so_far = -1\nprint('Before:', largest_so_far)\n\nfor the_num in [9, 41, 12,3, 74, 15]:\n    if the_num > largest_so_far:\n        largest_so_far = the_num\n    print(largest_so_far, the_num)\n\nprint('After:', largest_so_far)\n\nBefore: -1\n9 9\n41 41\n41 12\n41 3\n74 74\n74 15\nAfter: 74"
+  },
+  {
+    "objectID": "code/5_loops_and_iterations.html#loop-idioms",
+    "href": "code/5_loops_and_iterations.html#loop-idioms",
+    "title": "6  Loops and iteration",
+    "section": "6.6 Loop idioms",
+    "text": "6.6 Loop idioms\n\n6.6.1 Counting things\nTo count how many times we execute a loop, we introduce a counter variable that starts at 0 and we add one to it each time we go through the loop.\n\ncounter = 0\n\nprint('Before:', counter)\n\nfor num in [9,41,21,3,74,15]:\n    counter = counter + 1\n    print(counter, num)\n\nprint('After:', counter)\n\nBefore: 0\n1 9\n2 41\n3 21\n4 3\n5 74\n6 15\nAfter: 6\n\n\n\n\n6.6.2 Summing in a loop\nTo add up a value we encounter in a loop, we introduce a sum variable that starts at 0 and we add the value to the sum each time through the loop.\n\ncount = 0\n\nprint('Before:', count)\n\nfor num in [9,41,12,3,74,15]:\n    count = count + num\n    print(count, num)\n\nprint('After:', count)\n\nBefore: 0\n9 9\n50 41\n62 12\n65 3\n139 74\n154 15\nAfter: 154\n\n\n\n\n6.6.3 Summing in a loop\n\ncount = 0\nsum = 0\n\nprint('Before:', count, sum)\n\nfor value in [9,41,12,3,74,15]:\n    count = count + 1\n    sum = sum + value\n    print(count, sum, value)\n\nprint('After:', count, sum, sum/count)\n\nBefore: 0 0\n1 9 9\n2 50 41\n3 62 12\n4 65 3\n5 139 74\n6 154 15\nAfter: 6 154 25.666666666666668\n\n\n\n\n6.6.4 Filtering in a loop\nWe use an if statement in the loop to catch/filter the values we are looking for:\n\nprint('Before')\n\nfor value in [9,41,12,3,74,15]:\n    if value > 20:\n        print('Large number', value)\n\nprint('After')\n\nBefore\nLarge number 41\nLarge number 74\nAfter\n\n\n\n\n6.6.5 Searching using boolean variables\nIf we want to search and know if a value was found, we use a variable. I.e. below we want to ask if we can find the number 3.\n\nfound = False\nprint('Before:', found)\n\nfor value in [9,41,12,3,74,15]:\n    if value == 3:\n        found = True\n    print(found, value)\n\nprint('After:', found)\n\nBefore: False\nFalse 9\nFalse 41\nFalse 12\nTrue 3\nTrue 74\nTrue 15\nAfter: True\n\n\nWe could speed things up using a break:\n\nfound = False\nprint('Before:', found)\n\nfor value in [9,41,12,3,74,15]:\n    if value == 3:\n        found = True\n        break\n    print(found, value)\n\nprint('After:', found)\n\nBefore: False\nFalse 9\nFalse 41\nFalse 12\nAfter: True\n\n\n\n\n6.6.6 How to find the smallest value\nCompared to finding the largest number, the problem here is that we do not know with what value we have to start with, so the easiest is to not start with a number at all.\nWe still have a variable that is the smallest so far. The first time we go through the loop smallest is None, so we take the first value to be the smallest.\nNone is also called a flag value, a value that is priming us and get’s us started.\nThe is and is not are operators that can be used in logical expression and implies is the same as.\n\nsmallest = None\nprint('Before:', smallest)\n\nfor value in [9, 41, 12,3, 74, 15]:\n    if smallest is None:\n        smallest = value\n    elif value < smallest:\n        smallest = value\n    print(smallest, value)\n\nprint('After:', smallest)\n\nBefore: None\n9 9\n9 41\n9 12\n3 3\n3 74\n3 15\nAfter: 3"
+  },
+  {
+    "objectID": "code/5_loops_and_iterations.html#excercise-1",
+    "href": "code/5_loops_and_iterations.html#excercise-1",
+    "title": "6  Loops and iteration",
+    "section": "6.7 Excercise 1",
+    "text": "6.7 Excercise 1\nExercise 1: Write a program which repeatedly reads numbers until the user enters ‘done’. Once ‘done’ is entered, print out the total, count,and average of the numbers. If the user enters anything other than a number, detect their mistake using try and except and print an error message and skip to the next number.\nCan be found in code ask_number.py\n\nnum = 0\ntot = 0.0\n\nwhile True:\n    sval = input('Enter a number: ')\n    if sval == 'done':\n        break\n    try:\n        fval = float(sval)\n    except:\n        print('Invalid input. \\nEnter either a number or done')\n        continue\n    #print(fval)\n    num = num + 1\n    tot = tot + fval\n\n#print('All done')\nprint(tot, num, tot/num)"
+  },
+  {
+    "objectID": "code/5_loops_and_iterations.html#exercise-2",
+    "href": "code/5_loops_and_iterations.html#exercise-2",
+    "title": "6  Loops and iteration",
+    "section": "6.8 Exercise 2",
+    "text": "6.8 Exercise 2\nWrite a program that repeatedly prompts a user for integer numbers until the user enters ‘done’. Once ‘done’ is entered, print out the largest and smallest of the numbers. If the user enters anything other than a valid number catch it with a try/except and put out an appropriate message and ignore the number. Enter 7, 2, bob, 10, and 4 and match the output below.\nCode is in ask_number2.py.\n\nlargest = None\nsmallest = None\n\nwhile True:\n    num = input('Enter a number: ')\n    if num == 'done':\n        break\n    try:\n        num_int = int(num)\n        if largest is None or num_int > largest:\n            largest = num_int\n        if smallest is None or num_int < smallest:\n            smallest = num_int\n    except:\n        print('Invalid input. \\nEnter either a number or done')\n        continue\n\nprint('Maximum is', largest)\nprint('Minimum is', smallest)"
+  }
+]

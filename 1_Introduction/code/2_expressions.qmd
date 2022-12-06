@@ -1,0 +1,180 @@
+# Expressions
+
+## Constants
+
+- Fixed values such as numbers, letters and strings are called constants because their values don't change
+- Numeric constants look like this `123`
+- String constants use single or double quotes
+
+## Reserved words
+
+- Words that have a special meaning in python
+- You can not use them as variable names/identifiers
+- Examples; False, None, and, as, break, else, etc.
+
+## Variables
+
+- A variable is a named place in the memory where a programmer can store and later retrieve data using the variable name
+- Programmers get to choose the names of the variables
+- You can change the contents of a variable in a later statement
+
+Naming rules for variables:
+
+- You can start variables with letters or underscores, but we try to avoid underscores because python uses underscores for its own purposes
+- Must consist of letters, numbers, underscores
+- Case sensitive, ideally use mostly use lowercase
+- Choose a sensible variable name that makes sense to other people who might read our code
+
+### Assignment Statements
+
+- We assign a value to a variable using the assignment statement `=`
+- An assignment statement consists of an **expression** on the right hand side and a variable to store the result
+
+
+```{python}
+# assign a number to the variable x and store it in memory
+x = 12.2
+x
+```
+
+```{python}
+# assign a different number to x
+x = 100
+x
+```
+
+
+## Operator precedence
+
+- The general order is: Parenthesis --> Power --> Multiplication --> Addition --> Left to right
+- When writing code: Use parenthesis
+- When writing code: keep mathematical expressions simple enough so that they are easy to understand
+- Break long series of mathematical operations up to make them more clear
+
+
+## What are types?
+
+- In Python variables, literals and constants have a type
+- Py knows the difference between an integer number and a string
+- Some operations are prohibited, i.e. you and not add 1 to a string 
+
+```
+'hello' + 1
+```
+
+- You can identify the type by using the function `type()`
+
+```{python}
+type(1)
+```
+
+```{python}
+type('hello')
+```
+
+
+Numbers have two main types:
+
+- Integers are whole numbers, i.e. -14, 0, 123
+- Floating numbers have decimal parts and more range but less precision than integers: -2.5, 0.0, 13.0
+
+
+## Type conversions
+
+- When you put an integer and a floating point in an expression, the integer is implicitly converted to a float
+- You can control the type using the functions `int()` and `float()`
+
+
+```{python}
+print(float(99) + 100)
+```
+
+```{python}
+int(99.1)
+```
+
+## Py2 versus Py3 differences:
+
+In Py2 9/2 gives 4 while in Py3 it gives 4.5. The reason was that Py2 kept results as integers while Py3 automatically converts them to floats.
+
+
+
+## String conversions
+
+- You can use `int()` and `float()` to convert between strings and integers
+- You will get an error if the string does not contain numeric numbers
+
+```{python}
+sval = '123'
+type(sval)
+```
+
+This would get an error: `sval + 1` and we first need to convert the string to an integer:
+
+```{python}
+int(sval) +1
+```
+
+We also would get an error with `int('hello bob')`, since this string does not contain any digits
+
+
+## User Input
+
+- We can instruct python to pause and read data from the user using the `input()` function
+- The `input()` function returns a string
+
+```
+nam = input('who are you?')
+print('Welcome', nam)
+```
+
+In the example above, the comma will behave as a space in the output.
+
+
+## Comments in python
+
+- Everything after a `#` is ignored by Py
+- Why comment?
+    - Describe what is going to happen in a sequence of code
+    - Document who wrote the code or add useful info
+    - Turn off a line of code
+
+
+
+## Our first code
+
+- The goal is to read a number from the user and convert it to a string number.  
+- We want to convert ground floors that start with the 0 or the 1st floor.
+- The executable example will be found in `convert_user_input.py`
+
+In the code below, the user input is a string, so we need to convert it to an integer first in the code.
+
+```
+#convert european to US  elevator floors
+inp = input('Europe floor? \n')
+usf = int(inp) + 1
+print('European floor', inp, 'is this floor in the US:', usf)
+```
+
+```{python}
+x = int(98.6)
+x
+```
+
+## Exercise
+
+Write a program to prompt the user for hours and rate per hour using input to compute gross pay. Use 35 hours and a rate of 2.75 per hour to test the program (the pay should be 96.25). You should use input to read a string and float() to convert the string to a number. Do not worry about error checking or bad user data.
+
+This script will be found in `calculate_pay.py`
+
+```
+# Ask for hours and rate
+hrs = input("Enter Hours:\n")
+rate = input("Enter Rate:\n")
+
+#do math
+pay = float(hrs) * float(rate)
+
+#print
+print('Pay:', pay)
+```

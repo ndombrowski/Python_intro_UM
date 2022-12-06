@@ -1,0 +1,205 @@
+# Conditional Statements
+
+The **If statement** is the most fundamental decision-making statement, in which the code is executed based on whether it meets the specified condition. It has a code body that only executes if the condition in the if statement is true. The statement can be a single line or a block of code.
+
+Python **indentation** is a way of telling a Python interpreter that the group of statements belongs to a particular block of code. A block is a combination of all these statements. Block can be regarded as the grouping of statements for a specific purpose. In python its recommended to **indent using 4 spaces**
+
+## Comparison operators
+
+- **Boolean expressions** ask the question and produce a Yes or No result which we use to control the program flow
+- Boolean expressions using comparison operators evaluate to True/False or Yes/No
+- Comparison operators look at variables but do not change variables
+
+<img width=400 src="../images/operators.png">
+
+
+```{python}
+x = 5
+
+#if x is true, print otherwise skip the statement
+if x < 10:
+    print("Smaller")
+if x > 20:
+    print("Bigger")
+    
+print("Finis")
+```
+
+
+## Else statements, two-way decisions
+
+- Sometimes we want to do one thing if a logical expression is true and something else if the expression is false
+- It is like a fork in the road, we must chose one or the other path
+
+```{python}
+x = 4
+
+if x > 2:
+    print('Bigger')
+else:
+    print('Smaller')
+
+print('Done')
+```
+
+
+## Elif, mulit-way comparisons
+
+- elif is short for "else if" and is used when the first if statement isn't true, but you want to check for another condition. 
+- In the example below only one out of the 4 will run
+- We can use more than one elif in a statement
+
+```{python}
+x = 14
+
+if x < 2:
+    print('Small')
+elif x < 10 :
+    print('Medium')
+elif x < 20:
+    print('Large')
+else:
+    print('Super-Large')
+    
+print('Done')
+```
+
+
+## Try and except structure
+
+Error in Python can be of two types i.e. Syntax errors and Exceptions. 
+
+- Errors are the problems in a program due to which the program will stop the execution
+- Exceptions are raised when some internal events occur which changes the normal flow of the program.
+
+Some of the common Exception Errors are : 
+
+- IOError: if the file can’t be opened
+- KeyboardInterrupt: when an unrequired key is pressed by the user
+- ValueError: when built-in function receives a wrong argument
+- EOFError: if End-Of-File is hit without reading any data
+- ImportError: if it is unable to find the module
+
+Try and Except statement is used to handle these errors within our code in Python. 
+
+- The try block is used to check some code for errors i.e the code inside the try block will execute when there is no error in the program. If the code in the try works, the except is skipped. If the code in try fails, it jumps to the except section.
+- Whereas the code inside the except block will execute whenever the program encounters some error in the preceding try block.
+
+Running example is in `try_except_ex.py``
+
+In the example below, the first print statement would result in an error leading to a Traceback and the second part of the code would not run. We can circumvent that by building an try/except statement in which we tell python what to do if we encounter an error and continue with the second part of the code.
+
+We should use this kind of structure for parts of the code that are easy for users to run into problems and give the user more information on what is happening while also keeping the code running.
+
+**Notice Py2 and Py3 have different ways to run this, so this only works in Py3**
+
+```{python}
+astr = 'Hello'
+
+try: 
+    istr = int(astr)
+except:
+    istr = str('Can\'t convert to integer')
+
+print('First:', istr)
+
+astr = '123'
+try:
+    istr = int(astr)
+except:
+    istr = str('Can\'t convert to integer')
+
+print('Second:', istr)
+```
+
+Another example in `try_except_ex2.py`
+
+```{python}
+#|eval: false
+rawstr = input('Enter a number: \n')
+
+try:
+    ival = int(rawstr)
+except:
+    ival = -1
+
+if ival > 0:
+    print('Nice work!')
+else:
+    print('Not a number')
+```
+
+
+## Exercise 
+
+### Exercise 1
+
+Write a program to prompt the user for hours and rate per hour using input to compute gross pay. Pay the hourly rate for the hours up to 40 and 1.5 times the hourly rate for all hours worked above 40 hours. Use 45 hours and a rate of 10.50 per hour to test the program (the pay should be 498.75). You should use input to read a string and float() to convert the string to a number. Do not worry about error checking the user input - assume the user types numbers properly.
+
+**We can quit the program after encountering an error by printing a useful info and then typing `quit()`**
+ 
+The code is found in `expression_exercise.py`
+
+```{python}
+#|eval: false
+hrs = input("Enter Hours: ")
+rate = input("Enter rate per hour: ")
+
+try:
+    h = float(hrs)
+    r = float(rate)
+except:
+    print("Error, please enter numeric input")
+    quit()
+
+if h > 40:
+    calc = (40 * r) + ((h-40)*(r * 1.5))
+else:
+    calc =h * r
+
+print('Pay:', calc)
+```
+
+
+### Exercise 2
+
+Write a program to prompt for a score between 0.0 and 1.0. If the score is out of range, print an error. If the score is between 0.0 and 1.0, print a grade using the following table:
+
+```
+Score Grade
+>= 0.9 A
+>= 0.8 B
+>= 0.7 C
+>= 0.6 D
+< 0.6 F
+If the user enters a value out of range, print a suitable error message and exit. For the test, enter a score of 0.85.
+```
+
+The code is found in `expression_exercise2.py`
+
+```{python}
+#|eval: false
+score = input("Enter Score: ")
+
+#convert string to float
+try:
+    score_nr = float(score)
+except:
+    print("Error, please enter numeric input")
+    quit()
+
+#calculate score
+if score_nr >= 0.9:
+    print("A")
+elif score_nr >= 0.8:
+    print("B")
+elif score_nr >= 0.7:
+    print("C")
+elif score_nr >= 0.6:
+    print("D")
+elif score_nr > 0.6:
+    print("D")
+else:
+    print('F')
+```
+

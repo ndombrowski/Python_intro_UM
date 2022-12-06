@@ -1,0 +1,65 @@
+# Programming for everyone
+
+## Hardware
+
+- **Central Processing Unit (CPU)**: electronic machinery that carries out instructions from programs that allows a computer or other device to perform its tasks. Its goal is to run the program, its dumb but very fast.
+- Input devices: Keyboard, Mouse, Touch screen
+- Output devices: Screen, Speakers, Printer, DVD burner
+- When you write a program you create a file on the **secondary memory**, like a Python file, and then at some point that is loaded into the **main memory** and translated. And then when the CPU says what next, your program feeds its first instruction, the second instruction, third instruction, fourth instruction. It's called the **fetch-execute cycle**. And these two parts, the CPU and the main memory, are what participate in this cycle.
+- In contrast to main memory, the fast small temporary storage where data is lost on Reboot (=RAM), data/programs stored on the secondary memory, which is slower and larger (= disk drive, memory stick),  is permanent.
+
+
+## Writing Paragraphs of Code
+
+- **Reserved words**: if we use these words, we must use them to mean the thing that Python expects them to mean. Another way to put that is we can't use them elsewhere.
+- **Python scripts** : stored sets of instruction in text files that you can then hand to Python to run them. By convention end with .py. 
+
+Let's first start by doing some **Sequential steps** in python. Here, we flow from one step to the next, i.e. we set up paths for the program to follow. Sequential flow is not indented.
+
+```{python}
+#write an assignment statement
+x = 1
+
+#do some math
+y = x + 1
+
+#use the print function
+print(y)
+```
+
+When we write **conditional statements**, i.e. if x is less than 10 evaluates to true, then it's going to execute; otherwise, it's going to be skipped. The **if** statement is an example of a reserved word.
+
+```{python}
+x = 5
+
+if x < 10:
+    print("Smaller")
+if x > 20:
+    print("Bigger")
+    
+print("Finis")
+```
+
+Finally, lets have a look at **repeat statements**. A repeat statement defines a set of statements to be executed until a condition that is evaluated at the end of the REPEAT loop is true. The repeat-loop-condition is evaluated at the completion of each iteration of the loop.
+
+```{python}
+n = 5
+
+while n > 0:
+    print(n)
+    n = n-1
+    
+print("Blastoff!")
+```
+
+Here, the while statement asks: Is n greater than 0? If this is true then the code below is run.
+By having the same indents, we can have more than one statement within each level. 
+
+A loop (repeated steps) has iteration variables, that change each time we go trough the loop.
+
+
+
+## Doing the "Hello World" Assignment
+
+
+

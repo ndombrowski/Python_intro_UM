@@ -1,0 +1,299 @@
+# Loops and iteration
+
+Loops, i.e. repeated steps, have iteration variables that change each time through a loop.  
+Often these iteration variables go through a sequence of numbers
+
+Iteration variable: Something that changes in the loop.
+
+## While keyword
+
+In contrast to an if statement, which gives you once the possibility to do something or not (or something else), a while loop does things as long as the condition is true.
+
+```{python}
+n = 5
+
+while n > 0:
+    print(n)
+    n = n - 1
+
+print("We have this number now:", n)
+```
+
+
+## Infinite loops
+
+In the example below, n is not changing and so the True can not become False and the loop with not stop running:
+
+```{python}
+#|eval: false
+n = 5
+
+while n > 0:
+    print('Hello')
+
+print('We are done')
+```
+
+
+## The BREAK statement
+
+- The break statement is for breaking out of a loop
+- The break statement ends the current loop and jumps to the statement immediately following the loop
+- It is like a loop test that can happen anywhere in the body of the loop
+
+```{python}
+#|eval: false
+while True:
+    line  = input('> ')
+    if line = 'done':
+        break
+    print(line)
+
+print('We are out of the loop')
+```
+
+
+## The CONTINUE statement
+
+The continue statement ends the current iteration and jumps to the top of the loop and starts the next iteration:
+
+```{python}
+#|eval: false
+
+while True:
+    line = input('> ')
+    if line[0] == '#':
+        continue
+    if line == 'done':
+        break
+    print(line)
+
+print('We are out of the loop')
+```
+
+
+## Definite loops
+
+Indefinite loops that use the while keyword just run until some logical condition is false or you hit a break. In contrast, definite loops are finite and use the **for keyword**.
+
+### A simple for loop
+
+```{python}
+for i in [5,4,3,2,1]:
+    print(i)
+print('We are done')
+```
+
+- For: Our keyword for a finite loop
+- i: The iteration variable we set
+- a list of collection, i.e. a range of integers
+
+
+### Looking at `in`
+
+- The iteration variable (i.e. i) iterates through the sequence (ordered set, i.e. `[5,4,3,2,1]`)
+- The block (body, i.e. `print(i)`) of code is executed once for each value `in` the sequence
+- The iteration variable moves through all of the values in the sequence
+
+
+
+### A practical example: Finding the largest value
+
+Problem: Find the largest number in a range of number.
+
+In the example below we make a variable that contains the largest value we have seen so far. If the current number we are looking at, the_num, is larger then it becomes the new largest value we have seen so far.
+
+
+
+```{python}
+largest_so_far = -1
+print('Before:', largest_so_far)
+
+for the_num in [9, 41, 12,3, 74, 15]:
+    if the_num > largest_so_far:
+        largest_so_far = the_num
+    print(largest_so_far, the_num)
+
+print('After:', largest_so_far)
+```
+
+## Loop idioms
+
+### Counting things
+
+To count how many times we execute a loop, we introduce a **counter variable** that starts at 0 and we add one to it each time we go through the loop.
+
+```{python}
+counter = 0
+
+print('Before:', counter)
+
+for num in [9,41,21,3,74,15]:
+    counter = counter + 1
+    print(counter, num)
+
+print('After:', counter)
+```
+
+### Summing in a loop
+
+To add up a value we encounter in a loop, we introduce a **sum variable** that starts at 0 and we add the value to the sum each time through the loop.
+
+```{python}
+count = 0
+
+print('Before:', count)
+
+for num in [9,41,12,3,74,15]:
+    count = count + num
+    print(count, num)
+
+print('After:', count)
+```
+
+### Summing in a loop
+
+```{python}
+count = 0
+sum = 0
+
+print('Before:', count, sum)
+
+for value in [9,41,12,3,74,15]:
+    count = count + 1
+    sum = sum + value
+    print(count, sum, value)
+
+print('After:', count, sum, sum/count)
+```
+
+### Filtering in a loop
+
+We use an if statement in the loop to catch/filter the values we are looking for:
+
+```{python}
+print('Before')
+
+for value in [9,41,12,3,74,15]:
+    if value > 20:
+        print('Large number', value)
+
+print('After')
+```
+
+
+### Searching using boolean variables
+
+If we want to search and know if a value was found, we use a variable. I.e. below we want to ask if we can find the number 3.
+
+```{python}
+found = False
+print('Before:', found)
+
+for value in [9,41,12,3,74,15]:
+    if value == 3:
+        found = True
+    print(found, value)
+
+print('After:', found)
+```
+
+We could speed things up using a break:
+
+```{python}
+found = False
+print('Before:', found)
+
+for value in [9,41,12,3,74,15]:
+    if value == 3:
+        found = True
+        break
+    print(found, value)
+
+print('After:', found)
+```
+
+
+### How to find the smallest value
+
+Compared to finding the largest number, the problem here is that we do not know with what value we have to start with, so the easiest is to not start with a number at all.
+
+We still have a variable that is the smallest so far. The first time we go through the loop smallest is None, so we take the first value to be the smallest.
+
+None is also called a flag value, a value that is priming us and get's us started.
+
+The **is** and **is not** are operators that can be used in logical expression and implies *is the same as*.
+
+```{python}
+smallest = None
+print('Before:', smallest)
+
+for value in [9, 41, 12,3, 74, 15]:
+    if smallest is None:
+        smallest = value
+    elif value < smallest:
+        smallest = value
+    print(smallest, value)
+
+print('After:', smallest)
+```
+
+## Excercise 1
+
+Exercise 1: Write a program which repeatedly reads numbers until the user enters 'done'. Once 'done' is entered, print out the total, count,and average of the numbers. If the user enters anything other than a number, detect their mistake using try and except and print an error message and skip to the next number.
+
+Can be found in `code ask_number.py`
+
+```{python}
+#|eval: false
+
+num = 0
+tot = 0.0
+
+while True:
+    sval = input('Enter a number: ')
+    if sval == 'done':
+        break
+    try:
+        fval = float(sval)
+    except:
+        print('Invalid input. \nEnter either a number or done')
+        continue
+    #print(fval)
+    num = num + 1
+    tot = tot + fval
+
+#print('All done')
+print(tot, num, tot/num)
+```
+
+
+## Exercise 2
+
+Write a program that repeatedly prompts a user for integer numbers until the user enters 'done'. Once 'done' is entered, print out the largest and smallest of the numbers. If the user enters anything other than a valid number catch it with a try/except and put out an appropriate message and ignore the number. Enter 7, 2, bob, 10, and 4 and match the output below.
+
+Code is in `ask_number2.py`.
+
+```{python}
+#|eval: false
+largest = None
+smallest = None
+
+while True:
+    num = input('Enter a number: ')
+    if num == 'done':
+        break
+    try:
+        num_int = int(num)
+        if largest is None or num_int > largest:
+            largest = num_int
+        if smallest is None or num_int < smallest:
+            smallest = num_int
+    except:
+        print('Invalid input. \nEnter either a number or done')
+        continue
+
+print('Maximum is', largest)
+print('Minimum is', smallest)
+```
+

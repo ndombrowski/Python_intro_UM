@@ -1,0 +1,145 @@
+# Functions
+
+## Build-in functions
+
+In the context of programming, a function is a named sequence of statements that performs a computation. When you define a function, you specify the name and the sequence of statements.
+
+A function is some code we use. It takes some input and produces an output.
+
+We have already seen one example of a function call:
+
+```{python}
+type(12)
+```
+
+The name of the function is type. The expression in parentheses is called the **argument** of the function. The argument is a value or variable that we are passing into the function as input to the function. The result, for the type function, is the type of the argument.
+
+It is common to say that a function takes an argument and returns a result. The result is called the **return value**.
+
+
+
+## Building functions
+
+So far, we have only been using the functions that come with Python, but it is also possible to add new functions. A function definition specifies the name of a new function and the sequence of statements that execute when the function is called. Once we define a function, we can reuse the function over and over throughout our program.
+
+- We create a new function using the *def* keyword followed by optional parameters in parentheses
+- Below *say_sth()* is the name of the function
+- We indent the body of the function
+- The def statement only defines the function but does not execute the body of the function
+
+Here is an example:
+
+```{python}
+#write a function
+def say_sth():
+    print('Hello')
+    print('Fun')
+
+#call/invoke the function
+say_sth()
+```
+
+### Arguments
+
+- An argument is a value we pass into the function as its input when we call the function
+- We can use arguments so we can direct the function to do different kinds of work when we call it at different times
+- We put the arguments in parenthesis after the name of the function
+
+Let's try this with a build-in function:
+
+```{python}
+max('Hello world!')
+```
+
+### Parameters
+
+A parameter is a variable, i.e. an alias, which we use in the function definition. It is a handle that allows the code in the function to access the arguments for a particular function invocation.
+
+In the example below *lang* is our alias for whatever first parameter is put in the function below:
+
+```{python}
+def greet(lang):
+    if lang == 'es':
+        print('Hola')
+    elif lang == 'fr':
+        print('Bonjour')
+    else:
+        print('Hello')
+
+greet('fr')
+```
+
+
+### Return values
+
+Often a function will take its arguments, do some computations, and return a value to be used as the value of the function call in the **calling expression**. The **return** keyword is used for this:
+
+Return does two things:
+
+- It stops the function and it jumps to the next line of code
+- It determines the residual value
+
+```{python}
+def greet(lang):
+    if lang == 'es':
+        return 'Hola'
+    elif lang == 'fr':
+        return 'Bonjour'
+    else:
+        return 'Hello'
+
+print(greet('es'), "Glenn")
+print(greet('en'), "Sally")
+```
+
+
+### Using multiple parameters
+
+- We can define more than one parameter in the function definition
+- We simply add more arguments when we call the function
+- We match the number and order of arguments and parameters
+
+In the example below *a,b* are parameters and *3,5* are arguments:
+
+```{python}
+def addtwo(a,b):
+    added = a + b
+    return added
+
+addtwo(3,5)
+```
+
+
+## Exercise
+
+Write a program to prompt the user for hours and rate per hour using input to compute gross pay. Pay should be the normal rate for hours up to 40 and time-and-a-half for the hourly rate for all hours worked above 40 hours. Put the logic to do the computation of pay in a function called computepay() and use the function to do the computation. The function should return a value. Use 45 hours and a rate of 10.50 per hour to test the program (the pay should be 498.75). You should use input to read a string and float() to convert the string to a number. Do not worry about error checking the user input unless you want to - you can assume the user types numbers properly. Do not name your variable sum or use the sum() function.
+
+```{python}
+#|eval: false
+def computepay(h,r):
+    if h > 40:
+        calc = (40 * r) + (h-40)*(r * 1.5)
+    else:
+        calc = h * r
+    return calc
+
+#get data
+hrs = input('Enter hours: \n')
+rate = input('Enter rate: \n')
+
+#convert to float
+try:
+    hrs_f = float(hrs)
+    rate_f = float(rate)
+except:
+    print('Please, insert a number')
+    quit()
+
+#compute pay
+p = computepay(hrs_f, rate_f)
+
+print('Pay: ', p)
+```
+
+
+
