@@ -1,0 +1,450 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Programming for everybody session 2",
+    "section": "",
+    "text": "This course will introduce the core data structures of the Python programming language. We will move past the basics of procedural programming and explore how we can use the Python built-in data structures such as lists, dictionaries, and tuples to perform increasingly complex data analysis."
+  },
+  {
+    "objectID": "code/1_strings.html",
+    "href": "code/1_strings.html",
+    "title": "2  Strings",
+    "section": "",
+    "text": "A string is a data type in python\nA string is a sequence of characters, i.e. Hello\nA string literal uses single or double quotes\nFor strings + means concatenate\nWhen a string contains numbers, it is a string\nWe can convert numbers into a string using int()\n\n\nstr1 = 'Hello'\nstr2 = \"you\"\n\n#concatenate strings\nconcat = str1 + str2\nprint(concat)\n\nHelloyou\n\n\n\nstr3 = '123'\n\n#convert to number and do some math\nint(123) + 100\n\n223"
+  },
+  {
+    "objectID": "code/1_strings.html#reading-an-converting",
+    "href": "code/1_strings.html#reading-an-converting",
+    "title": "2  Strings",
+    "section": "2.2 Reading an converting",
+    "text": "2.2 Reading an converting\n\nWe prefer to read data in using strings and then parse and convert data as we need\nThis gives us more control over error situations and/or bad user input\nThe input function always gives us back a string\nInput numbers must be converted from strings\n\n\nnum = input('Enter number: ')\nx = int(num) - 10\nprint(x)"
+  },
+  {
+    "objectID": "code/1_strings.html#looking-inside-a-string",
+    "href": "code/1_strings.html#looking-inside-a-string",
+    "title": "2  Strings",
+    "section": "2.3 Looking inside a string",
+    "text": "2.3 Looking inside a string\n\nWe can get at any single character in a string using an index operator specified in square brackets\nThe index value must be an integer and starts at 0\nThis index value can be an expression that is computed\nYou will get a python error if you attempt to index beyond the end of a string, i.e. fruit[10] that tells you that the string index is out of range\n\nbanana 012345\n\nfruit = 'banana'\nletter = fruit[1]\nprint(letter)\n\na\n\n\n\nx = 3\nw = fruit[x-1]\nprint(w)\n\nn"
+  },
+  {
+    "objectID": "code/1_strings.html#strings-have-a-length",
+    "href": "code/1_strings.html#strings-have-a-length",
+    "title": "2  Strings",
+    "section": "2.4 Strings have a length",
+    "text": "2.4 Strings have a length\n\nThe build in function len gives us the length of a string\nA function is some stored code that we use. A function takes some input and produces and output\n\n\nfruit = 'banana'\nprint(len(fruit))\n\n6"
+  },
+  {
+    "objectID": "code/1_strings.html#looping-through-strings",
+    "href": "code/1_strings.html#looping-through-strings",
+    "title": "2  Strings",
+    "section": "2.5 Looping through strings",
+    "text": "2.5 Looping through strings\nUsing a while statement and an iteration variable, and the len function, we can construct a loop to look at each of the letters in a string individually:\n\nfruit = 'banana'\nindex = 0\n\nwhile index < len(fruit):\n    letter = fruit[index]\n    print(index, letter)\n    index = index + 1\n\nprint('')\n\n0 b\n1 a\n2 n\n3 a\n4 n\n5 a\n\n\n\n\nA definite loop using a for statement is a more elegant solution\nThe iteration variable is completely taken care of by the for loop\n\n\nfruit = 'banana'\n\nfor letter in fruit:\n    print(letter)\n\nprint('')\n\nb\na\nn\na\nn\na"
+  },
+  {
+    "objectID": "code/1_strings.html#looping-and-counting",
+    "href": "code/1_strings.html#looping-and-counting",
+    "title": "2  Strings",
+    "section": "2.6 Looping and counting",
+    "text": "2.6 Looping and counting\nBelow is a simple loop that loops through each letter in a string and counts the number of times the loop encounters an a character\n\nword = 'banana'\ncount = 0\n\nfor letter in word:\n    if letter == 'a':\n        count = count + 1\n\nprint(count)\n\n3"
+  },
+  {
+    "objectID": "code/1_strings.html#slicing-strings",
+    "href": "code/1_strings.html#slicing-strings",
+    "title": "2  Strings",
+    "section": "2.7 Slicing strings",
+    "text": "2.7 Slicing strings\n\nWe can also look at any continuous section of a string using a colon separator\nThe second number is one beyond the end of the slice, i.e. up to but not including\nIf the second number is beyond the end of the string it stops at the end\n\nMonty Python 01234567891011\n\ns = 'Monty Python'\nprint(s[0:4])\n\nMont\n\n\n\nprint(s[6:7])\n\nP\n\n\n\nprint(s[6:20])\n\nPython\n\n\nIf we leave off the first number or the last number of the slice, it is assumed to be the beginning or the end of the string, respectively:\n\nprint(s[:2])\n\nMo\n\n\n\nprint(s[8:])\n\nthon\n\n\n\nprint(s[:])\n\nMonty Python"
+  },
+  {
+    "objectID": "code/1_strings.html#using-in-as-logical-operator",
+    "href": "code/1_strings.html#using-in-as-logical-operator",
+    "title": "2  Strings",
+    "section": "2.8 Using in as logical operator",
+    "text": "2.8 Using in as logical operator\n\nThe keyword in can also be used to check to see if one string is in another string\nThe in expression is a logical expression that returns True or False and can be used in an if statement\n\n\nfruit = 'banana'\n'n' in fruit\n\nTrue\n\n\n\nfruit = 'banana'\n'm' in fruit\n\nFalse\n\n\n\nfruit = 'banana'\n'nan' in fruit\n\nTrue\n\n\n\nif 'a' in fruit:\n    print('Found it')\nprint('')\n\nFound it"
+  },
+  {
+    "objectID": "code/1_strings.html#string-comparisons",
+    "href": "code/1_strings.html#string-comparisons",
+    "title": "2  Strings",
+    "section": "2.9 String comparisons",
+    "text": "2.9 String comparisons\n\nif word == 'banana':\n    print('All right, bananas')\nprint('')\n\nAll right, bananas\n\n\n\nLess than and greater than have to do with the character set of your computer and the character set that Python is configured to use.\nI.e. uppercase Z is less than lower case a.\n\nword = 'a'\n\nif word < 'banana':\n    print('Your word ' + word + ', comes before banana')\nelif word > 'banana':\n    print('Your word' + word + ', comes after banana')\nelse:\n    print('All right, bananas')\n\nprint('')\n\nYour word a, comes before banana"
+  },
+  {
+    "objectID": "code/1_strings.html#string-library",
+    "href": "code/1_strings.html#string-library",
+    "title": "2  Strings",
+    "section": "2.10 String library",
+    "text": "2.10 String library\n\nPython has a number of string functions which are in the string library\nThese functions are already build into every string - we invoke them by appending the function to the string variable\nThese functions do not modify the original string, instead the return a new string that has been altered\nWe can also use string functions on constants\nIn the example below, lower() is what is called a method\n\n\ngreet = 'Hello Bob'\n\nzap = greet.lower()\nprint(zap)\nprint(greet)\n\nhello bob\n\n\n\nHello Bob\n\n\n\nprint('Hi there'.lower())\n\nhi there\n\n\n\nstuff = 'Hello world'\n\n#ask what type we have\ntype(stuff)\n\nstr\n\n\n\n#what can strings do, print methods in the class str?\ndir(stuff)\n\n['__add__',\n '__class__',\n '__contains__',\n '__delattr__',\n '__dir__',\n '__doc__',\n '__eq__',\n '__format__',\n '__ge__',\n '__getattribute__',\n '__getitem__',\n '__getnewargs__',\n '__gt__',\n '__hash__',\n '__init__',\n '__init_subclass__',\n '__iter__',\n '__le__',\n '__len__',\n '__lt__',\n '__mod__',\n '__mul__',\n '__ne__',\n '__new__',\n '__reduce__',\n '__reduce_ex__',\n '__repr__',\n '__rmod__',\n '__rmul__',\n '__setattr__',\n '__sizeof__',\n '__str__',\n '__subclasshook__',\n 'capitalize',\n 'casefold',\n 'center',\n 'count',\n 'encode',\n 'endswith',\n 'expandtabs',\n 'find',\n 'format',\n 'format_map',\n 'index',\n 'isalnum',\n 'isalpha',\n 'isascii',\n 'isdecimal',\n 'isdigit',\n 'isidentifier',\n 'islower',\n 'isnumeric',\n 'isprintable',\n 'isspace',\n 'istitle',\n 'isupper',\n 'join',\n 'ljust',\n 'lower',\n 'lstrip',\n 'maketrans',\n 'partition',\n 'replace',\n 'rfind',\n 'rindex',\n 'rjust',\n 'rpartition',\n 'rsplit',\n 'rstrip',\n 'split',\n 'splitlines',\n 'startswith',\n 'strip',\n 'swapcase',\n 'title',\n 'translate',\n 'upper',\n 'zfill']\n\n\nAn explanation on what all these methods do can be found here."
+  },
+  {
+    "objectID": "code/1_strings.html#searching-a-string",
+    "href": "code/1_strings.html#searching-a-string",
+    "title": "2  Strings",
+    "section": "2.11 Searching a string",
+    "text": "2.11 Searching a string\n\nWe use the find() function to search for a substring within another string\nfind() returns the first occurrence of the substring\nIf the substring is not found, find() returns -1\nRemember that a string position starts at zero\n\nbanana 012345\n\nfruit = 'banana'\n\npos = fruit.find('na')\nprint(pos)\n\n2\n\n\n\naa = fruit.find('z')\nprint(aa)\n\n-1"
+  },
+  {
+    "objectID": "code/1_strings.html#making-everything-upper-or-lower-case",
+    "href": "code/1_strings.html#making-everything-upper-or-lower-case",
+    "title": "2  Strings",
+    "section": "2.12 Making everything upper or lower case",
+    "text": "2.12 Making everything upper or lower case\n\nYou can make a copy of a string in lower or upper case\nOften when we are searching for a string using find() we first convert the string to lower case so we can search the string regardless of the case\n\n\ngreet = 'Hello Bob'\n\nnnn = greet.upper()\nprint(nnn)\n\nHELLO BOB\n\n\n\n\n\n\nwww = greet.lower()\nprint(www)\n\nhello bob"
+  },
+  {
+    "objectID": "code/1_strings.html#search-and-replace",
+    "href": "code/1_strings.html#search-and-replace",
+    "title": "2  Strings",
+    "section": "2.13 Search and replace",
+    "text": "2.13 Search and replace\n\nThe replace() function is like a search and replace operation in a word processor\nIt replaces ALL occurrences of the search string with the replacement string\n\n\ngreet = 'Hello Bob'\n\nnstr = greet.replace('Bob', 'Jane')\nprint(nstr)\n\nHello Jane\n\n\n\nnstr = greet.replace('o', 'X')\nprint(nstr)\n\nHellX BXb"
+  },
+  {
+    "objectID": "code/1_strings.html#stripping-whitespace",
+    "href": "code/1_strings.html#stripping-whitespace",
+    "title": "2  Strings",
+    "section": "2.14 Stripping whitespace",
+    "text": "2.14 Stripping whitespace\n\nSometimes we want to take a string and remove whitespace at the beginning and/or the end\nlstrip() and rstrip() remove whitespace to the left and right\nstrip() removes both beginning and ending whitespace\n\n\ngreet = '   Hello Bob '\ngreet.lstrip()\n\n'Hello Bob '\n\n\n\ngreet.rstrip()\n\n'   Hello Bob'\n\n\n\ngreet.strip()\n\n'Hello Bob'"
+  },
+  {
+    "objectID": "code/1_strings.html#prefixes",
+    "href": "code/1_strings.html#prefixes",
+    "title": "2  Strings",
+    "section": "2.15 Prefixes",
+    "text": "2.15 Prefixes\n\nline = 'Please have a nice day'\nline.startswith('Please')\n\nTrue\n\n\n\nline.startswith('p')\n\nFalse"
+  },
+  {
+    "objectID": "code/1_strings.html#parsing-and-extracting",
+    "href": "code/1_strings.html#parsing-and-extracting",
+    "title": "2  Strings",
+    "section": "2.16 Parsing and extracting",
+    "text": "2.16 Parsing and extracting\nWe want to extract the host information from an email header using methods in the string library:\n\ndata = 'From stephen.marquard@uct.ac.za Sat Jan  Jan  5 09:14:16 2008'\natpos = data.find('@')\nprint(atpos)\n\n21\n\n\n\n#by adding a 2nd parameter in the find method we can say were we want to start\nsppos = data.find(' ', atpos)\nprint(sppos)\n\n31\n\n\n\n#use the boundaries we identified above to extract the host\nhost = data[atpos+1 : sppos]\nprint(host)\n\nuct.ac.za"
+  },
+  {
+    "objectID": "code/1_strings.html#strings-in-py2",
+    "href": "code/1_strings.html#strings-in-py2",
+    "title": "2  Strings",
+    "section": "2.17 Strings in Py2",
+    "text": "2.17 Strings in Py2\n\nOne of the real advantages of Python 3 is that all the strings internally are what are called Unicode, which means that they can represent a wide range of character sets\nIn Python 2, strings sometimes have to go through conversions, since in Py2 there were regular strings and Unicode strings"
+  },
+  {
+    "objectID": "code/1_strings.html#assignment-6.5",
+    "href": "code/1_strings.html#assignment-6.5",
+    "title": "2  Strings",
+    "section": "2.18 Assignment 6.5",
+    "text": "2.18 Assignment 6.5\nWrite code using find() and string slicing to extract the number at the end of the line below. Convert the extracted value to a floating point number and print it out.\nWe start with text = \"X-DSPAM-Confidence:    0.8475\"\n\ntext = \"X-DSPAM-Confidence:    0.8475\"\n\n#find starting point\nspos = text.find(\" \")\nprint(spos)\n\n#extract and clean nr\nextract = float(text[spos+1 :].strip())\nprint(extract)\n\n19\n0.8475"
+  },
+  {
+    "objectID": "code/2_files.html",
+    "href": "code/2_files.html",
+    "title": "3  Files",
+    "section": "",
+    "text": "For the following exercises, we uses a text file with some information from emails that was downloaded into the dat folder from here."
+  },
+  {
+    "objectID": "code/2_files.html#opening-files",
+    "href": "code/2_files.html#opening-files",
+    "title": "3  Files",
+    "section": "3.1 Opening files",
+    "text": "3.1 Opening files\n\nBefore we can read the contents of a file, we must tell Py which file we are going to work with and what we will be doing to the file\nThis is done with the open() function\nopen() returns a file handle - a variable used to perform operations on the file\n\n\n1+1\n\n2"
+  },
+  {
+    "objectID": "code/2_files.html#using-open",
+    "href": "code/2_files.html#using-open",
+    "title": "3  Files",
+    "section": "3.2 Using open()",
+    "text": "3.2 Using open()\n\nThe general structure is: handle = open(filename, mode)\nThe file handle is not the data but a way to get at the data\nThis returns a handle we can use to manipulate the file\nThe filename is a string\nMode is an optional argument and should be r if we are planning to read the file and w if we are going to write to the file\n\n\nfhand = open('../data/mbox-short.txt', 'r')\nprint(fhand)\n\n<_io.TextIOWrapper name='../data/mbox-short.txt' mode='r' encoding='UTF-8'>"
+  },
+  {
+    "objectID": "code/2_files.html#what-is-a-handle",
+    "href": "code/2_files.html#what-is-a-handle",
+    "title": "3  Files",
+    "section": "3.3 What is a handle?",
+    "text": "3.3 What is a handle?\nA handle is something that’s sort of a porthole/connection between your program and this file that’s sitting on the disk. We can:\n- open it - read from it - write to it - close it when we are done"
+  },
+  {
+    "objectID": "code/2_files.html#the-newline-character",
+    "href": "code/2_files.html#the-newline-character",
+    "title": "3  Files",
+    "section": "3.4 The newline character",
+    "text": "3.4 The newline character\n\nWe use a special character called the newline to indicate when the line ends\nWe represent it as \\n in strings\nNewline is still one character, not too\nA text file has newlines at the end of each line\n\n\nstuff = 'X\\nY'\nstuff\n\n'X\\nY'\n\n\n\nprint(stuff)\n\nX\nY\n\n\n\nlen(stuff)\n\n3"
+  },
+  {
+    "objectID": "code/2_files.html#file-handle-as-a-sequence",
+    "href": "code/2_files.html#file-handle-as-a-sequence",
+    "title": "3  Files",
+    "section": "3.5 File handle as a sequence",
+    "text": "3.5 File handle as a sequence\n\nA file handle open for read can be treated as a sequence of strings where each line in the file is a string in the sequence. A file handle can be seen as a sequence of lines that allow us to iterate through it automatically using the for loop\nWe can use the for statement to iterate through a sequence\nRemember: A sequence is an ordered set\n\n\nxfile = open('../data/mbox-short.txt', 'r')\n\nfor line in xfile:\n    print(line)"
+  },
+  {
+    "objectID": "code/2_files.html#counting-lines-in-a-file",
+    "href": "code/2_files.html#counting-lines-in-a-file",
+    "title": "3  Files",
+    "section": "3.6 Counting lines in a file",
+    "text": "3.6 Counting lines in a file\n\nxfile = open('../data/mbox-short.txt', 'r')\ncount = 0\n\nfor line in xfile:\n    count = count + 1\n\n#print the nr of lines\nprint('Line count: ', count)\n\nLine count:  1910"
+  },
+  {
+    "objectID": "code/2_files.html#reading-the-whole-file-using-read",
+    "href": "code/2_files.html#reading-the-whole-file-using-read",
+    "title": "3  Files",
+    "section": "3.7 Reading the whole file using read()",
+    "text": "3.7 Reading the whole file using read()\nBeware: read() does not split our file into lines. The newlines are still there and print will show them but keep in mind, we have one long character string puncutated with new lines.\n\nxfile = open('../data/mbox-short.txt', 'r')\ninp = xfile.read()\n\n#count the nr of characters\nprint(len(inp))\n\n94626"
+  },
+  {
+    "objectID": "code/2_files.html#searching-through-a-file",
+    "href": "code/2_files.html#searching-through-a-file",
+    "title": "3  Files",
+    "section": "3.8 Searching through a file",
+    "text": "3.8 Searching through a file\n\nfhand = open('../data/mbox-short.txt', 'r')\n\nfor line in fhand:\n    if line.startswith('From: s'):\n        print(line)\n\nprint('')\n\nFrom: stephen.marquard@uct.ac.za\n\nFrom: stephen.marquard@uct.ac.za\n\n\n\n\nWhat are all these blank lines doing here?\n\nEach line from the file has a new line at the end\nThe print statement adds a newline to each line\nSo we turn up with two new lines per extracted string of characters\n\n\nfhand = open('../data/mbox-short.txt', 'r')\n\nfor line in fhand:\n    line = line.rstrip()\n    if line.startswith('From: s'):\n        print(line)\n\nprint('')\n\nFrom: stephen.marquard@uct.ac.za\nFrom: stephen.marquard@uct.ac.za"
+  },
+  {
+    "objectID": "code/2_files.html#skipping-with-continue",
+    "href": "code/2_files.html#skipping-with-continue",
+    "title": "3  Files",
+    "section": "3.9 Skipping with continue",
+    "text": "3.9 Skipping with continue\nWe can skip a line using the continue statement:\n\nfhand = open('../data/mbox-short.txt', 'r')\n\nfor line in fhand:\n    line = line.rstrip()\n    #if line doesn't start with pattern, skip it\n    if not line.startswith('From: s'):\n        continue\n    print(line)\n\nprint('')\n\nFrom: stephen.marquard@uct.ac.za\nFrom: stephen.marquard@uct.ac.za"
+  },
+  {
+    "objectID": "code/2_files.html#using-in-to-select-lines",
+    "href": "code/2_files.html#using-in-to-select-lines",
+    "title": "3  Files",
+    "section": "3.10 Using in to select lines",
+    "text": "3.10 Using in to select lines\nWe can look for a string anywhere in a line as our selection criteria:\n\nfhand = open('../data/mbox-short.txt', 'r')\n\nfor line in fhand:\n    line = line.rstrip()\n    if not 'd@uct.ac.za' in line:\n        continue\n    print(line)\n\nprint('')\n\nFrom stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008\nX-Authentication-Warning: nakamura.uits.iupui.edu: apache set sender to stephen.marquard@uct.ac.za using -f\nFrom: stephen.marquard@uct.ac.za\nAuthor: stephen.marquard@uct.ac.za\nFrom stephen.marquard@uct.ac.za Fri Jan  4 04:07:34 2008\nX-Authentication-Warning: nakamura.uits.iupui.edu: apache set sender to stephen.marquard@uct.ac.za using -f\nFrom: stephen.marquard@uct.ac.za\nAuthor: stephen.marquard@uct.ac.za"
+  },
+  {
+    "objectID": "code/2_files.html#using-prompt-to-enter-a-file",
+    "href": "code/2_files.html#using-prompt-to-enter-a-file",
+    "title": "3  Files",
+    "section": "3.11 Using prompt to enter a file",
+    "text": "3.11 Using prompt to enter a file\n\nfname = input('Enter a file name: ')\nxfile = open(fname, 'r')\ncount = 0\n\nfor line in xfile:\n    count = count + 1\n\n#print the nr of lines\nprint('Line count: ', count)"
+  },
+  {
+    "objectID": "code/2_files.html#dealing-with-bad-file-names",
+    "href": "code/2_files.html#dealing-with-bad-file-names",
+    "title": "3  Files",
+    "section": "3.12 Dealing with bad file names",
+    "text": "3.12 Dealing with bad file names\nRunning example is in code/open_file.py.\n\nfname = input('Enter the file name: ')\n\ntry:\n    fhand = open(fname)\nexcept:\n    print('File cannot be opened:', fname)\n    quit()\n\ncount = 0\n\nfor line in fhand:\n    count = count + 1\n\nprint('There are', count, 'subject lines in', fname)"
+  },
+  {
+    "objectID": "code/2_files.html#exercise-7.1",
+    "href": "code/2_files.html#exercise-7.1",
+    "title": "3  Files",
+    "section": "3.13 Exercise 7.1",
+    "text": "3.13 Exercise 7.1\nWrite a program that prompts for a file name, then opens that file and reads through the file, and print the contents of the file in upper case. Use the file words.txt to produce the output below.\nRunning example is in code/open_file_ex7_1.py.\n\nfname = input('Enter the filename: ')\n\ntry:\n    fname = open(fname)\nexcept:\n    print('This file does not exist: ', fname)\n    quit()\n\nfor line in fname:\n    line = line.rstrip().upper()\n    print(line)"
+  },
+  {
+    "objectID": "code/2_files.html#exercise-7.2",
+    "href": "code/2_files.html#exercise-7.2",
+    "title": "3  Files",
+    "section": "3.14 Exercise 7.2",
+    "text": "3.14 Exercise 7.2\nWrite a program that prompts for a file name, then opens that file and reads through the file, looking for lines of the form:\nX-DSPAM-Confidence: 0.8475\nCount these lines and extract the floating point values from each of the lines and compute the average of those values and produce an output as shown below. Do not use the sum() function or a variable named sum in your solution.\nYou can download the sample data at http://www.py4e.com/code3/mbox-short.txt\nRunning example is in code/open_file_ex7_2.py.\n\nfname = '../data/mbox-short.txt'\n\ntry:\n    fh = open(fname)\nexcept:\n    print('This file does not exist: ', fname)\n    quit()\n\ncount = 0\ntotal = 0 \n\nfor line in fh:\n    line = line.rstrip()\n    if not line.startswith('X-DSPAM-Confidence:'):\n        continue\n    #find our numbers\n    spos = line.find(':')\n    num_s = line[spos + 1 :].strip()\n    num = float(num_s)\n    # get the sum\n    total = total + num\n    #get the count\n    count = count + 1\n    \nprint('Average spam confidence:', total/count)\n\nAverage spam confidence: 0.7507185185185187"
+  },
+  {
+    "objectID": "code/3_lists.html",
+    "href": "code/3_lists.html",
+    "title": "4  Lists",
+    "section": "",
+    "text": "Algorithms: A set of rules or steps used to solve a problem\nData structures: A particular way of organizing data in a computer"
+  },
+  {
+    "objectID": "code/3_lists.html#what-is-not-a-collection",
+    "href": "code/3_lists.html#what-is-not-a-collection",
+    "title": "4  Lists",
+    "section": "4.2 What is not a collection?",
+    "text": "4.2 What is not a collection?\nMost of our variables have one value in them: when we put a new value in the variable the old value is overwritten.\n\nx = 2\nx = 4\nprint(x)\n\n4"
+  },
+  {
+    "objectID": "code/3_lists.html#what-is-a-list",
+    "href": "code/3_lists.html#what-is-a-list",
+    "title": "4  Lists",
+    "section": "4.3 What is a list?",
+    "text": "4.3 What is a list?\n\nA list is a kind of collection\nA collection allows us to put many values in a single “variable”\nA collection is useful since we can carry many values around in a convenient package\nExample how a list looks: friends = ['Joseph', 'Glenn', 'Sally']. Here, friends is a list of strings\nList constants are surrounded by square brackets, which are what is called a bracket constant\nThe elements in a list are separated by commas\nA list element can be any Py object, even another list\nA list can be empty\n\n\nprint([1,24,27])\n\n[1, 24, 27]\n\n\n\nprint([1,'red',27])\n\n[1, 'red', 27]\n\n\n\n#a list within a list\n#here we have a total of 3 elements\nprint([1,[24, 44],27])\n\n[1, [24, 44], 27]\n\n\n\nprint([])\n\n[]"
+  },
+  {
+    "objectID": "code/3_lists.html#lists-an-definite-loops",
+    "href": "code/3_lists.html#lists-an-definite-loops",
+    "title": "4  Lists",
+    "section": "4.4 Lists an definite loops",
+    "text": "4.4 Lists an definite loops\n\nfriends = ['Joseph', 'Glenn', 'Sally']\n\nfor friend in friends:\n    print('Happy new year:', friend)\n\nprint(\"\")\n\nHappy new year: Joseph\nHappy new year: Glenn\nHappy new year: Sally"
+  },
+  {
+    "objectID": "code/3_lists.html#looking-inside-lists",
+    "href": "code/3_lists.html#looking-inside-lists",
+    "title": "4  Lists",
+    "section": "4.5 Looking inside lists",
+    "text": "4.5 Looking inside lists\nJust like strings, we can get any single element in a list using an index specified in square brackets:\n\nfriends = ['Joseph', 'Glenn', 'Sally']\n\nprint(friends[1])\n\nGlenn"
+  },
+  {
+    "objectID": "code/3_lists.html#lists-are-mutable",
+    "href": "code/3_lists.html#lists-are-mutable",
+    "title": "4  Lists",
+    "section": "4.6 Lists are mutable",
+    "text": "4.6 Lists are mutable\n\nStrings are immutable, we cannot change the contents of a string, we must make a new string to make any change\nLists are mutable, we can change an element of a list using an index operator\n\n\n# This code will give an error:\n# The error is sth like object does not support item assignment\nfruit = 'banana'\nfruit[0] = 'b'\n\n\nfriends = ['Joseph', 'Glenn', 'Sally']\nfriends[1] = 'Toto'\nprint(friends)\n\n['Joseph', 'Toto', 'Sally']"
+  },
+  {
+    "objectID": "code/3_lists.html#how-long-is-a-list",
+    "href": "code/3_lists.html#how-long-is-a-list",
+    "title": "4  Lists",
+    "section": "4.7 How long is a list",
+    "text": "4.7 How long is a list\n\nThe len() function takes a list as a parameter and returns the number of elements in a list\nActually, len() tells us the number of elements of any set or sequence\n\n\nx = [1, 2, 'joe', 99]\nlen(x)\n\n4"
+  },
+  {
+    "objectID": "code/3_lists.html#using-the-range-function",
+    "href": "code/3_lists.html#using-the-range-function",
+    "title": "4  Lists",
+    "section": "4.8 Using the range function",
+    "text": "4.8 Using the range function\n\nThe range function returns a list of numbers that range from 0 to one less than the parameter\nWe can construct an index loop using for and and integer iteratior\nIn Python 3 range() returns an “immutable sequence type” instead of a list object (Python 2).\n\n\nprint(range(4))\n\nrange(0, 4)\n\n\n\nprint(list(range(4)))\n\n[0, 1, 2, 3]\n\n\n\nprint(list(range(len(friends))))\n\n[0, 1, 2]"
+  },
+  {
+    "objectID": "code/3_lists.html#using-range-in-a-for-loop-to-create-a-counted-loop",
+    "href": "code/3_lists.html#using-range-in-a-for-loop-to-create-a-counted-loop",
+    "title": "4  Lists",
+    "section": "4.9 Using range in a for loop to create a counted loop",
+    "text": "4.9 Using range in a for loop to create a counted loop\n\nfriends = ['Joseph', 'Glenn', 'Sally']\n\nfor i in range(len(friends)):\n    friend = friends[i]\n    print('Happy New year:', friend)\n\nprint('')\n\nHappy New year: Joseph\nHappy New year: Glenn\nHappy New year: Sally"
+  },
+  {
+    "objectID": "code/3_lists.html#concatenating-lists",
+    "href": "code/3_lists.html#concatenating-lists",
+    "title": "4  Lists",
+    "section": "4.10 Concatenating lists",
+    "text": "4.10 Concatenating lists\n\na = [1,2,3]\nb = [4,5,6]\n\na + b\n\n[1, 2, 3, 4, 5, 6]"
+  },
+  {
+    "objectID": "code/3_lists.html#slicing-lists",
+    "href": "code/3_lists.html#slicing-lists",
+    "title": "4  Lists",
+    "section": "4.11 Slicing lists",
+    "text": "4.11 Slicing lists\nSlicing works the same as for strings:\n\nt = [9, 41, 23, 3, 74, 15]\nprint(t[1:3])\n\n[41, 23]"
+  },
+  {
+    "objectID": "code/3_lists.html#printing-list-methods",
+    "href": "code/3_lists.html#printing-list-methods",
+    "title": "4  Lists",
+    "section": "4.12 Printing List methods",
+    "text": "4.12 Printing List methods\n\nx = list()\ntype(x)\n\nlist\n\n\n\ndir(x)\n\n['__add__',\n '__class__',\n '__contains__',\n '__delattr__',\n '__delitem__',\n '__dir__',\n '__doc__',\n '__eq__',\n '__format__',\n '__ge__',\n '__getattribute__',\n '__getitem__',\n '__gt__',\n '__hash__',\n '__iadd__',\n '__imul__',\n '__init__',\n '__init_subclass__',\n '__iter__',\n '__le__',\n '__len__',\n '__lt__',\n '__mul__',\n '__ne__',\n '__new__',\n '__reduce__',\n '__reduce_ex__',\n '__repr__',\n '__reversed__',\n '__rmul__',\n '__setattr__',\n '__setitem__',\n '__sizeof__',\n '__str__',\n '__subclasshook__',\n 'append',\n 'clear',\n 'copy',\n 'count',\n 'extend',\n 'index',\n 'insert',\n 'pop',\n 'remove',\n 'reverse',\n 'sort']"
+  },
+  {
+    "objectID": "code/3_lists.html#building-a-list",
+    "href": "code/3_lists.html#building-a-list",
+    "title": "4  Lists",
+    "section": "4.13 Building a list",
+    "text": "4.13 Building a list\n\nWe can create an empty list and then add elements using the append method\nThe list stays in order and new elements are added at the end of the list\n\n\nstuff = list()\nstuff.append('book')\nstuff.append(99)\nprint(stuff)\n\n['book', 99]"
+  },
+  {
+    "objectID": "code/3_lists.html#is-something-in-a-list",
+    "href": "code/3_lists.html#is-something-in-a-list",
+    "title": "4  Lists",
+    "section": "4.14 Is something in a list?",
+    "text": "4.14 Is something in a list?\n\nPython provides two operators that let you check if an item is in a list\nThese are logical operators that return True or False\nThey do not modify the list\n\n\nstuff = [1, 9, 21, 10, 16]\n\n9 in stuff\n\nTrue\n\n\n\n15 in stuff\n\nFalse\n\n\n\n20 not in stuff\n\nTrue"
+  },
+  {
+    "objectID": "code/3_lists.html#lists-are-in-order-and-can-be-sorted",
+    "href": "code/3_lists.html#lists-are-in-order-and-can-be-sorted",
+    "title": "4  Lists",
+    "section": "4.15 Lists are in order and can be sorted",
+    "text": "4.15 Lists are in order and can be sorted\n\nA list can hold many items and keeps those items in the order until we do sth to change the order\nA list can be sorted to change its order\nThe sort method (unlike in strings) means “sort yourself”\n\n\nfriends = ['Joseph', 'Glenn', 'Sally']\n\nfriends.sort()\n\nprint(friends)\n\n['Glenn', 'Joseph', 'Sally']\n\n\n## Build-in functions and lists\n\nThere are a number of functions that take lists as parameters\n\n\nnums = [3, 41, 23, 9, 74, 15]\n\nprint(len(nums))\nprint(max(nums))\nprint(min(nums))\nprint(sum(nums))\nprint(sum(nums)/len(nums))\n\n6\n74\n3\n165\n27.5\n\n\nAn example where this is useful, the code is in code/calc_average.py.\n\nnumlist = list()\n\nwhile True:\n    inp = input('Enter a number: ')\n    if inp == 'done' :\n        break\n    \n    #convert our input to a float\n    try:\n        value = float(inp)\n    except: \n        print('Please, enter a number or done')\n        continue\n    \n    #add the value to our list\n    numlist.append(value)\n    \n#do math\naverage = sum(numlist) / len(numlist)\nprint('Average:', average)\n\nThe difference compared to how we before constructed the calculations is in how much data is stored. In the example above, each number is stored in memory, while if we use total = total + value and count = count +1 then only one number is stored.\nThis only makes a difference with very large amounts of data though."
+  },
+  {
+    "objectID": "code/3_lists.html#splitting-strings",
+    "href": "code/3_lists.html#splitting-strings",
+    "title": "4  Lists",
+    "section": "4.16 Splitting strings",
+    "text": "4.16 Splitting strings\nSplit breaks a string into parts and produces a list of strings.\nWe think of these as words.\nWe can access a particular word or loop through all the words.\n\nabc = 'With three words'\n\n#take a string and turn it into a list \n#each element is one word in the string\nstuff = abc.split()\nprint(stuff)\n\n['With', 'three', 'words']\n\n\n\nlen(stuff)\n\n3\n\n\n\nfor w in stuff:\n    print(w)\n\nprint('')\n\nWith\nthree\nwords\n\n\n\n\nSplit by default splits by white space\nWhen you do not specify a delimiter, multiple spaces are treated like one delimiter\nYou can specify the delimiter character to use\n\n\nline = 'A lot          of spaces'\netc = line.split()\nprint(etc)\n\n['A', 'lot', 'of', 'spaces']\n\n\n\nline = 'first;second;third'\nthing = line.split()\nprint(thing)\nprint(len(thing))\n\n['first;second;third']\n\n\n\n1\n\n\n\nline = 'first;second;third'\nthing = line.split(';')\nprint(thing)\nprint(len(thing))\n\n['first', 'second', 'third']\n\n\n\n3\n\n\nA working example to extract the day of the week in an email info file can be found in code/split.py.\nAn example for the text we are looking at:\nFrom stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008\n\nfhand = open('../data/mbox-short.txt')\n\nfor line in fhand:\n    line = line.rstrip()\n    if not line.startswith('From s'):\n        continue\n    words = line.split()\n    print(words[2])\n\nprint('')\n\nSat\nFri\n\n\n\nAlternative:\nThe alternative needs a guardian, because we have blank lines which will result in a problem\n\nfhand = open('../data/mbox-short.txt')\n\nfor line in fhand:\n    line = line.rstrip()\n    #print(line)\n\nprint('')\n\n\n\n\n\nfhand = open('../data/mbox-short.txt')\n\nfor line in fhand:\n    line = line.rstrip()\n    wds = line.split()\n    \n    #safe guard\n    if len(wds) < 1:\n        continue\n    \n    #ignore all statements not starting with From\n    #this will give an issue with empty lines and needs a safe guard\n    if wds[0] != 'From':\n        continue\n    \n    print(wds[1])\n\nprint('')\n\nstephen.marquard@uct.ac.za\nlouis@media.berkeley.edu\nzqian@umich.edu\nrjlowe@iupui.edu\nzqian@umich.edu\nrjlowe@iupui.edu\ncwen@iupui.edu\ncwen@iupui.edu\ngsilver@umich.edu\ngsilver@umich.edu\nzqian@umich.edu\ngsilver@umich.edu\nwagnermr@iupui.edu\nzqian@umich.edu\nantranig@caret.cam.ac.uk\ngopal.ramasammycook@gmail.com\ndavid.horwitz@uct.ac.za\ndavid.horwitz@uct.ac.za\ndavid.horwitz@uct.ac.za\ndavid.horwitz@uct.ac.za\nstephen.marquard@uct.ac.za\nlouis@media.berkeley.edu\nlouis@media.berkeley.edu\nray@media.berkeley.edu\ncwen@iupui.edu\ncwen@iupui.edu\ncwen@iupui.edu\n\n\n\nAlternative with an or statement:\n\nfhand = open('../data/mbox-short.txt')\n\nfor line in fhand:\n    line = line.rstrip()\n    wds = line.split()\n    \n    #guardian in a compound statement\n    #if there are less than 1 word on the line OR if the first word is not FROM continue\n    #this works in order and would fail if we flip it\n    if len(wds) < 1 or wds[0] != 'From':\n        continue\n    \n    print(wds[1])\n\nprint('')\n\nstephen.marquard@uct.ac.za\nlouis@media.berkeley.edu\nzqian@umich.edu\nrjlowe@iupui.edu\nzqian@umich.edu\nrjlowe@iupui.edu\ncwen@iupui.edu\n\n\ncwen@iupui.edu\ngsilver@umich.edu\ngsilver@umich.edu\nzqian@umich.edu\ngsilver@umich.edu\nwagnermr@iupui.edu\nzqian@umich.edu\nantranig@caret.cam.ac.uk\ngopal.ramasammycook@gmail.com\ndavid.horwitz@uct.ac.za\ndavid.horwitz@uct.ac.za\ndavid.horwitz@uct.ac.za\ndavid.horwitz@uct.ac.za\nstephen.marquard@uct.ac.za\nlouis@media.berkeley.edu\nlouis@media.berkeley.edu\nray@media.berkeley.edu\ncwen@iupui.edu\ncwen@iupui.edu\ncwen@iupui.edu"
+  },
+  {
+    "objectID": "code/3_lists.html#the-double-split-pattern",
+    "href": "code/3_lists.html#the-double-split-pattern",
+    "title": "4  Lists",
+    "section": "4.17 The double split pattern",
+    "text": "4.17 The double split pattern\nSometimes we split a line one way and then grap one of the pieces of the line and split it again.\nI.e. lets imagine we want to extract the email host:\nThe code can be found in code/split_host.py\n\nfhand = open('../data/mbox-short.txt')\n\nfor line in fhand:\n    line = line.rstrip()\n    if not line.startswith('From s'):\n        continue\n    words = line.split()\n    email = words[1]\n    pieces = email.split('@')\n    host = pieces[1]\n    print(host)\n\nprint('')\n\nuct.ac.za\nuct.ac.za"
+  },
+  {
+    "objectID": "code/3_lists.html#assignment-8.4",
+    "href": "code/3_lists.html#assignment-8.4",
+    "title": "4  Lists",
+    "section": "4.18 Assignment 8.4",
+    "text": "4.18 Assignment 8.4\nOpen the file romeo.txt and read it line by line.\nFor each line, split the line into a list of words using the split() method.\nThe program should build a list of words.\nFor each word on each line check to see if the word is already in the list and if not append it to the list. When the program completes, sort and print the resulting words in python sort() order as shown in the desired output.\nYou can download the sample data at http://www.py4e.com/code3/romeo.txt and the code can be found in code/assignment_8_4.py\n\nfname = '../data/romeo.txt'\n\nfh = open(fname)\nlst = list()\n\nfor line in fh:\n    line = line.rstrip()\n    words = line.split()\n    for element in words:\n        if element not in lst:\n            lst.append(element)\n    \nlst.sort()\nprint(lst)\n\n['Arise', 'But', 'It', 'Juliet', 'Who', 'already', 'and', 'breaks', 'east', 'envious', 'fair', 'grief', 'is', 'kill', 'light', 'moon', 'pale', 'sick', 'soft', 'sun', 'the', 'through', 'what', 'window', 'with', 'yonder']"
+  },
+  {
+    "objectID": "code/3_lists.html#assignment-8.5",
+    "href": "code/3_lists.html#assignment-8.5",
+    "title": "4  Lists",
+    "section": "4.19 Assignment 8.5",
+    "text": "4.19 Assignment 8.5\nOpen the file mbox-short.txt and read it line by line. When you find a line that starts with ‘From’ like the following line:\nFrom stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008\nYou will parse the From line using split() and print out the second word in the line (i.e. the entire address of the person who sent the message). Then print out a count at the end.\nHint: make sure not to include the lines that start with ‘From:’. Also look at the last line of the sample output to see how to print the count.\nThe code can be found in code/assignment_8_5.py\n\nfname = '../data/mbox-short.txt'\nfh = open(fname) \n\ncount = 0\n\nfor line in fh:\n    line = line.rstrip()\n    if not line.startswith('From '):\n        continue\n    mail = line.split()[1]\n    count = count + 1\n    \n    print(mail)\n\nprint(\"There were\", count, \"lines in the file with From as the first word\")\n\nstephen.marquard@uct.ac.za\nlouis@media.berkeley.edu\nzqian@umich.edu\nrjlowe@iupui.edu\nzqian@umich.edu\nrjlowe@iupui.edu\ncwen@iupui.edu\ncwen@iupui.edu\ngsilver@umich.edu\ngsilver@umich.edu\nzqian@umich.edu\ngsilver@umich.edu\nwagnermr@iupui.edu\nzqian@umich.edu\nantranig@caret.cam.ac.uk\ngopal.ramasammycook@gmail.com\ndavid.horwitz@uct.ac.za\ndavid.horwitz@uct.ac.za\ndavid.horwitz@uct.ac.za\ndavid.horwitz@uct.ac.za\nstephen.marquard@uct.ac.za\nlouis@media.berkeley.edu\nlouis@media.berkeley.edu\nray@media.berkeley.edu\ncwen@iupui.edu\ncwen@iupui.edu\ncwen@iupui.edu\nThere were 27 lines in the file with From as the first word"
+  },
+  {
+    "objectID": "code/4_dictionaries.html",
+    "href": "code/4_dictionaries.html",
+    "title": "5  Dictionaries",
+    "section": "",
+    "text": "Dictionaries are a type of data collection\nDictionaries are “bags” of values, each with its own label\nIts an associative array: an abstract data type that stores a collection of (key, value) pairs, such that each possible key appears at most once in the collection\nDictionaries allow us to do fast database-like operations\nDictionaries list their entries based on the position in the list\nThere is no order in dictionary, in contrast to lists\nInstead we index things we put in the dictionary with a “look up tag”, i.e. a key\nContents are mutable/changable\n\n\n#create an empty dictionary object\npurse = dict()\n\n#create  key (ie money) - value (ie 12) pairs\npurse['money'] = 12\npurse['candy'] = 3\npurse['tissues'] = 75\n\nprint(purse)\n\n{'money': 12, 'candy': 3, 'tissues': 75}\n\n\n\n#extract sth from a dict using the key\npurse['candy']\n\n3\n\n\n\n#manipulate one entry\npurse['candy'] = purse['candy'] + 2\nprint(purse)\n\n{'money': 12, 'candy': 5, 'tissues': 75}"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#dictionary-literals-constants",
+    "href": "code/4_dictionaries.html#dictionary-literals-constants",
+    "title": "5  Dictionaries",
+    "section": "5.2 Dictionary literals (constants)",
+    "text": "5.2 Dictionary literals (constants)\n\nDictionaries literals use curly braces and have a list of key:value pairs\nYou can make an empty dictionary using empty curly braces\n\n\n#here, the dictionary constant gets assigned to jjj\njjj = {'chuck':1, 'fred':42, 'jan':100}\nprint(jjj)\n\n{'chuck': 1, 'fred': 42, 'jan': 100}\n\n\n\nooo = {}\nprint(ooo)\n\n{}"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#dictionary-tracebacks",
+    "href": "code/4_dictionaries.html#dictionary-tracebacks",
+    "title": "5  Dictionaries",
+    "section": "5.3 Dictionary tracebacks",
+    "text": "5.3 Dictionary tracebacks\n\nWe will get a traceback error if we reference a key which is not in the dictionary\nWe can use an in operator to see if a key is in the dictionary\n\n\n#the code below would give an error\nccc = dict()\nprint(ccc['csev'])\n\n\n#make a dict\nccc = dict()\n\n#check for a key\n'csev' in ccc\n\nFalse"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#counting-with-dictionaries",
+    "href": "code/4_dictionaries.html#counting-with-dictionaries",
+    "title": "5  Dictionaries",
+    "section": "5.4 Counting with dictionaries",
+    "text": "5.4 Counting with dictionaries\n\nOne common use of dictionaries is counting how often we “see” something.\n\nWhen we encounter a new name, we need to add a new entry to the dictionary and if this is the second or later time we have seen the name, we simply add one to the count in the dictionary under that name\n\n\ncounts = dict()\nnames = ['csev', 'cwen', 'csev', 'zqian', 'cwen']\n\nfor name in names:\n    if name not in counts:\n        counts[name] = 1\n    else:\n        counts[name] = counts[name] + 1\n\nprint(counts)\n\n{'csev': 2, 'cwen': 2, 'zqian': 1}"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#counting-with-the-get-method-for-dictionaries",
+    "href": "code/4_dictionaries.html#counting-with-the-get-method-for-dictionaries",
+    "title": "5  Dictionaries",
+    "section": "5.5 Counting with the get method for dictionaries",
+    "text": "5.5 Counting with the get method for dictionaries\nThe pattern of checking to see if a key is already in a dictionary and assuming a default value if the key is not there is so common that there is a method called get() that does it for us.\nIf the key does not exist, we get a default value, so we don’t get a traceback.\nLet’s walk through this\n\n#counts = dict()\n#names = ['csev', 'cwen', 'csev', 'zqian', 'cwen']\n\nif name in counts:\n    x = counts[name]\nelse: \n    x = 0\n\nprint(counts)\n\n#below, 0 is the default that is used if the key is not yet in a dictionary\nx = counts.get(name, 0)\nprint(x)\n\n{'csev': 2, 'cwen': 2, 'zqian': 1}\n2\n\n\nClean, this code looks like this:\n\ncounts = dict()\nnames = ['csev', 'cwen', 'csev', 'zqian', 'cwen']\n\nfor name in names:\n    counts[name] = counts.get(name, 0) + 1\n\nprint(counts)\n\n{'csev': 2, 'cwen': 2, 'zqian': 1}"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#counting-text-lines",
+    "href": "code/4_dictionaries.html#counting-text-lines",
+    "title": "5  Dictionaries",
+    "section": "5.6 Counting text lines",
+    "text": "5.6 Counting text lines\nLets start simple and count the words in a line.\nThe general pattern to count the words in a line of text is to split the line into words, then loop through the words and use a dictionary to track the count of each word independenly.\nThe running code can be found in code/count_text_line.py\n\ncounts = dict()\n\nprint('Enter a line of text: ')\nline = input('')\n\nwords = line.split()\n\nprint('We have these words: ', words)\n\nprint('Counting...')\nfor word in words:\n    counts[word] = counts.get(word, 0) + 1\n\nprint('Counts: ', counts)"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#definite-loops-and-dictionaries",
+    "href": "code/4_dictionaries.html#definite-loops-and-dictionaries",
+    "title": "5  Dictionaries",
+    "section": "5.7 Definite loops and dictionaries",
+    "text": "5.7 Definite loops and dictionaries\nEven though dictionaries are not stored in order, we can write a for loop that goes through all the entries in a dictionary; actually it goes through all of the keys in a dictionary and looks up the values\n\ncounts = {'chuck':1, 'fred':42, 'jan':100}\n\n#here 'key' takes on the successive values for the keys not the values\nfor key in counts:\n    print(key, counts[key])\n\nprint('')\n\nchuck 1\nfred 42\njan 100"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#retrieving-lists-of-keys-and-values",
+    "href": "code/4_dictionaries.html#retrieving-lists-of-keys-and-values",
+    "title": "5  Dictionaries",
+    "section": "5.8 Retrieving lists of keys and values",
+    "text": "5.8 Retrieving lists of keys and values\nYou can get a list of keys, values or items (both) from a dictionary:\n\njjj = {'chuck':1, 'fred':42, 'jan':100}\n\nprint(list(jjj))\n\n['chuck', 'fred', 'jan']\n\n\n\nprint(jjj.keys())\n\ndict_keys(['chuck', 'fred', 'jan'])\n\n\n\nprint(jjj.values())\n\ndict_values([1, 42, 100])\n\n\n\n#retrieve a list of key value pairs, each stored in what is called a  tuple\nprint(jjj.items())\n\ndict_items([('chuck', 1), ('fred', 42), ('jan', 100)])"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#looping-using-the-items-method",
+    "href": "code/4_dictionaries.html#looping-using-the-items-method",
+    "title": "5  Dictionaries",
+    "section": "5.9 Looping using the items method",
+    "text": "5.9 Looping using the items method\n\nWe loop through the key-value pairs in a dictionary using two iteration variables\nEach iteration, the first variable is the key and the second variable is the corresponding value for the key\n\n\njjj = {'chuck':1, 'fred':42, 'jan':100}\n\n#use to iteration variables, aa and bb\nfor aa,bb in jjj.items():\n    print(aa, aa)\n\nprint('')\n\nchuck chuck\nfred fred\njan jan"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#count-words-in-a-text-file",
+    "href": "code/4_dictionaries.html#count-words-in-a-text-file",
+    "title": "5  Dictionaries",
+    "section": "5.10 Count words in a text file",
+    "text": "5.10 Count words in a text file\nThe working code can be found in code/count_words.py\n\n#name = input('Enter file: ')\nname = '../data/words.txt'\nhandle = open(name)\n\ncounts = dict()\n\n#create a dictionary to count the words\nfor line in handle:\n    words = line.split()\n    for word in words:\n        counts[word] = counts.get(word , 0) + 1\n\nbigcount = None\nbigword = None\n\n#go through the dictionary counts and identify the item with the most counts\nfor word, count in counts.items():\n    if bigcount is None or count > bigcount:\n        bigword = word\n        bigcount = count\n\nprint(bigword, bigcount)\n\nto 16"
+  },
+  {
+    "objectID": "code/4_dictionaries.html#assignment-9.4",
+    "href": "code/4_dictionaries.html#assignment-9.4",
+    "title": "5  Dictionaries",
+    "section": "5.11 Assignment 9.4",
+    "text": "5.11 Assignment 9.4\nWrite a program to read through the mbox-short.txt and figure out who has sent the greatest number of mail messages.\nThe program looks for ‘From’ lines and takes the second word of those lines as the person who sent the mail.\nThe program creates a Python dictionary that maps the sender’s mail address to a count of the number of times they appear in the file.\nAfter the dictionary is produced, the program reads through the dictionary using a maximum loop to find the most prolific committer.\nCode can be found in code/assignment_9_4.py\nNotice: This returns an error with reticulate but runs fine during the rendering. or line == ‘[]’\n\nname = '../data/mbox-short.txt'\nhandle = open(name)\n\nsenders_dict = dict()\n\nbigcount = None\nbigword = None\n\nfor line in handle:\n    line = line.rstrip()\n    if not line.startswith('From '):\n        continue\n\n    #generate a dict of senders\n    mail = line.split()[1]\n    senders_dict[mail] = senders_dict.get(mail, 0) + 1\n\n    #identify the most prolific committer\n    for key, value in senders_dict.items():\n        if bigcount is None or value > bigcount:\n            bigcount = value\n            bigword = key\n\nprint(bigword, bigcount)\n\ncwen@iupui.edu 5"
+  }
+]

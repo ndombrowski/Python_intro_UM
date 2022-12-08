@@ -1,0 +1,391 @@
+# Strings
+
+## Definition
+
+- A string is a data type in python
+- A string is a sequence of characters, i.e. Hello
+- A string literal uses single or double quotes
+- For strings `+` means concatenate
+- When a string contains numbers, it is a string
+- We can convert numbers into a string using `int()`
+
+```{python}
+str1 = 'Hello'
+str2 = "you"
+
+#concatenate strings
+concat = str1 + str2
+print(concat)
+```
+
+```{python}
+str3 = '123'
+
+#convert to number and do some math
+int(123) + 100
+```
+
+
+## Reading an converting
+
+- We prefer to read data in using strings and then parse and convert data as we need
+- This gives us more control over error situations and/or bad user input
+- The input function always gives us back a string
+- Input numbers must be converted from strings
+
+```{python}
+#|eval: false
+num = input('Enter number: ')
+x = int(num) - 10
+print(x)
+```
+
+
+## Looking inside a string
+
+- We can get at any single character in a string using an **index operator** specified in square brackets
+- The index value must be an integer and starts at 0
+- This index value can be an expression that is computed
+- You will get a python error if you attempt to index beyond the end of a string, i.e. `fruit[10]` that tells you that the string index is out of range
+
+banana
+012345
+
+```{python}
+fruit = 'banana'
+letter = fruit[1]
+print(letter)
+```
+
+```{python}
+x = 3
+w = fruit[x-1]
+print(w)
+```
+
+
+## Strings have a length
+
+- The build in function `len` gives us the length of a string
+- A function is some stored code that we use. A function takes some input and produces and output
+
+```{python}
+fruit = 'banana'
+print(len(fruit))
+```
+
+
+## Looping through strings
+
+Using a while statement and an iteration variable, and the len function, we can construct a loop to look at each of the letters in a string individually:
+
+```{python}
+fruit = 'banana'
+index = 0
+
+while index < len(fruit):
+    letter = fruit[index]
+    print(index, letter)
+    index = index + 1
+
+print('')
+```
+
+- A definite loop using a for statement is a more elegant solution
+- The iteration variable is completely taken care of by the for loop
+
+```{python}
+fruit = 'banana'
+
+for letter in fruit:
+    print(letter)
+
+print('')
+```
+
+## Looping and counting
+
+Below is a simple loop that loops through each letter in a string and counts the number of times the loop encounters an *a* character
+
+```{python}
+word = 'banana'
+count = 0
+
+for letter in word:
+    if letter == 'a':
+        count = count + 1
+
+print(count)
+```
+
+
+## Slicing strings
+
+- We can also look at any continuous section of a string using a colon separator
+- The second number is one beyond the end of the slice, i.e. up to but not including
+- If the second number is beyond the end of the string it stops at the end
+
+Monty Python
+01234567891011
+
+```{python}
+s = 'Monty Python'
+print(s[0:4])
+```
+
+```{python}
+print(s[6:7])
+```
+
+```{python}
+print(s[6:20])
+```
+
+If we leave off the first number or the last number of the slice, it is assumed to be the beginning or the end of the string, respectively:
+
+```{python}
+print(s[:2])
+```
+
+```{python}
+print(s[8:])
+```
+
+```{python}
+print(s[:])
+```
+
+
+## Using `in` as logical operator
+
+- The keyword `in` can also be used to check to see if one string is in another string
+- The in expression is a logical expression that returns True or False and can be used in an if statement 
+
+```{python}
+fruit = 'banana'
+'n' in fruit
+```
+
+```{python}
+fruit = 'banana'
+'m' in fruit
+```
+
+```{python}
+fruit = 'banana'
+'nan' in fruit
+```
+
+```{python}
+if 'a' in fruit:
+    print('Found it')
+print('')
+```
+
+
+## String comparisons
+
+```{python}
+if word == 'banana':
+    print('All right, bananas')
+print('')
+```
+
+Less than and greater than have to do with the character set of your computer and the character set that Python is configured to use.
+
+I.e. uppercase Z is less than lower case a.
+
+```{python}
+word = 'a'
+
+if word < 'banana':
+    print('Your word ' + word + ', comes before banana')
+elif word > 'banana':
+    print('Your word' + word + ', comes after banana')
+else:
+    print('All right, bananas')
+
+print('')
+```
+
+
+## String library
+
+- Python has a number of string functions which are in the string library
+- These functions are already build into every string - we invoke them by appending the function to the string variable
+- These functions do not modify the original string, instead the return a new string that has been altered
+- We can also use string functions on constants
+- In the example below, `lower()` is what is called a method
+
+```{python}
+greet = 'Hello Bob'
+
+zap = greet.lower()
+print(zap)
+print(greet)
+```
+
+```{python}
+print('Hi there'.lower())
+```
+
+```{python}
+stuff = 'Hello world'
+
+#ask what type we have
+type(stuff)
+```
+
+```{python}
+#what can strings do, print methods in the class str?
+dir(stuff)
+```
+
+An explanation on what all these methods do can be found [here](https://docs.python.org/3/library/stdtypes.html#string-methods).
+
+
+## Searching a string
+
+- We use the `find()` function to search for a substring within another string
+- `find()` returns the first occurrence of the substring
+- If the substring is not found, `find()` returns -1
+- Remember that a string position starts at zero
+  
+banana
+012345
+
+```{python}
+fruit = 'banana'
+
+pos = fruit.find('na')
+print(pos)
+```
+
+```{python}
+aa = fruit.find('z')
+print(aa)
+```
+
+
+## Making everything upper or lower case
+
+- You can make a copy of a string in lower or upper case
+- Often when we are searching for a string using `find()` we first convert the string to lower case so we can search the string regardless of the case
+
+```{python}
+greet = 'Hello Bob'
+
+nnn = greet.upper()
+print(nnn)
+```
+
+```{python}
+www = greet.lower()
+print(www)
+```
+
+
+## Search and replace
+
+- The `replace()` function is like a *search and replace* operation in a word processor
+- It replaces ALL occurrences of the search string with the replacement string
+
+```{python}
+greet = 'Hello Bob'
+
+nstr = greet.replace('Bob', 'Jane')
+print(nstr)
+```
+
+```{python}
+nstr = greet.replace('o', 'X')
+print(nstr)
+```
+
+
+## Stripping whitespace
+
+- Sometimes we want to take a string and remove whitespace at the beginning and/or the end
+- `lstrip()` and `rstrip()` remove whitespace to the left and right
+- `strip()` removes both beginning and ending whitespace
+
+```{python}
+greet = '   Hello Bob '
+greet.lstrip()
+```
+
+```{python}
+greet.rstrip()
+```
+
+```{python}
+greet.strip()
+```
+
+
+## Prefixes
+
+```{python}
+line = 'Please have a nice day'
+line.startswith('Please')
+```
+
+```{python}
+line.startswith('p')
+```
+
+
+## Parsing and extracting
+
+We want to extract the host information from an email header using methods in the string library:
+
+```{python}
+data = 'From stephen.marquard@uct.ac.za Sat Jan  Jan  5 09:14:16 2008'
+atpos = data.find('@')
+print(atpos)
+```
+
+```{python}
+#by adding a 2nd parameter in the find method we can say were we want to start
+sppos = data.find(' ', atpos)
+print(sppos)
+```
+
+```{python}
+#use the boundaries we identified above to extract the host
+host = data[atpos+1 : sppos]
+print(host)
+```
+
+
+## Strings in Py2
+
+- One of the real advantages of Python 3 is that all the strings internally are what are called Unicode, which means that they can represent a wide range of character sets
+- In Python 2, strings sometimes have to go through conversions, since in Py2 there were regular strings and Unicode strings
+
+
+
+## Assignment 6.5
+
+Write code using find() and string slicing to extract the number at the end of the line below. Convert the extracted value to a floating point number and print it out.
+
+We start with `text = "X-DSPAM-Confidence:    0.8475"`
+
+```{python}
+text = "X-DSPAM-Confidence:    0.8475"
+
+#find starting point
+spos = text.find(" ")
+print(spos)
+
+#extract and clean nr
+extract = float(text[spos+1 :].strip())
+print(extract)
+```
+
+
+
+
+
+
+

@@ -1,0 +1,293 @@
+# Dictionaries
+
+## Introduction
+
+- Dictionaries are a type of data collection
+- Dictionaries are "bags" of values, each with its own label
+- Its an associative array: an abstract data type that stores a collection of (key, value) pairs, such that each possible key appears at most once in the collection
+- Dictionaries allow us to do fast database-like operations
+
+- Dictionaries list their entries based on the position in the list
+- There is no order in dictionary, in contrast to lists
+- Instead we index things we put in the dictionary with a "look up tag", i.e. a **key**
+- Contents are mutable/changable
+
+
+```{python}
+#create an empty dictionary object
+purse = dict()
+
+#create  key (ie money) - value (ie 12) pairs
+purse['money'] = 12
+purse['candy'] = 3
+purse['tissues'] = 75
+
+print(purse)
+```
+
+```{python}
+#extract sth from a dict using the key
+purse['candy']
+```
+
+
+```{python}
+#manipulate one entry
+purse['candy'] = purse['candy'] + 2
+print(purse)
+```
+
+
+## Dictionary literals (constants)
+
+- Dictionaries literals use curly braces and have a list of key:value pairs
+- You can make an empty dictionary using empty curly braces
+
+```{python}
+#here, the dictionary constant gets assigned to jjj
+jjj = {'chuck':1, 'fred':42, 'jan':100}
+print(jjj)
+```
+
+```{python}
+ooo = {}
+print(ooo)
+```
+
+
+## Dictionary tracebacks
+
+- We will get a traceback error if we reference a key which is not in the dictionary
+- We can use an in operator to see if a key is in the dictionary
+
+```{python}
+#|eval: false
+#the code below would give an error
+ccc = dict()
+print(ccc['csev'])
+```
+
+```{python}
+#make a dict
+ccc = dict()
+
+#check for a key
+'csev' in ccc
+```
+
+
+## Counting with dictionaries
+
+- One common use of dictionaries is counting how often we "see" something.  
+- When we encounter a new name, we need to add a new entry to the dictionary and if this is the second or later time we have seen the name, we simply add one to the count in the dictionary under that name
+
+```{python}
+counts = dict()
+names = ['csev', 'cwen', 'csev', 'zqian', 'cwen']
+
+for name in names:
+    if name not in counts:
+        counts[name] = 1
+    else:
+        counts[name] = counts[name] + 1
+
+print(counts)
+```
+
+
+## Counting with the get method for dictionaries
+
+The pattern of checking to see if a key is already in a dictionary and assuming a default value if the key is not there is so common that there is a method called `get()` that does it for us.
+
+If the key does not exist, we get a default value, so we don't get a traceback.
+
+Let's walk through this 
+
+```{python}
+#counts = dict()
+#names = ['csev', 'cwen', 'csev', 'zqian', 'cwen']
+
+if name in counts:
+    x = counts[name]
+else: 
+    x = 0
+
+print(counts)
+
+#below, 0 is the default that is used if the key is not yet in a dictionary
+x = counts.get(name, 0)
+print(x)
+```
+
+Clean, this code looks like this:
+
+```{python}
+counts = dict()
+names = ['csev', 'cwen', 'csev', 'zqian', 'cwen']
+
+for name in names:
+    counts[name] = counts.get(name, 0) + 1
+
+print(counts)
+```
+
+
+## Counting text lines
+
+Lets start simple and count the words in a line.
+
+The general pattern to count the words in a line of text is to split the line into words, then loop through the words and use a dictionary to track the count of each word independenly.
+
+The running code can be found in `code/count_text_line.py`
+
+```{python}
+#|eval: false
+counts = dict()
+
+print('Enter a line of text: ')
+line = input('')
+
+words = line.split()
+
+print('We have these words: ', words)
+
+print('Counting...')
+for word in words:
+    counts[word] = counts.get(word, 0) + 1
+
+print('Counts: ', counts)
+```
+
+
+## Definite loops and dictionaries
+
+Even though dictionaries are not stored in order, we can write a for loop that goes through all the entries in a dictionary; actually it goes through all of the keys in a dictionary and looks up the values
+
+```{python}
+counts = {'chuck':1, 'fred':42, 'jan':100}
+
+#here 'key' takes on the successive values for the keys not the values
+for key in counts:
+    print(key, counts[key])
+
+print('')
+```
+
+
+## Retrieving lists of keys and values
+
+You can get a list of keys, values or items (both) from a dictionary:
+
+```{python}
+jjj = {'chuck':1, 'fred':42, 'jan':100}
+
+print(list(jjj))
+```
+
+```{python}
+print(jjj.keys())
+```
+
+```{python}
+print(jjj.values())
+```
+
+
+```{python}
+#retrieve a list of key value pairs, each stored in what is called a  tuple
+print(jjj.items())
+```
+
+
+## Looping using the items method
+
+- We loop through the key-value pairs in a dictionary using two iteration variables
+- Each iteration, the first variable is the key and the second variable is the corresponding value for the key
+
+```{python}
+jjj = {'chuck':1, 'fred':42, 'jan':100}
+
+#use to iteration variables, aa and bb
+for aa,bb in jjj.items():
+    print(aa, aa)
+
+print('')
+```
+
+
+## Count words in a text file
+
+The working code can be found in `code/count_words.py`
+
+```{python}
+#name = input('Enter file: ')
+name = '../data/words.txt'
+handle = open(name)
+
+counts = dict()
+
+#create a dictionary to count the words
+for line in handle:
+    words = line.split()
+    for word in words:
+        counts[word] = counts.get(word , 0) + 1
+
+bigcount = None
+bigword = None
+
+#go through the dictionary counts and identify the item with the most counts
+for word, count in counts.items():
+    if bigcount is None or count > bigcount:
+        bigword = word
+        bigcount = count
+
+print(bigword, bigcount)
+```
+
+
+## Assignment 9.4
+
+Write a program to read through the mbox-short.txt and figure out who has sent the greatest number of mail messages.
+
+The program looks for 'From ' lines and takes the second word of those lines as the person who sent the mail. 
+
+The program creates a Python dictionary that maps the sender's mail address to a count of the number of times they appear in the file. 
+
+After the dictionary is produced, the program reads through the dictionary using a maximum loop to find the most prolific committer.
+
+Code can be found in `code/assignment_9_4.py`
+
+Notice: This returns an error with reticulate but runs fine during the rendering.
+The problem is that one line is seen as `line == '[]'` and nothing helps while trying to remove it
+
+```{python}
+name = '../data/mbox-short.txt'
+handle = open(name)
+
+senders_dict = dict()
+
+bigcount = None
+bigword = None
+
+for line in handle:
+    line = line.rstrip()
+    if not line.startswith('From '):
+        continue
+
+    #generate a dict of senders
+    mail = line.split()[1]
+    senders_dict[mail] = senders_dict.get(mail, 0) + 1
+
+    #identify the most prolific committer
+    for key, value in senders_dict.items():
+        if bigcount is None or value > bigcount:
+            bigcount = value
+            bigword = key
+
+print(bigword, bigcount)
+```
+
+
+
+
+

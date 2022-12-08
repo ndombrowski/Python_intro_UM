@@ -1,0 +1,473 @@
+# Lists
+
+## Definitions:
+
+- **Algorithms**: A set of rules or steps used to solve a problem
+- **Data structures**: A particular way of organizing data in a computer
+
+## What is not a collection?
+
+Most of our variables have one value in them: when we put a new value in the variable the old value is overwritten.
+
+```{python}
+x = 2
+x = 4
+print(x)
+```
+
+## What is a list?
+
+- A list is a kind of collection
+- A collection allows us to put many values in a single "variable"
+- A collection is useful since we can carry many values around in a convenient package
+- Example how a list looks: `friends = ['Joseph', 'Glenn', 'Sally']`. Here, *friends* is a list of strings
+- List constants are surrounded by square brackets, which are what is called a **bracket constant**
+- The elements in a list are separated by commas
+- A list element can be any Py object, even another list
+- A list can be empty
+
+```{python}
+print([1,24,27])
+```
+
+```{python}
+print([1,'red',27])
+```
+
+```{python}
+#a list within a list
+#here we have a total of 3 elements
+print([1,[24, 44],27])
+```
+
+```{python}
+print([])
+```
+
+
+## Lists an definite loops
+
+```{python}
+friends = ['Joseph', 'Glenn', 'Sally']
+
+for friend in friends:
+    print('Happy new year:', friend)
+
+print("")
+```
+
+
+## Looking inside lists
+
+Just like strings, we can get any single element in a list using an index specified in square brackets:
+
+```{python}
+friends = ['Joseph', 'Glenn', 'Sally']
+
+print(friends[1])
+```
+
+
+## Lists are mutable
+
+- Strings are immutable, we cannot change the contents of a string, we must make a new string to make any change
+- Lists are mutable, we can change an element of a list using an index operator
+
+```{python}
+#|eval: false
+# This code will give an error:
+# The error is sth like object does not support item assignment
+fruit = 'banana'
+fruit[0] = 'b'
+```
+
+```{python}
+friends = ['Joseph', 'Glenn', 'Sally']
+friends[1] = 'Toto'
+print(friends)
+```
+
+
+## How long is a list
+
+- The `len()` function takes a list as a parameter and returns the number of elements in a list
+- Actually, `len()` tells us the number of elements of any set or sequence
+
+```{python}
+x = [1, 2, 'joe', 99]
+len(x)
+```
+
+
+## Using the range function
+
+- The range function returns a list of numbers that range from 0 to one less than the parameter
+- We can construct an index loop using for and and integer iteratior
+- In Python 3 range() returns an "immutable sequence type" instead of a list object (Python 2).
+
+
+```{python}
+print(range(4))
+```
+
+```{python}
+print(list(range(4)))
+```
+
+```{python}
+print(list(range(len(friends))))
+```
+
+
+## Using range in a for loop to create a counted loop
+
+```{python}
+friends = ['Joseph', 'Glenn', 'Sally']
+
+for i in range(len(friends)):
+    friend = friends[i]
+    print('Happy New year:', friend)
+
+print('')
+```
+
+
+## Concatenating lists
+
+```{python}
+a = [1,2,3]
+b = [4,5,6]
+
+a + b
+```
+
+
+## Slicing lists
+
+Slicing works the same as for strings:
+
+```{python}
+t = [9, 41, 23, 3, 74, 15]
+print(t[1:3])
+```
+
+
+## Printing List methods
+
+```{python}
+x = list()
+type(x)
+```
+
+```{python}
+dir(x)
+```
+
+
+## Building a list
+
+- We can create an empty list and then add elements using the **append** method
+- The list stays in order and new elements are added at the end of the list
+
+```{python}
+stuff = list()
+stuff.append('book')
+stuff.append(99)
+print(stuff)
+```
+
+
+## Is something in a list?
+
+- Python provides two operators that let you check if an item is in a list
+- These are logical operators that return True or False
+- They do not modify the list
+
+```{python}
+stuff = [1, 9, 21, 10, 16]
+
+9 in stuff
+```
+
+```{python}
+15 in stuff
+```
+
+
+```{python}
+20 not in stuff
+```
+
+
+## Lists are in order and can be sorted
+
+- A list can hold many items and keeps those items in the order until we do sth to change the order
+- A list can be sorted to change its order
+- The sort method (unlike in strings) means "sort yourself"
+
+```{python}
+friends = ['Joseph', 'Glenn', 'Sally']
+
+friends.sort()
+
+print(friends)
+```
+
+ 
+ ## Build-in functions and lists
+ 
+ - There are a number of functions that take lists as parameters
+ 
+```{python}
+nums = [3, 41, 23, 9, 74, 15]
+
+print(len(nums))
+print(max(nums))
+print(min(nums))
+print(sum(nums))
+print(sum(nums)/len(nums))
+```
+ 
+
+An example where this is useful, the code is in `code/calc_average.py`.
+
+```{python}
+#|eval: false
+numlist = list()
+
+while True:
+    inp = input('Enter a number: ')
+    if inp == 'done' :
+        break
+    
+    #convert our input to a float
+    try:
+        value = float(inp)
+    except: 
+        print('Please, enter a number or done')
+        continue
+    
+    #add the value to our list
+    numlist.append(value)
+    
+#do math
+average = sum(numlist) / len(numlist)
+print('Average:', average)
+```
+
+The difference compared to how we before constructed the calculations is in how much data is stored. In the example above, each number is stored in memory, while if we use `total = total + value` and `count = count +1` then only one number is stored.
+
+This only makes a difference with very large amounts of data though.
+
+
+## Splitting strings
+
+Split breaks a string into parts and produces a list of strings.  
+We think of these as words.  
+We can access a particular word or loop through all the words.
+
+```{python}
+abc = 'With three words'
+
+#take a string and turn it into a list 
+#each element is one word in the string
+stuff = abc.split()
+print(stuff)
+```
+
+```{python}
+len(stuff)
+```
+
+```{python}
+for w in stuff:
+    print(w)
+
+print('')
+```
+
+- Split by default splits by white space
+- When you do not specify a delimiter, multiple spaces are treated like one delimiter
+- You can specify the delimiter character to use
+
+```{python}
+line = 'A lot          of spaces'
+etc = line.split()
+print(etc)
+```
+
+```{python}
+line = 'first;second;third'
+thing = line.split()
+print(thing)
+print(len(thing))
+```
+
+
+```{python}
+line = 'first;second;third'
+thing = line.split(';')
+print(thing)
+print(len(thing))
+```
+
+A working example to extract the day of the week in an email info file can be found in `code/split.py`.
+
+An example for the text we are looking at:
+
+`From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008`
+
+```{python}
+fhand = open('../data/mbox-short.txt')
+
+for line in fhand:
+    line = line.rstrip()
+    if not line.startswith('From s'):
+        continue
+    words = line.split()
+    print(words[2])
+
+print('')
+```
+
+Alternative:
+
+The alternative needs a guardian, because we have blank lines which will result in a problem
+
+```{python}
+fhand = open('../data/mbox-short.txt')
+
+for line in fhand:
+    line = line.rstrip()
+    #print(line)
+
+print('')
+```
+
+
+```{python}
+fhand = open('../data/mbox-short.txt')
+
+for line in fhand:
+    line = line.rstrip()
+    wds = line.split()
+    
+    #safe guard
+    if len(wds) < 1:
+        continue
+    
+    #ignore all statements not starting with From
+    #this will give an issue with empty lines and needs a safe guard
+    if wds[0] != 'From':
+        continue
+    
+    print(wds[1])
+
+print('')
+```
+
+Alternative with an or statement:
+
+```{python}
+fhand = open('../data/mbox-short.txt')
+
+for line in fhand:
+    line = line.rstrip()
+    wds = line.split()
+    
+    #guardian in a compound statement
+    #if there are less than 1 word on the line OR if the first word is not FROM continue
+    #this works in order and would fail if we flip it
+    if len(wds) < 1 or wds[0] != 'From':
+        continue
+    
+    print(wds[1])
+
+print('')
+```
+
+
+
+
+## The double split pattern
+
+Sometimes we split a line one way and then grap one of the pieces of the line and split it again.  
+I.e. lets imagine we want to extract the email host:  
+The code can be found in `code/split_host.py`
+
+```{python}
+fhand = open('../data/mbox-short.txt')
+
+for line in fhand:
+    line = line.rstrip()
+    if not line.startswith('From s'):
+        continue
+    words = line.split()
+    email = words[1]
+    pieces = email.split('@')
+    host = pieces[1]
+    print(host)
+
+print('')
+```
+
+
+## Assignment 8.4
+
+Open the file romeo.txt and read it line by line. 
+
+For each line, split the line into a list of words using the split() method.  
+The program should build a list of words.  
+For each word on each line check to see if the word is already in the list and if not append it to the list. When the program completes, sort and print the resulting words in python sort() order as shown in the desired output.
+
+You can download the sample data at http://www.py4e.com/code3/romeo.txt and the code can be found in `code/assignment_8_4.py`
+
+```{python}
+fname = '../data/romeo.txt'
+
+fh = open(fname)
+lst = list()
+
+for line in fh:
+    line = line.rstrip()
+    words = line.split()
+    for element in words:
+        if element not in lst:
+            lst.append(element)
+    
+lst.sort()
+print(lst)
+```
+
+
+## Assignment 8.5
+
+Open the file mbox-short.txt and read it line by line. When you find a line that starts with 'From ' like the following line:
+ 
+`From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008`
+
+You will parse the From line using split() and print out the second word in the line (i.e. the entire address of the person who sent the message). Then print out a count at the end.
+
+Hint: make sure not to include the lines that start with 'From:'. Also look at the last line of the sample output to see how to print the count.
+
+The code can be found in `code/assignment_8_5.py`
+
+```{python}
+fname = '../data/mbox-short.txt'
+fh = open(fname) 
+
+count = 0
+
+for line in fh:
+    line = line.rstrip()
+    if not line.startswith('From '):
+        continue
+    mail = line.split()[1]
+    count = count + 1
+    
+    print(mail)
+
+print("There were", count, "lines in the file with From as the first word")
+```
+
+
