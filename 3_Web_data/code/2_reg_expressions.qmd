@@ -1,0 +1,288 @@
+# Regular expressions
+
+## Definition
+
+In computing a regular expression, also referred to as regex or regexp, provides a concise and flexible means for matching strings of text, such as particular characters, words or patterns of characters.  
+
+A regular expression is written in a formal language that can be interpreted by a regular expression processor.  
+
+It allows to use "wild card" expressions for matching and parsing strings.  
+
+<img width = 600 src="../images/reg_exp.png">
+
+
+## The regular expression module
+
+- Before you can use regular expressions in python, you most import the library using `import re`
+- You can use `re.search()` to see if a string matches a regular expression, similar to using the find() method for strings
+- You can use `re.findall()` to extract positions of a string that match your regular expression, similar to using a combination of find() and slicing.
+
+```{python}
+#import lib
+import re
+```
+
+Before we did:
+
+```{python}
+hand = open('../data/mbox-short.txt')
+
+for line in hand:
+    line = line.rstrip()
+    if line.find('From: s') >=0 :
+        print(line)
+
+print('')
+```
+
+But instead we could use a regular expression:
+
+```{python}
+hand = open('../data/mbox-short.txt')
+
+for line in hand:
+    line = line.rstrip()
+    if re.search('From: s', line):
+        print(line)
+
+print('')
+```
+
+Use a regular expression instead of startswith(). Here , we fine tune what is matched by adding special characters to the string, i.e. `^`
+
+```{python}
+hand = open('../data/mbox-short.txt')
+
+for line in hand:
+    line = line.rstrip()
+    if re.search('^From: s', line):
+        print(line)
+
+print('')
+```
+
+
+## Wildcard characters
+
+- The dot character matches any character
+- If you add the asterisk character, the character is "any number of times", i.e. 0 or more times
+
+```{python}
+hand = open('../data/mbox-short.txt')
+
+lst = list()
+for line in hand:
+    line = line.rstrip()
+    if re.search('^X-.*:', line):
+        if line not in lst:
+            lst.append(line)
+
+for i in lst[:4]:
+    print(i)
+
+print('')
+```
+
+We can also be more specific and find everything starting with `X-` then match any non-whitespace character `/S` one or more times `+` . This would discard any hits that have any whitespace between the X- and the colon.
+
+```{python}
+hand = open('../data/mbox-short.txt')
+
+lst = list()
+for line in hand:
+    line = line.rstrip()
+    if re.search('^X-\S+:', line):
+        if line not in lst:
+            lst.append(line)
+
+for i in lst[:5]:
+    print(i)
+
+print('')
+```
+
+## `re.findall()`
+
+- `re.search()` returns a True/False depending on whether the string matches the regular expression
+- If we actually want the matching strings to be extracted, we use `re.findall()``
+
+```{python}
+x = 'My 2 favorite numbers are 19 and 420'
+y = re.findall('[0-9]+', x)
+print(y)
+```
+
+Here: `[0-9]+` Looks for any number between 0-9 and the plus indicates that we look for one or more digits.
+
+Notice: This gives us a list with three strings, not numbers. If there is no match, we get back an empty list:
+
+```{python}
+x = 'My 2 favorite numbers are 19 and 420'
+y = re.findall('[AEIOU]+', x)
+print(y)
+```
+
+## Greedy matching
+
+The repeat characters (* and +) push outward in both directions (greedy) to match the largest possible string:
+
+```{python}
+x = 'From: Using the : character'
+y = re.findall('F.+:', x)
+print(y)
+```
+
+Why in the example we don't only get `From:` ?
+
+Because we ask for a pattern, where the first character in the match is an F followed by one or more characters and ending with a colon. Then we get the largest possible string, which is not what we actually are looking for.  
+
+
+## Non-greedy matching
+
+Not all regular expression repeat codes are greedy!  
+If you add a `?` character, the + and * chill out a bit...
+
+```{python}
+x = 'From: Using the : character'
+y = re.findall('F.+?:', x)
+print(y)
+```
+
+Here, we ask for a pattern, where the first character in the match is an F followed by one or more characters that are not greedy and ending with a colon. 
+
+
+## Fine-tuning string extraction
+
+If we refine the match for `re.findaa()` and separately determine which proportion of the match is to be extracted by using parentheses:
+
+```{python}
+x = 'From stephen.marquard@uct.ac.za Sat Jan  4 09:14:16 2008'
+
+y = re.findall('\S+@\S+', x)
+print(y)
+```
+
+Here, we find everything that matches one or more blank characters followed by an @ sign followed by one or more non-blank characters. 
+
+Here, we need greedy matching to not only be left with a *d@u*.  
+
+Parentheses are not part of the match, but they tells where to start and stop what string to extract:
+
+```{python}
+x = 'From stephen.marquard@uct.ac.za Sat Jan  4 09:14:16 2008'
+
+y = re.findall('^From (\S+@\S+)', x)
+print(y)
+```
+
+I.e. above our search statement looks for pattern starting with a *From* followed by a space, followed by one or more matching our non-blank characters but the *From* is not printed, only everything between parentheses is.  
+
+I.e. we tell python to start extracting AFTER `From `. 
+
+
+## Double split patterns
+
+Sometimes we split a line one way and then grep one of the pieces in the line and split that piece again:
+
+```{python}
+x = 'From stephen.marquard@uct.ac.za Sat Jan  4 09:14:16 2008'
+
+#y = re.findall('@(\S+)', x)
+y = re.findall('@([^ ]*)', x)
+print(y)
+```
+
+Here, we look for a pattern that start with an @sign followed by a number of non-blank characters.
+
+- `[^ ]` : Match non-blank character, i.e starting with a `^` inside the brackets means NOT --> match everything that is NOT a space
+- `[^ ]*`:  Match many non-blank characters
+
+Some fine-tuning:
+
+```{python}
+x = 'From stephen.marquard@uct.ac.za Sat Jan  4 09:14:16 2008'
+
+#y = re.findall('@(\S+)', x)
+y = re.findall('^From .*@([^ ]*)', x)
+print(y)
+```
+
+
+## Escape character
+
+If you want a special regular expression character to just behave normally you prefix it with `\`
+
+```{python}
+x = 'We just received $10.00 for cookies'
+
+y = re.findall('\$[0-9.]+', x)
+print(y)
+```
+
+
+
+## Using regex example
+
+```{python}
+import re
+
+hand = open('../data/mbox-short.txt')
+numlist = list()
+
+for line in hand:
+    line = line.rstrip()
+    #extract what we are interest in
+    stuff = re.findall('^X-DSPAM-Confidence: ([0-9.]+)', line)
+    
+    #deal with IndexError: list index out of range
+    #since we know stuff should be a list with one element in there
+    if len(stuff) != 1:
+        continue
+    
+    #extract pattern and convert to float
+    num = float(stuff[0])
+    
+    #add all numbers to lists
+    numlist.append(num)
+
+print('Maximum: ', max(numlist))
+```
+
+
+## Exercise
+
+In this assignment you will read through and parse a file with text and numbers. You will extract all the numbers in the file and compute the sum of the numbers.
+
+The basic outline of this problem is to read the file, look for integers using the re.findall(), looking for a regular expression of '[0-9]+' and then converting the extracted strings to integers and summing up the integers.
+
+Code found in `code/count_numbers.py`
+
+```{python}
+handle = open('../data/regex_sum_1701457.txt')
+
+import re
+
+numlst = list()
+counter = 0
+
+for line in handle:
+    line = line.rstrip()
+
+    #extract list of numbers
+    num = re.findall('[0-9]+', line)
+    if len(num) == 0:
+        continue
+
+    #add numbers to list
+    numlst = numlst + num
+
+#convert to numbers
+for i in range(0, len(numlst)):
+    numlst[i] = int(numlst[i])
+
+print(sum(numlst))
+```
+
+
+
+

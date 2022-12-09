@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Programming for everybody session 2",
+    "section": "",
+    "text": "This course will show how one can treat the Internet as a source of data. We will scrape, parse, and read web data as well as access data using web APIs. We will work with HTML, XML, and JSON data formats in Python."
+  },
+  {
+    "objectID": "code/2_reg_expressions.html",
+    "href": "code/2_reg_expressions.html",
+    "title": "2  Regular expressions",
+    "section": "",
+    "text": "In computing a regular expression, also referred to as regex or regexp, provides a concise and flexible means for matching strings of text, such as particular characters, words or patterns of characters.\nA regular expression is written in a formal language that can be interpreted by a regular expression processor.\nIt allows to use “wild card” expressions for matching and parsing strings."
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#the-regular-expression-module",
+    "href": "code/2_reg_expressions.html#the-regular-expression-module",
+    "title": "2  Regular expressions",
+    "section": "2.2 The regular expression module",
+    "text": "2.2 The regular expression module\n\nBefore you can use regular expressions in python, you most import the library using import re\nYou can use re.search() to see if a string matches a regular expression, similar to using the find() method for strings\nYou can use re.findall() to extract positions of a string that match your regular expression, similar to using a combination of find() and slicing.\n\n\n#import lib\nimport re\n\nBefore we did:\n\nhand = open('../data/mbox-short.txt')\n\nfor line in hand:\n    line = line.rstrip()\n    if line.find('From: s') >=0 :\n        print(line)\n\nprint('')\n\nFrom: stephen.marquard@uct.ac.za\nFrom: stephen.marquard@uct.ac.za\n\n\n\nBut instead we could use a regular expression:\n\nhand = open('../data/mbox-short.txt')\n\nfor line in hand:\n    line = line.rstrip()\n    if re.search('From: s', line):\n        print(line)\n\nprint('')\n\nFrom: stephen.marquard@uct.ac.za\nFrom: stephen.marquard@uct.ac.za\n\n\n\nUse a regular expression instead of startswith(). Here , we fine tune what is matched by adding special characters to the string, i.e. ^\n\nhand = open('../data/mbox-short.txt')\n\nfor line in hand:\n    line = line.rstrip()\n    if re.search('^From: s', line):\n        print(line)\n\nprint('')\n\nFrom: stephen.marquard@uct.ac.za\nFrom: stephen.marquard@uct.ac.za"
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#wildcard-characters",
+    "href": "code/2_reg_expressions.html#wildcard-characters",
+    "title": "2  Regular expressions",
+    "section": "2.3 Wildcard characters",
+    "text": "2.3 Wildcard characters\n\nThe dot character matches any character\nIf you add the asterisk character, the character is “any number of times”, i.e. 0 or more times\n\n\nhand = open('../data/mbox-short.txt')\n\nlst = list()\nfor line in hand:\n    line = line.rstrip()\n    if re.search('^X-.*:', line):\n        if line not in lst:\n            lst.append(line)\n\nfor i in lst[:4]:\n    print(i)\n\nprint('')\n\nX-Sieve: CMU Sieve 2.3\nX-Authentication-Warning: nakamura.uits.iupui.edu: apache set sender to stephen.marquard@uct.ac.za using -f\nX-Content-Type-Outer-Envelope: text/plain; charset=UTF-8\nX-Content-Type-Message-Body: text/plain; charset=UTF-8\n\n\n\nWe can also be more specific and find everything starting with X- then match any non-whitespace character /S one or more times + . This would discard any hits that have any whitespace between the X- and the colon.\n\nhand = open('../data/mbox-short.txt')\n\nlst = list()\nfor line in hand:\n    line = line.rstrip()\n    if re.search('^X-\\S+:', line):\n        if line not in lst:\n            lst.append(line)\n\nfor i in lst[:5]:\n    print(i)\n\nprint('')\n\nX-Sieve: CMU Sieve 2.3\nX-Authentication-Warning: nakamura.uits.iupui.edu: apache set sender to stephen.marquard@uct.ac.za using -f\nX-Content-Type-Outer-Envelope: text/plain; charset=UTF-8\nX-Content-Type-Message-Body: text/plain; charset=UTF-8\nX-DSPAM-Result: Innocent"
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#re.findall",
+    "href": "code/2_reg_expressions.html#re.findall",
+    "title": "2  Regular expressions",
+    "section": "2.4 re.findall()",
+    "text": "2.4 re.findall()\n\nre.search() returns a True/False depending on whether the string matches the regular expression\nIf we actually want the matching strings to be extracted, we use `re.findall()``\n\n\nx = 'My 2 favorite numbers are 19 and 420'\ny = re.findall('[0-9]+', x)\nprint(y)\n\n['2', '19', '420']\n\n\nHere: [0-9]+ Looks for any number between 0-9 and the plus indicates that we look for one or more digits.\nNotice: This gives us a list with three strings, not numbers. If there is no match, we get back an empty list:\n\nx = 'My 2 favorite numbers are 19 and 420'\ny = re.findall('[AEIOU]+', x)\nprint(y)\n\n[]"
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#greedy-matching",
+    "href": "code/2_reg_expressions.html#greedy-matching",
+    "title": "2  Regular expressions",
+    "section": "2.5 Greedy matching",
+    "text": "2.5 Greedy matching\nThe repeat characters (* and +) push outward in both directions (greedy) to match the largest possible string:\n\nx = 'From: Using the : character'\ny = re.findall('F.+:', x)\nprint(y)\n\n['From: Using the :']\n\n\nWhy in the example we don’t only get From: ?\nBecause we ask for a pattern, where the first character in the match is an F followed by one or more characters and ending with a colon. Then we get the largest possible string, which is not what we actually are looking for."
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#non-greedy-matching",
+    "href": "code/2_reg_expressions.html#non-greedy-matching",
+    "title": "2  Regular expressions",
+    "section": "2.6 Non-greedy matching",
+    "text": "2.6 Non-greedy matching\nNot all regular expression repeat codes are greedy!\nIf you add a ? character, the + and * chill out a bit…\n\nx = 'From: Using the : character'\ny = re.findall('F.+?:', x)\nprint(y)\n\n['From:']\n\n\nHere, we ask for a pattern, where the first character in the match is an F followed by one or more characters that are not greedy and ending with a colon."
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#fine-tuning-string-extraction",
+    "href": "code/2_reg_expressions.html#fine-tuning-string-extraction",
+    "title": "2  Regular expressions",
+    "section": "2.7 Fine-tuning string extraction",
+    "text": "2.7 Fine-tuning string extraction\nIf we refine the match for re.findaa() and separately determine which proportion of the match is to be extracted by using parentheses:\n\nx = 'From stephen.marquard@uct.ac.za Sat Jan  4 09:14:16 2008'\n\ny = re.findall('\\S+@\\S+', x)\nprint(y)\n\n['stephen.marquard@uct.ac.za']\n\n\nHere, we find everything that matches one or more blank characters followed by an @ sign followed by one or more non-blank characters.\nHere, we need greedy matching to not only be left with a d@u.\nParentheses are not part of the match, but they tells where to start and stop what string to extract:\n\nx = 'From stephen.marquard@uct.ac.za Sat Jan  4 09:14:16 2008'\n\ny = re.findall('^From (\\S+@\\S+)', x)\nprint(y)\n\n['stephen.marquard@uct.ac.za']\n\n\nI.e. above our search statement looks for pattern starting with a From followed by a space, followed by one or more matching our non-blank characters but the From is not printed, only everything between parentheses is.\nI.e. we tell python to start extracting AFTER From."
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#double-split-patterns",
+    "href": "code/2_reg_expressions.html#double-split-patterns",
+    "title": "2  Regular expressions",
+    "section": "2.8 Double split patterns",
+    "text": "2.8 Double split patterns\nSometimes we split a line one way and then grep one of the pieces in the line and split that piece again:\n\nx = 'From stephen.marquard@uct.ac.za Sat Jan  4 09:14:16 2008'\n\n#y = re.findall('@(\\S+)', x)\ny = re.findall('@([^ ]*)', x)\nprint(y)\n\n['uct.ac.za']\n\n\nHere, we look for a pattern that start with an @sign followed by a number of non-blank characters.\n\n[^ ] : Match non-blank character, i.e starting with a ^ inside the brackets means NOT –> match everything that is NOT a space\n[^ ]*: Match many non-blank characters\n\nSome fine-tuning:\n\nx = 'From stephen.marquard@uct.ac.za Sat Jan  4 09:14:16 2008'\n\n#y = re.findall('@(\\S+)', x)\ny = re.findall('^From .*@([^ ]*)', x)\nprint(y)\n\n['uct.ac.za']"
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#escape-character",
+    "href": "code/2_reg_expressions.html#escape-character",
+    "title": "2  Regular expressions",
+    "section": "2.9 Escape character",
+    "text": "2.9 Escape character\nIf you want a special regular expression character to just behave normally you prefix it with \\\n\nx = 'We just received $10.00 for cookies'\n\ny = re.findall('\\$[0-9.]+', x)\nprint(y)\n\n['$10.00']"
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#using-regex-example",
+    "href": "code/2_reg_expressions.html#using-regex-example",
+    "title": "2  Regular expressions",
+    "section": "2.10 Using regex example",
+    "text": "2.10 Using regex example\n\nimport re\n\nhand = open('../data/mbox-short.txt')\nnumlist = list()\n\nfor line in hand:\n    line = line.rstrip()\n    #extract what we are interest in\n    stuff = re.findall('^X-DSPAM-Confidence: ([0-9.]+)', line)\n    \n    #deal with IndexError: list index out of range\n    #since we know stuff should be a list with one element in there\n    if len(stuff) != 1:\n        continue\n    \n    #extract pattern and convert to float\n    num = float(stuff[0])\n    \n    #add all numbers to lists\n    numlist.append(num)\n\nprint('Maximum: ', max(numlist))\n\nMaximum:  0.9907"
+  },
+  {
+    "objectID": "code/2_reg_expressions.html#exercise",
+    "href": "code/2_reg_expressions.html#exercise",
+    "title": "2  Regular expressions",
+    "section": "2.11 Exercise",
+    "text": "2.11 Exercise\nIn this assignment you will read through and parse a file with text and numbers. You will extract all the numbers in the file and compute the sum of the numbers.\nThe basic outline of this problem is to read the file, look for integers using the re.findall(), looking for a regular expression of ‘[0-9]+’ and then converting the extracted strings to integers and summing up the integers.\nCode found in code/count_numbers.py\n\nhandle = open('../data/regex_sum_1701457.txt')\n\nimport re\n\nnumlst = list()\ncounter = 0\n\nfor line in handle:\n    line = line.rstrip()\n\n    #extract list of numbers\n    num = re.findall('[0-9]+', line)\n    if len(num) == 0:\n        continue\n\n    #add numbers to list\n    numlst = numlst + num\n\n#convert to strings\nfor i in range(0, len(numlst)):\n    numlst[i] = int(numlst[i])\n\nprint(sum(numlst))\n\n383660"
+  }
+]

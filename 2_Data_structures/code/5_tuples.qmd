@@ -1,1 +1,250 @@
 # Tuples
+
+## Definition
+
+Tuples are like another kind of sequence that functions much like a list:  
+- They have elements which are indexed starting at 0
+- We can identify them by their parentheses
+- BUT they are not mutable, this makes tuples a bit more efficient since lists have to allocate extra memory to let them be changed. They are more efficient in terms of memory ue and performance compared to lists
+- So when we are making "temporary variables" we prefer tuples over lists
+
+```{python}
+# let's create a 3 tuple
+x = ('Glen', 'Sally', 'Joseph')
+print(x[2])
+```
+
+```{python}
+y = (1,9,2)
+print(max(y))
+```
+
+```{python}
+for i in y:
+    print(i)
+
+print('')
+```
+
+Unlike a list, once you create a tuple, you can not alter its contents, similar to a string:
+
+This works for a list:
+
+```{python}
+x = [9,8,7]
+x[2] = 6
+print(x)
+```
+
+But for a tuple this will create an error saying: TypeError: 'tuple' object does not support item assignment
+
+```{python}
+#|eval: false
+y = (9,8,7)
+y[2] = 6
+print(y)
+```
+
+Therefore, there are some things we can not do with tuples:
+
+- We can not sort tuples, append things or reverse a tuple, etc.
+- But we can use the count and index methods.
+
+```{python}
+dir(tuple())
+```
+
+
+## Tuples and assignments
+
+- We can also put a tuple on the left side of an assignment statement
+- We can even omit the parentheses
+
+```{python}
+(x,y) = (4, 'fred')
+print(y)
+```
+
+```{python}
+x,y = 4, 'fred'
+print(x)
+```
+
+
+## Tuples are comparable
+
+The comparison oeprators work with tuples and other sequences. If the first item is equal, Python goes on to the next element, and so on, until it finds elements that differ:
+
+```{python}
+(0,1,2) < (5,1,2)
+```
+
+In the example below, 0 is less than 5, so Python does not look further.
+
+```{python}
+(0,1,20000) < (5,1,2)
+```
+
+
+```{python}
+(10,1,20000) < (5,1,2)
+```
+
+Below, Jones is the same, so here Python goes to the next item and asks if Sally is less than Sam.
+
+```{python}
+('Jones', 'Sally') < ('Jones', 'Sam')
+```
+
+
+## Sorting lists of tuples
+
+- We can take advantage of the ability to sort a list of tuples to get a sorted version of a dictionary
+- We first sort the dictionary by the key using the `items()` method and `sorted()` function
+
+```{python}
+d = {'a':10, 'c':1, 'b':22}
+d.items()
+```
+
+```{python}
+#this function sorts by the first key 
+#(which have to be unique in a dict, so we never look at the second value)
+sorted(d.items())
+```
+
+We can do this more directly using the build in function sorted that takes a sequence as a parameter an returns a sorted sequence:
+
+```{python}
+d = {'a':10, 'c':1, 'b':22}
+
+#sort through the dict in key order (but not value order)
+for k,v in sorted(d.items()):
+    print(k,v)
+
+print('')
+```
+
+
+## Sort by values instead of Key
+
+- If we could construct a list of tuples of the form (value, key) we could sort by value
+- We do this with a for loop that creates a list of tuples
+
+```{python}
+c = {'a':10, 'c':1, 'b':22}
+tmp = list()
+
+for k, v in c.items():
+    tmp.append( (v,k) )
+
+print(tmp)
+```
+
+```{python}
+tmp = sorted(tmp, reverse = True)
+print(tmp)
+```
+
+
+## Identify the 10 most common words
+
+```{python}
+fhand = open('../data/romeo.txt')
+counts = dict()
+
+#make a dictionary of words
+for line in fhand:
+    words = line.split()
+    for word in words:
+        counts[word] = counts.get(word, 0) + 1
+
+#convert to list of value:key pairs
+lst = list()
+for key, val in counts.items():
+    newtup = (val, key)
+    lst.append(newtup)
+
+lst = sorted(lst, reverse = True)
+
+#find the 10 most common words
+for val, key in lst[:10]:
+    print(key, val)
+
+print('')
+```
+
+Alternative using a **list comprehension**, which creates a dynamic list. In this case we make a list of reversed tuples and then sort it.
+
+Let's first look at a small example:
+
+```{python}
+c = {'a':10, 'c':1, 'b':22}
+
+#in between the []:
+#for all create me a list of tuples, that are v and k
+#for each k,v that is in c.items
+print(sorted( [ (v,k) for k,v in c.items() ] ))
+```
+
+
+```{python}
+fhand = open('../data/romeo.txt')
+counts = dict()
+
+#make a dictionary of words
+for line in fhand:
+    words = line.split()
+    for word in words:
+        counts[word] = counts.get(word, 0) + 1
+
+print(sorted( [ (v,k) for k,v in counts.items() ], reverse = True )[:10])
+
+print('')
+```
+
+
+## Assignment 10.2
+
+Write a program to read through the mbox-short.txt and figure out the distribution by hour of the day for each of the messages. You can pull the hour out from the 'From ' line by finding the time and then splitting the string a second time using a colon.
+
+`From stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008`
+
+Once you have accumulated the counts for each hour, print out the counts, sorted by hour as shown below.
+
+The code can be found in `code/assignment_10_2.py`. Notice: The code works NOT in the notebook but just fine during rendering.
+
+```{python}
+name = '../data/mbox-short.txt'
+handle = open(name)
+
+counts = dict()
+lst = list()
+
+for line in handle:
+    line = line.rstrip()
+    if not line.startswith("From "):
+        continue
+    
+    #extract hour
+    time = line.split()[5]
+    hour = time.split(':')[0]
+
+    #make dict of hours
+    counts[hour] = counts.get(hour, 0) + 1
+
+#convert to sorted list
+for key, value in counts.items():
+    lst.append((key, value))
+
+#sort list
+lst = sorted(lst, reverse = False)
+
+#print one result per line
+for key, value in lst:
+    print(key, value)
+
+print('')
+```
+
+

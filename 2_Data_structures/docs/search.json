@@ -445,6 +445,55 @@
     "href": "code/4_dictionaries.html#assignment-9.4",
     "title": "5  Dictionaries",
     "section": "5.11 Assignment 9.4",
-    "text": "5.11 Assignment 9.4\nWrite a program to read through the mbox-short.txt and figure out who has sent the greatest number of mail messages.\nThe program looks for ‘From’ lines and takes the second word of those lines as the person who sent the mail.\nThe program creates a Python dictionary that maps the sender’s mail address to a count of the number of times they appear in the file.\nAfter the dictionary is produced, the program reads through the dictionary using a maximum loop to find the most prolific committer.\nCode can be found in code/assignment_9_4.py\nNotice: This returns an error with reticulate but runs fine during the rendering. or line == ‘[]’\n\nname = '../data/mbox-short.txt'\nhandle = open(name)\n\nsenders_dict = dict()\n\nbigcount = None\nbigword = None\n\nfor line in handle:\n    line = line.rstrip()\n    if not line.startswith('From '):\n        continue\n\n    #generate a dict of senders\n    mail = line.split()[1]\n    senders_dict[mail] = senders_dict.get(mail, 0) + 1\n\n    #identify the most prolific committer\n    for key, value in senders_dict.items():\n        if bigcount is None or value > bigcount:\n            bigcount = value\n            bigword = key\n\nprint(bigword, bigcount)\n\ncwen@iupui.edu 5"
+    "text": "5.11 Assignment 9.4\nWrite a program to read through the mbox-short.txt and figure out who has sent the greatest number of mail messages.\nThe program looks for ‘From’ lines and takes the second word of those lines as the person who sent the mail.\nThe program creates a Python dictionary that maps the sender’s mail address to a count of the number of times they appear in the file.\nAfter the dictionary is produced, the program reads through the dictionary using a maximum loop to find the most prolific committer.\nCode can be found in code/assignment_9_4.py\nNotice: This returns an error with reticulate but runs fine during the rendering. The problem is that one line is seen as line == '[]' and nothing helps while trying to remove it\n\nname = '../data/mbox-short.txt'\nhandle = open(name)\n\nsenders_dict = dict()\n\nbigcount = None\nbigword = None\n\nfor line in handle:\n    line = line.rstrip()\n    if not line.startswith('From '):\n        continue\n\n    #generate a dict of senders\n    mail = line.split()[1]\n    senders_dict[mail] = senders_dict.get(mail, 0) + 1\n\n    #identify the most prolific committer\n    for key, value in senders_dict.items():\n        if bigcount is None or value > bigcount:\n            bigcount = value\n            bigword = key\n\nprint(bigword, bigcount)\n\ncwen@iupui.edu 5"
+  },
+  {
+    "objectID": "code/5_tuples.html",
+    "href": "code/5_tuples.html",
+    "title": "6  Tuples",
+    "section": "",
+    "text": "Tuples are like another kind of sequence that functions much like a list:\n- They have elements which are indexed starting at 0 - We can identify them by their parentheses - BUT they are not mutable, this makes tuples a bit more efficient since lists have to allocate extra memory to let them be changed. They are more efficient in terms of memory ue and performance compared to lists - So when we are making “temporary variables” we prefer tuples over lists\n\n# let's create a 3 tuple\nx = ('Glen', 'Sally', 'Joseph')\nprint(x[2])\n\nJoseph\n\n\n\ny = (1,9,2)\nprint(max(y))\n\n9\n\n\n\nfor i in y:\n    print(i)\n\nprint('')\n\n1\n9\n2\n\n\n\nUnlike a list, once you create a tuple, you can not alter its contents, similar to a string:\nThis works for a list:\n\nx = [9,8,7]\nx[2] = 6\nprint(x)\n\n[9, 8, 6]\n\n\nBut for a tuple this will create an error saying: TypeError: ‘tuple’ object does not support item assignment\n\ny = (9,8,7)\ny[2] = 6\nprint(y)\n\nTherefore, there are some things we can not do with tuples:\n\nWe can not sort tuples, append things or reverse a tuple, etc.\nBut we can use the count and index methods.\n\n\ndir(tuple())\n\n['__add__',\n '__class__',\n '__contains__',\n '__delattr__',\n '__dir__',\n '__doc__',\n '__eq__',\n '__format__',\n '__ge__',\n '__getattribute__',\n '__getitem__',\n '__getnewargs__',\n '__gt__',\n '__hash__',\n '__init__',\n '__init_subclass__',\n '__iter__',\n '__le__',\n '__len__',\n '__lt__',\n '__mul__',\n '__ne__',\n '__new__',\n '__reduce__',\n '__reduce_ex__',\n '__repr__',\n '__rmul__',\n '__setattr__',\n '__sizeof__',\n '__str__',\n '__subclasshook__',\n 'count',\n 'index']"
+  },
+  {
+    "objectID": "code/5_tuples.html#tuples-and-assignments",
+    "href": "code/5_tuples.html#tuples-and-assignments",
+    "title": "6  Tuples",
+    "section": "6.2 Tuples and assignments",
+    "text": "6.2 Tuples and assignments\n\nWe can also put a tuple on the left side of an assignment statement\nWe can even omit the parentheses\n\n\n(x,y) = (4, 'fred')\nprint(y)\n\nfred\n\n\n\nx,y = 4, 'fred'\nprint(x)\n\n4"
+  },
+  {
+    "objectID": "code/5_tuples.html#tuples-are-comparable",
+    "href": "code/5_tuples.html#tuples-are-comparable",
+    "title": "6  Tuples",
+    "section": "6.3 Tuples are comparable",
+    "text": "6.3 Tuples are comparable\nThe comparison oeprators work with tuples and other sequences. If the first item is equal, Python goes on to the next element, and so on, until it finds elements that differ:\n\n(0,1,2) < (5,1,2)\n\nTrue\n\n\nIn the example below, 0 is less than 5, so Python does not look further.\n\n(0,1,20000) < (5,1,2)\n\nTrue\n\n\n\n(10,1,20000) < (5,1,2)\n\nFalse\n\n\nBelow, Jones is the same, so here Python goes to the next item and asks if Sally is less than Sam.\n\n('Jones', 'Sally') < ('Jones', 'Sam')\n\nTrue"
+  },
+  {
+    "objectID": "code/5_tuples.html#sorting-lists-of-tuples",
+    "href": "code/5_tuples.html#sorting-lists-of-tuples",
+    "title": "6  Tuples",
+    "section": "6.4 Sorting lists of tuples",
+    "text": "6.4 Sorting lists of tuples\n\nWe can take advantage of the ability to sort a list of tuples to get a sorted version of a dictionary\nWe first sort the dictionary by the key using the items() method and sorted() function\n\n\nd = {'a':10, 'c':1, 'b':22}\nd.items()\n\ndict_items([('a', 10), ('c', 1), ('b', 22)])\n\n\n\n#this function sorts by the first key \n#(which have to be unique in a dict, so we never look at the second value)\nsorted(d.items())\n\n[('a', 10), ('b', 22), ('c', 1)]\n\n\nWe can do this more directly using the build in function sorted that takes a sequence as a parameter an returns a sorted sequence:\n\nd = {'a':10, 'c':1, 'b':22}\n\n#sort through the dict in key order (but not value order)\nfor k,v in sorted(d.items()):\n    print(k,v)\n\nprint('')\n\na 10\nb 22\nc 1"
+  },
+  {
+    "objectID": "code/5_tuples.html#sort-by-values-instead-of-key",
+    "href": "code/5_tuples.html#sort-by-values-instead-of-key",
+    "title": "6  Tuples",
+    "section": "6.5 Sort by values instead of Key",
+    "text": "6.5 Sort by values instead of Key\n\nIf we could construct a list of tuples of the form (value, key) we could sort by value\nWe do this with a for loop that creates a list of tuples\n\n\nc = {'a':10, 'c':1, 'b':22}\ntmp = list()\n\nfor k, v in c.items():\n    tmp.append( (v,k) )\n\nprint(tmp)\n\n[(10, 'a'), (1, 'c'), (22, 'b')]\n\n\n\ntmp = sorted(tmp, reverse = True)\nprint(tmp)\n\n[(22, 'b'), (10, 'a'), (1, 'c')]"
+  },
+  {
+    "objectID": "code/5_tuples.html#identify-the-10-most-common-words",
+    "href": "code/5_tuples.html#identify-the-10-most-common-words",
+    "title": "6  Tuples",
+    "section": "6.6 Identify the 10 most common words",
+    "text": "6.6 Identify the 10 most common words\n\nfhand = open('../data/romeo.txt')\ncounts = dict()\n\n#make a dictionary of words\nfor line in fhand:\n    words = line.split()\n    for word in words:\n        counts[word] = counts.get(word, 0) + 1\n\n#convert to list of value:key pairs\nlst = list()\nfor key, val in counts.items():\n    newtup = (val, key)\n    lst.append(newtup)\n\nlst = sorted(lst, reverse = True)\n\n#find the 10 most common words\nfor val, key in lst[:10]:\n    print(key, val)\n\nprint('')\n\nthe 3\nis 3\nand 3\nsun 2\nyonder 1\nwith 1\nwindow 1\nwhat 1\nthrough 1\nsoft 1\n\n\n\nAlternative using a list comprehension, which creates a dynamic list. In this case we make a list of reversed tuples and then sort it.\nLet’s first look at a small example:\n\nc = {'a':10, 'c':1, 'b':22}\n\n#in between the []:\n#for all create me a list of tuples, that are v and k\n#for each k,v that is in c.items\nprint(sorted( [ (v,k) for k,v in c.items() ] ))\n\n[(1, 'c'), (10, 'a'), (22, 'b')]\n\n\n\nfhand = open('../data/romeo.txt')\ncounts = dict()\n\n#make a dictionary of words\nfor line in fhand:\n    words = line.split()\n    for word in words:\n        counts[word] = counts.get(word, 0) + 1\n\nprint(sorted( [ (v,k) for k,v in counts.items() ], reverse = True )[:10])\n\nprint('')\n\n[(3, 'the'), (3, 'is'), (3, 'and'), (2, 'sun'), (1, 'yonder'), (1, 'with'), (1, 'window'), (1, 'what'), (1, 'through'), (1, 'soft')]"
+  },
+  {
+    "objectID": "code/5_tuples.html#assignment-10.2",
+    "href": "code/5_tuples.html#assignment-10.2",
+    "title": "6  Tuples",
+    "section": "6.7 Assignment 10.2",
+    "text": "6.7 Assignment 10.2\nWrite a program to read through the mbox-short.txt and figure out the distribution by hour of the day for each of the messages. You can pull the hour out from the ‘From’ line by finding the time and then splitting the string a second time using a colon.\nFrom stephen.marquard@uct.ac.za Sat Jan  5 09:14:16 2008\nOnce you have accumulated the counts for each hour, print out the counts, sorted by hour as shown below.\nThe code can be found in code/assignment_10_2.py. Notice: The code works NOT in the notebook but just fine during rendering.\n\nname = '../data/mbox-short.txt'\nhandle = open(name)\n\ncounts = dict()\nlst = list()\n\nfor line in handle:\n    line = line.rstrip()\n    if not line.startswith(\"From \"):\n        continue\n    \n    #extract hour\n    time = line.split()[5]\n    hour = time.split(':')[0]\n\n    #make dict of hours\n    counts[hour] = counts.get(hour, 0) + 1\n\n#convert to sorted list\nfor key, value in counts.items():\n    lst.append((key, value))\n\n#sort list\nlst = sorted(lst, reverse = False)\n\n#print one result per line\nfor key, value in lst:\n    print(key, value)\n\nprint('')\n\n04 3\n06 1\n07 1\n09 2\n10 3\n11 6\n14 1\n15 2\n16 4\n17 2\n18 1\n19 1"
   }
 ]

@@ -507,7 +507,7 @@ jan jan
 <p>The program creates a Python dictionary that maps the sender’s mail address to a count of the number of times they appear in the file.</p>
 <p>After the dictionary is produced, the program reads through the dictionary using a maximum loop to find the most prolific committer.</p>
 <p>Code can be found in <code>code/assignment_9_4.py</code></p>
-<p>Notice: This returns an error with reticulate but runs fine during the rendering. or line == ‘[]’</p>
+<p>Notice: This returns an error with reticulate but runs fine during the rendering. The problem is that one line is seen as <code>line == '[]'</code> and nothing helps while trying to remove it</p>
 <div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">'../data/mbox-short.txt'</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>handle <span class="op">=</span> <span class="bu">open</span>(name)</span>
