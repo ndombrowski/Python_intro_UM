@@ -4,15 +4,14 @@ project:
   output-dir: docs
 
 book:
-  title: "Programming for everybody session 3"
+  title: "Programming for everybody session 4"
   author: "Nina Dombrowski"
   chapters:
     - index.qmd
-    - code/2_reg_expressions.qmd
-    - code/3_networks_and_sockets.qmd
-    - code/4_surf_the_web.qmd
-    - code/5_web_services_and_xml.qmd
-    - code/6_JSON_and_REST.qmd
+    - code/1_object_oriented.py
+    - code/2_basic_sql.qmd
+    - code/3_data_models_and_relational_sql.qmd
+    - code/4_many_to_many_relationships_in_sql.qmd
 
 format:
   html:

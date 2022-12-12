@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Programming for everybody session 3 - 4&nbsp; Programs that surf the web</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../code/5_web_services_and_xml.html" rel="next">
+<link href="../code/3_networks_and_sockets.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Programs that surf the web</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Programming for everybody session 3</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Using Python to Access Web Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/2_reg_expressions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Regular expressions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/3_networks_and_sockets.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Networks and sockets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/4_surf_the_web.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Programs that surf the web</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/5_web_services_and_xml.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Web services and XML</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/6_JSON_and_REST.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">JSON and REST</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#unicode-characters-and-strings" id="toc-unicode-characters-and-strings" class="nav-link active" data-scroll-target="#unicode-characters-and-strings"><span class="toc-section-number">4.1</span>  Unicode characters and strings</a>
+  <ul class="collapse">
+  <li><a href="#representing-simple-strings" id="toc-representing-simple-strings" class="nav-link" data-scroll-target="#representing-simple-strings"><span class="toc-section-number">4.1.1</span>  Representing simple strings</a></li>
+  <li><a href="#unicode" id="toc-unicode" class="nav-link" data-scroll-target="#unicode"><span class="toc-section-number">4.1.2</span>  Unicode</a></li>
+  <li><a href="#multi-byte-characters" id="toc-multi-byte-characters" class="nav-link" data-scroll-target="#multi-byte-characters"><span class="toc-section-number">4.1.3</span>  Multi-Byte characters</a></li>
+  <li><a href="#two-kinds-of-strings-in-python" id="toc-two-kinds-of-strings-in-python" class="nav-link" data-scroll-target="#two-kinds-of-strings-in-python"><span class="toc-section-number">4.1.4</span>  Two kinds of strings in python</a></li>
+  <li><a href="#py3-and-unicode" id="toc-py3-and-unicode" class="nav-link" data-scroll-target="#py3-and-unicode"><span class="toc-section-number">4.1.5</span>  Py3 and Unicode</a></li>
+  <li><a href="#python-strings-to-bytes" id="toc-python-strings-to-bytes" class="nav-link" data-scroll-target="#python-strings-to-bytes"><span class="toc-section-number">4.1.6</span>  Python strings to bytes</a></li>
+  </ul></li>
+  <li><a href="#retrieving-webpages" id="toc-retrieving-webpages" class="nav-link" data-scroll-target="#retrieving-webpages"><span class="toc-section-number">4.2</span>  Retrieving webpages</a>
+  <ul class="collapse">
+  <li><a href="#following-links" id="toc-following-links" class="nav-link" data-scroll-target="#following-links"><span class="toc-section-number">4.2.1</span>  Following links</a></li>
+  </ul></li>
+  <li><a href="#what-is-web-scraping" id="toc-what-is-web-scraping" class="nav-link" data-scroll-target="#what-is-web-scraping"><span class="toc-section-number">4.3</span>  What is web scraping?</a></li>
+  <li><a href="#why-scrape" id="toc-why-scrape" class="nav-link" data-scroll-target="#why-scrape"><span class="toc-section-number">4.4</span>  Why scrape?</a></li>
+  <li><a href="#beautiful-soup-for-parsing-html" id="toc-beautiful-soup-for-parsing-html" class="nav-link" data-scroll-target="#beautiful-soup-for-parsing-html"><span class="toc-section-number">4.5</span>  Beautiful Soup for parsing HTML</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="toc-section-number">4.6</span>  Exercise</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2"><span class="toc-section-number">4.7</span>  Exercise 2</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Programs that surf the web</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="unicode-characters-and-strings" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="unicode-characters-and-strings"><span class="header-section-number">4.1</span> Unicode characters and strings</h2>
+<ul>
+<li>ASCII, American Standard Code for Information Interchange, commonly used mapping of numbers to letters in programming</li>
+<li>I.e. H == 72</li>
+</ul>
+<section id="representing-simple-strings" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="representing-simple-strings"><span class="header-section-number">4.1.1</span> Representing simple strings</h3>
+<ul>
+<li>Each character is represented by a number between 0 and 256 stored in 8 bits of memory</li>
+<li>We only have a set amount of numbers that can represent characters, so in the earlier days of programming only upper case characters were represented and lower case “did not exist”</li>
+<li>We refer to “8 bits of memories” as a <strong>byte</strong></li>
+<li>In the 1960s and 1970s we could “put one character in a byte”</li>
+<li>The <code>ord()</code> function tells us the numeric value of a simple ASCII character</li>
+</ul>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">ord</span>(<span class="st">'G'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>71</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">ord</span>(<span class="st">'e'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>101</code></pre>
+</div>
+</div>
+<p>With the 2 examples above, we can see that H has a lower ordinal number than e, so H &lt; e. All uppercase are less than lower case letters.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">ord</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10</code></pre>
+</div>
+</div>
+</section>
+<section id="unicode" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="unicode"><span class="header-section-number">4.1.2</span> Unicode</h3>
+<p>Unicode is a universal code for hundreds and millions of different characters.</p>
+</section>
+<section id="multi-byte-characters" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="multi-byte-characters"><span class="header-section-number">4.1.3</span> Multi-Byte characters</h3>
+<ul>
+<li><p>To represent the wide range of characters a computer must handle, we represent characters with more than one byte:</p></li>
+<li><p>UTF-16: Fixed length, two bytes</p></li>
+<li><p>UTF-32: Fixed length, four bytes. Here, each character uses 4 bytes, so this is less efficient in terms of how much space we need to for example UTF-16</p></li>
+<li><p><strong>UTF-8</strong>: 1-4 bytes:</p>
+<ul>
+<li>Most flexible in terms of space requirements</li>
+<li>Upwards compatible with ASCII</li>
+<li>Automatic detection between ASCII and UTF-8</li>
+<li>UTF-8 is recommended practice for encoding data to be exchanged between systems</li>
+</ul></li>
+</ul>
+</section>
+<section id="two-kinds-of-strings-in-python" class="level3" data-number="4.1.4">
+<h3 data-number="4.1.4" class="anchored" data-anchor-id="two-kinds-of-strings-in-python"><span class="header-section-number">4.1.4</span> Two kinds of strings in python</h3>
+<ul>
+<li>In Py2 we have two kinds of strings: a “normal” str and a unicode str</li>
+<li>In Py3 all strings are Unicode strings, making all strings the same regardless whether we have Japanese or Latin characters. But in Py3 we have byte strings, i.e.&nbsp;a sequence of bytes that is not human readable and from which we do not know the encoding</li>
+</ul>
+</section>
+<section id="py3-and-unicode" class="level3" data-number="4.1.5">
+<h3 data-number="4.1.5" class="anchored" data-anchor-id="py3-and-unicode"><span class="header-section-number">4.1.5</span> Py3 and Unicode</h3>
+<ul>
+<li>In Py3 all strings internally are unicode</li>
+<li>Working with string variables in python programs and reading data usually “just works”</li>
+<li>When we talk to a network resource using sockets or talk to a datase we have to encode and decode data (usually to UTF-8)</li>
+</ul>
+</section>
+<section id="python-strings-to-bytes" class="level3" data-number="4.1.6">
+<h3 data-number="4.1.6" class="anchored" data-anchor-id="python-strings-to-bytes"><span class="header-section-number">4.1.6</span> Python strings to bytes</h3>
+<ul>
+<li>When we talk to an external resource like a network socket we send bytes, so we need to encode the Py3 strings into a given character encoding</li>
+<li>When we read data from an external resource, we must decode it based on the character set so it is properly represented in Py3 as a string:</li>
+</ul>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> socket </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>mysock <span class="op">=</span> socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>mysock.<span class="ex">connect</span>((<span class="st">'data.pr4e.org'</span>, <span class="dv">80</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#before sending the data we turn them into bytes</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>cmd <span class="op">=</span> <span class="st">'GET http://data.pr4e.org/romeo.txt HTTP/1.0</span><span class="ch">\r\n\r\n</span><span class="st">'</span>.encode()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#send request</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>mysock.send(cmd)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#data we receive is in bytes</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> mysock.recv(<span class="dv">512</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="bu">len</span>(data) <span class="op">&lt;</span> <span class="dv">1</span>) :</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">#by default decode() assumes UFT8 or ASCII</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    mystring <span class="op">=</span> data.decide()</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(mystring)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="retrieving-webpages" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="retrieving-webpages"><span class="header-section-number">4.2</span> Retrieving webpages</h2>
+<p>Instead of sockets, we can even go simpler using <strong>urllib</strong>, a library that does all the socket work for us and makes web pages look like a file:</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request, urllib.parse, urllib.error</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#get a handle, that does not contain the data but allows us to access the data</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>fhand <span class="op">=</span> urllib.request.urlopen(<span class="st">'http://data.pr4e.org/romeo.txt'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#iterate through the data using a for loop</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fhand:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(line.decode().strip())</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>But soft what light through yonder window breaks
+It is the east and Juliet is the sun
+Arise fair sun and kill the envious moon
+Who is already sick and pale with grief
+</code></pre>
+</div>
+</div>
+<p>In contrast to when we used the socket library we only get the body and not the header with the metadata. But urllib keeps and remembers them, so we could ask for this information.</p>
+<p>Urllib kind of handles a webpage like a file and we can use this writing whatever loop we want, i.e.&nbsp;we can count words like this:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request, urllib.parse, urllib.error</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#get a handle, that does not contain the data but allows us to access the data</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>fhand <span class="op">=</span> urllib.request.urlopen(<span class="st">'http://data.pr4e.org/romeo.txt'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> <span class="bu">dict</span>()</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#iterate through the data using a for loop</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fhand:</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> line.decode().split()</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> word <span class="kw">in</span> words:</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        counts[word] <span class="op">=</span> counts.get(word, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'But': 1, 'soft': 1, 'what': 1, 'light': 1, 'through': 1, 'yonder': 1, 'window': 1, 'breaks': 1, 'It': 1, 'is': 3, 'the': 3, 'east': 1, 'and': 3, 'Juliet': 1, 'sun': 2, 'Arise': 1, 'fair': 1, 'kill': 1, 'envious': 1, 'moon': 1, 'Who': 1, 'already': 1, 'sick': 1, 'pale': 1, 'with': 1, 'grief': 1}</code></pre>
+</div>
+</div>
+<p>The only difference to handling a “normal” file is that we need to remember to decode the data after we retrieved it.</p>
+<p>We can also use this to retrieve html sites:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request, urllib.parse, urllib.error</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#get a handle, that does not contain the data but allows us to access the data</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>fhand <span class="op">=</span> urllib.request.urlopen(<span class="st">'http://dr-chuck.com/page1.htm'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#iterate through the data using a for loop</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fhand:</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(line.decode().strip())</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;h1&gt;The First Page&lt;/h1&gt;
+&lt;p&gt;
+If you like, you can switch to the
+&lt;a href="http://www.dr-chuck.com/page2.htm"&gt;
+Second Page&lt;/a&gt;.
+&lt;/p&gt;
+</code></pre>
+</div>
+</div>
+<section id="following-links" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="following-links"><span class="header-section-number">4.2.1</span> Following links</h3>
+<p>If we want to identify and print all links on a web page,<br>
+i.e.&nbsp;the `<a href="http://www.dr-chuck.com/page2.htm"> we could do it as follows:</a></p><a href="http://www.dr-chuck.com/page2.htm">
+</a><div class="cell" data-execution_count="8"><a href="http://www.dr-chuck.com/page2.htm">
+</a><div class="sourceCode cell-code" id="cb14"><a href="http://www.dr-chuck.com/page2.htm"></a><pre class="sourceCode python code-with-copy"><a href="http://www.dr-chuck.com/page2.htm"><code class="sourceCode python"><span id="cb14-1"></span></code></a><code class="sourceCode python"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request, urllib.parse, urllib.error
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#get a handle, that does not contain the data but allows us to access the data</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>fhand <span class="op">=</span> urllib.request.urlopen(<span class="st">'http://dr-chuck.com/page1.htm'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>link_l <span class="op">=</span> <span class="bu">list</span>()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#iterate through the data using a for loop</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fhand:</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    line <span class="op">=</span> line.decode().strip()</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    link <span class="op">=</span> re.findall(<span class="st">'href="(http:.+)"'</span>, line)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(link) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    link_l <span class="op">=</span> link_l <span class="op">+</span> link</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(link_l)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['http://www.dr-chuck.com/page2.htm']</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="what-is-web-scraping" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="what-is-web-scraping"><span class="header-section-number">4.3</span> What is web scraping?</h2>
+<ul>
+<li>When a program or a script pretends to be a browser and retrieves web pages, looks at those web pages, extracts information, and then looks at more web pages</li>
+<li>Search engines scrape web pages, we call this “spidering the web” or “web crawling”</li>
+</ul>
+</section>
+<section id="why-scrape" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="why-scrape"><span class="header-section-number">4.4</span> Why scrape?</h2>
+<ul>
+<li>To pull out data, particularly social data, who links who?</li>
+<li>Get your own data back out of some system that has no export capability</li>
+<li>Monitor a site for new information</li>
+<li>Spider the web to make a database or a search engine</li>
+<li>Keep in mind, you have to be allowed to access the data</li>
+<li>There is some controversy about scraping and some sites have some strict rules around it</li>
+<li>Republishing copyrighted information is not allowed</li>
+<li>Violating terms of service is not allowed</li>
+</ul>
+</section>
+<section id="beautiful-soup-for-parsing-html" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="beautiful-soup-for-parsing-html"><span class="header-section-number">4.5</span> Beautiful Soup for parsing HTML</h2>
+<ul>
+<li>You could do HTML searches the hard way (since HTML is not allways super consistent)</li>
+<li>Or use a free software library called BeautifulSoup</li>
+<li>To run this software, you have to first install it</li>
+</ul>
+<p>Code is found in <code>code/urllinks.py</code></p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request, urllib.parse, urllib.error</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'http://www.dr-chuck.com/page1.htm'</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> urllib.request.urlopen(url).read()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#beautify the html object</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(html, <span class="st">'html.parser'</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#retrieve all of the anchor tags</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#this code below returns a list</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>tags <span class="op">=</span> soup(<span class="st">'a'</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#extract the href key or nothing</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tag <span class="kw">in</span> tags:</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(tag.get(<span class="st">'href'</span>, <span class="va">None</span>))</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>http://www.dr-chuck.com/page2.htm
+</code></pre>
+</div>
+</div>
+<p>If we have pages that give us SSL certificate errors, we can adjust the code like this:</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request, urllib.parse, urllib.error</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ssl</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ignore SSL certificate errors</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>ctx <span class="op">=</span> ssl.create_default_context()</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>ctx.check_hostname <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>ctx.verify_mode <span class="op">=</span> ssl.CERT_NONE</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#beautify the html object</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'http://www.dr-chuck.com/page1.htm'</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> urllib.request.urlopen(url, context<span class="op">=</span>ctx).read()</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(html, <span class="st">'html.parser'</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#retrieve all of the anchor tags</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#this code below returns a list</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>tags <span class="op">=</span> soup(<span class="st">'a'</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#extract the href key or nothing</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tag <span class="kw">in</span> tags:</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(tag.get(<span class="st">'href'</span>, <span class="va">None</span>))</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>http://www.dr-chuck.com/page2.htm
+</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">4.6</span> Exercise</h2>
+<p>The program will use urllib to read the HTML from the data files below, and parse the data, extracting numbers and compute the sum of the numbers in the file.</p>
+<p>We provide two files for this assignment. One is a sample file where we give you the sum for your testing and the other is the actual data you need to process for the assignment.</p>
+<ul>
+<li>Sample data: http://py4e-data.dr-chuck.net/comments_42.html (Sum=2553)</li>
+<li>Actual data: http://py4e-data.dr-chuck.net/comments_1701459.html (Sum ends with 85)</li>
+</ul>
+<p>The file is a table of names and comment counts. You can ignore most of the data in the file except for lines like the following:</p>
+<pre><code>&lt;tr&gt;&lt;td&gt;Modu&lt;/td&gt;&lt;td&gt;&lt;span class="comments"&gt;90&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Kenzie&lt;/td&gt;&lt;td&gt;&lt;span class="comments"&gt;88&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Hubert&lt;/td&gt;&lt;td&gt;&lt;span class="comments"&gt;87&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;</code></pre>
+<p>You are to find all the <span> tags in the file and pull out the numbers from the tag and sum the numbers.</span></p>
+<p>Code is found in <code>code/exercise.py</code></p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request, urllib.parse, urllib.error</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#url = </span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'http://py4e-data.dr-chuck.net/comments_1701459.html'</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> urllib.request.urlopen(url).read()</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">#beautify</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(html, <span class="st">'html.parser'</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">#retrieve span tags</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>tags <span class="op">=</span> soup(<span class="st">'span'</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co">#pull out nrs</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>numlist <span class="op">=</span> <span class="bu">list</span>()</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tag <span class="kw">in</span> tags:</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    tag_string <span class="op">=</span> <span class="bu">int</span>(tag.contents[<span class="dv">0</span>])</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    numlist.append(tag_string)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Count'</span>, <span class="bu">len</span>(numlist))</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Sum'</span>, <span class="bu">sum</span>(numlist))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Count 50
+Sum 2685</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-2" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="exercise-2"><span class="header-section-number">4.7</span> Exercise 2</h2>
+<p>The program will use urllib to read the HTML from the data files below, extract the href= vaues from the anchor tags, scan for a tag that is in a particular position relative to the first name in the list, follow that link and repeat the process a number of times and report the last name you find.</p>
+<p>We provide two files for this assignment. One is a sample file where we give you the name for your testing and the other is the actual data you need to process for the assignment</p>
+<p>Sample problem: Start at http://py4e-data.dr-chuck.net/known_by_Fikret.html Find the link at position 3 (the first name is 1). Follow that link. Repeat this process 4 times. The answer is the last name that you retrieve. Sequence of names: Fikret Montgomery Mhairade Butchi Anayah Last name in sequence: Anayah</p>
+<p>Actual problem: Start at: http://py4e-data.dr-chuck.net/known_by_Josh.html Find the link at position 18 (the first name is 1). Follow that link. Repeat this process 7 times. The answer is the last name that you retrieve. Hint: The first character of the name of the last page that you will load is: G</p>
+<p><strong>Strategy</strong> The web pages tweak the height between the links and hide the page after a few seconds to make it difficult for you to do the assignment without writing a Python program. But frankly with a little effort and patience you can overcome these attempts to make it a little harder to complete the assignment without writing a Python program. But that is not the point. The point is to write a clever Python program to solve the program.</p>
+<p><strong>Sample execution</strong> Here is a sample execution of a solution:</p>
+<pre><code>$ python3 solution.py
+Enter URL: http://py4e-data.dr-chuck.net/known_by_Fikret.html
+Enter count: 4
+Enter position: 3
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Fikret.html
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Montgomery.html
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Mhairade.html
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Butchi.html
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Anayah.html</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../code/3_networks_and_sockets.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Networks and sockets</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../code/5_web_services_and_xml.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Web services and XML</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

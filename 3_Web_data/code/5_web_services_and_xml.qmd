@@ -1,0 +1,240 @@
+# Web services and XML
+
+
+## Data on the web
+
+- With the HTTP request/response well understood and supported, there was a natural move towards exchanging data between programs and these protocols
+- We needed to come up with up with an agreed way to represent data going between applications and across networks
+- Two commonly used formats are XML and JSON
+
+
+## eXtensible Markup Language (XML)
+
+- Primary purpose is to help information systems share structured data
+- It started as a simplified subset of the Standard Generalized Markup Language (SGML) and is designed to relatively human-legible
+- Consists of XML elements (or nodes) that have start and end tags in between smaller greater signs, i.e. <people>
+- Contains simple and complex elements
+
+
+### XML terminology
+
+- **Tags** indicate the beginning and the ending of elements
+- **Attributes** are keyword/value pairs on the opening tag of XML
+- **Serialize and De-serialize** convert data in one program into a common format that can be stored and/or transmitted between systems in a programming language-independent manner
+
+
+### The XML tree structure
+
+- XML documents form a tree structure that starts at "the root" and branches to "the leaves".
+- XML documents are formed as element trees.
+- An XML tree starts at a root element and branches from the root to child elements.
+- All elements can have sub elements (child elements):
+
+```
+<root>
+  <child>
+    <subchild>.....</subchild>
+  </child>
+</root>
+```
+
+- The terms parent, child, and sibling are used to describe the relationships between elements.
+- Parents have children. Children have parents. Siblings are children on the same level (brothers and sisters).
+
+<img width=500 src="../images/xml_tree.png">
+
+
+### XML basics
+
+- The difference to HTML is that we can create our own tags
+- Start Tag, i.e. <name>
+- End tag, i.e. </name>
+- Text content, i.e. Chuck
+
+Together we can make a simple element like this:
+
+```
+<name>Chuck</name>
+```
+
+- Attribute, i.e. type "intl"
+
+```
+<phone type="intl">
++1 734 303 4456
+</phone>
+```
+
+- Self closing tag incl. an attribute i.e. `<email hide="yes" />`
+
+
+### White space
+
+Line ends don't really matter in XML,  
+White space is generally discarded on text elements.  
+We indent only to be readable.
+
+
+### XML schema
+
+- Describing a "contract" as to what is acceptable in XML
+- Description of the legal format of an XML document
+- Expressed in terms of constraints on the structure and content of documents
+- Often used to specify a "contract" between systems: I.e. my system will only accept XML that confirms to this particular schema
+- If a particular piece of XML meets the specification of the schema, then it is said to **validate**
+
+
+### Many XML schema languages
+
+- Document type definition (DTD)
+- Standard Generalized Markup language (ISO 8879:1986 SGML)
+- XML schema for W3C (XSD), the most likely one we encounter
+
+
+### ISO 8601 Date/Time format
+
+```
+2002-05-30T09:30:10Z
+```
+
+Above we have:
+
+- Year-month-date
+- Time of the day
+- Time zone (i.e.T...Z), which typically is specified in UTC/GMT rather than a local time zone
+
+
+## Parsing XML in python
+
+
+
+```{python}
+#Use ET as an alias so we don't have to write the whole thing
+import xml.etree.ElementTree as ET
+
+#create some xml
+#tripple quoted string = multiline string in python
+data = '''<person>
+    <name>Chuck</name>
+    <phone type="intl">+1 734 303 4456</phone>
+    <email hide="yes"/>
+    </person>'''
+
+#take the string data and give us back a nice tree
+#this would fail if you have syntax errors
+tree = ET.fromstring(data)
+
+#within that xml data find some tags, i.e. name,
+#and extract the text
+print('Name:', tree.find('name').text)
+
+#within that xml data find some tags, i.e. email
+#and get the attribute hide using the get method
+print('Attr:', tree.find('email').get('hide'))
+```
+
+This works a bit differently if we have multiple child tags, i.e. below we want to extract information for each of these user tags:
+
+```{python}
+import xml.etree.ElementTree as ET
+
+input = '''
+<stuff>
+  <users>
+    <user x="2">
+      <id>001</id>
+      <name>Chuck</name>
+    </user>
+    <user x="7">
+      <id>009</id>
+      <name>Brent</name>
+    </user>
+  </users>
+</stuff>'''
+
+#get tree
+stuff = ET.fromstring(input)
+
+#search for all of the user tags below users
+#this gives us a list of tags (i.e. a list of subtrees)
+lst = stuff.findall('users/user')
+print('User count:', len(lst))
+print('')
+
+#loop through the list to get the info we want
+#i.e. find the tag name and get the child text
+for item in lst:
+    print('Name:', item.find('name').text)
+    print('ID:', item.find('id').text)
+    print('Attribute:', item.get('x'))
+
+print('')
+```
+
+## Extracting Data from XML
+
+In this assignment you will write a Python program somewhat similar to https://py4e.com/code3/geoxml.py.  
+
+The program will prompt for a URL, read the XML data from that URL using urllib and then parse and extract the comment counts from the XML data, compute the sum of the numbers in the file and enter the sum.
+
+We provide two files for this assignment. One is a sample file where we give you the sum for your testing and the other is the actual data you need to process for the assignment.
+
+- Sample data: http://py4e-data.dr-chuck.net/comments_42.xml (Sum=2553)
+- Actual data: http://py4e-data.dr-chuck.net/comments_1701461.xml (Sum ends with 75)
+
+You do not need to save these files to your folder since your program will read the data directly from the URL.
+
+The data consists of a number of names and comment counts in XML as follows:
+
+```
+<comment>
+  <name>Matthias</name>
+  <count>97</count>
+</comment>
+```
+
+You are to look through all the <comment> tags and find the <count> values sum the numbers. 
+
+To make the code a little simpler, you can use an XPath selector string to look through the entire tree of XML for any tag named 'count' with the following line of code:
+
+```
+counts = tree.findall('.//count')
+```
+
+Code can be found in `code/extract_xml.py`
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+import xml.etree.ElementTree as ET
+import ssl
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+#read in data
+url = 'http://py4e-data.dr-chuck.net/comments_1701461.xml'
+input = urllib.request.urlopen(url, context=ctx)
+data = input.read()
+
+stuff = ET.fromstring(data)
+
+#find comments
+lst = stuff.findall('comments/comment')
+#print('Comment count:', len(lst))
+
+#extract numbers:
+num_list = list()
+
+for item in lst:
+    num = int(item.find('count').text)
+    num_list.append(num)
+
+print('Sum:', sum(num_list))
+```
+
+
+
+
+

@@ -1,0 +1,153 @@
+# Networks and sockets
+
+## Transport Control Protocol (TCP)
+
+- Build on top of the Internet Protocol (IP); i.e. a protocol, or set of rules, for routing and addressing packets of data so that they can travel across networks and arrive at the correct destination
+- Assumes IP might lose some data: stores and re-transmits data if it seems to be lost
+- Handles "flow control" using a transmit window
+- Provides a nice reliable pipe
+
+
+## TCP connections/sockets
+
+A protocol, or set of rules, for routing and addressing packets of data so that they can travel across networks and arrive at the correct destination
+
+In computer networking, an Internet socket or network socket is an endpoint of a bidirectional inter-process communication flow across an Internet Protocol-based computer network, such as the Internet.
+
+Process <-- Internet --> Process
+
+
+## TCP Port Numbers
+
+- A port is an application-specific or process-specific software communications endpoint
+- It allows multiple networked applications to co-exist on the same server
+- There is a list of well-known TCP port numbers, i.e. port 80 is the web port that is connected to a web server
+
+
+## Sockets in Python
+
+Python has build-in support for TCP sockets:
+
+```{python}
+import socket
+```
+
+```{python}
+#|eval: false
+
+#create a socket to create an endpoint on our computer
+#its not yet connected
+mysocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+#connect by enter the host (data.pre4.e.org) and the host (80)
+#this is not sending data, its like dialing a phone
+mysocket.connect(('data.pr4e.org', 80))
+
+#close connection
+mysocket.shutdown(socket.SHUT_RDWR)
+mysocket.close()
+```
+
+
+## Application protocol
+
+- Since the TCP (and Python) gives us a reliable socket, what do we want to do with the socket? What problem do we want to solve?
+- Application Protocols: There are different rules how to talk to for example a mail compared to a web server.
+
+
+## HTTP: Hypertext Transfer Protocol
+
+- The dominant Application Layer Protocol on the Internet
+- Invented for the web to retrieve HTML, Images, Documents, ...
+- Extended to be data in addition to documents: RSS, Web Services, etc. 
+- The basic concept is to make a connection, request a document, retrieve the document, close the connection
+- HTTP: The HyperText Transfer Protocol is a set of rules that allow browsers to retrieve web documents from servers over the internet
+- A  **protocol** is a set of rules that all parties follow so we can predict each others behavior and not bump into each other
+
+
+## Getting data from the server
+
+Each time the user clicks on an anchor tag with an `href=` value to switch to a new page, the browser makes a connection to the webserver and issues a `get` request to get the content of the page at the specified URL.  
+
+The server returns the HTML document to the browser which formats and displays the document to the user.  
+
+
+## Internet standards
+
+- The standards for all of the Internet protocols (inner workings) are developed by an organization, the Internet Engineering Task Force (IETF)
+- www.ietf.org
+- Standards are called **RFCs**, Request for comments
+
+
+## An HTTP Request in python
+
+```{python}
+import socket 
+
+#create a socket to create an endpoint on our computer
+#its not yet connected
+mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+#connect by enter the host (data.pre4.e.org) and the host (80)
+#this is not sending data, its like dialing a phone
+mysock.connect(('data.pr4e.org', 80))
+
+#make a string with an request
+cmd = 'GET http://data.pr4e.org/romeo.txt HTTP/1.0\r\n\r\n'.encode()
+
+#send request
+mysock.send(cmd)
+
+#receive (recv) up to 512 characters
+#if we don't get data, we break out of the loop
+#if we get data,we decode it
+while True:
+    data = mysock.recv(512)
+    if (len(data) < 1):
+        break
+    print(data.decode())
+
+#close connection
+mysock.close()
+```
+
+Above we get:
+
+- The HTTP header including the metadata
+- HTTP body
+
+
+## If you want to know more
+
+This chapter covers networking at a very high level.   If you want to learn more, there is both a free book and a Coursera course that I would recommend:
+
+[Introduction to Networking](http://www.net-intro.com/) (free textbook)
+
+[Internet History, Technology, and Security](https://www.coursera.org/learn/internet-history) (Coursera Course)
+
+Neither of these is essential for this course or the Python Specialization as we quickly move from how the network works to how to write Python code using the urllib library - which makes the very complex Internet protocols exceedingly simple.
+
+
+## Assignment
+
+You are to retrieve the following document using the HTTP protocol in a way that you can examine the HTTP Response headers.
+
+- http://data.pr4e.org/intro-short.txt
+
+You might retrieve this web page and look at the response headers: Modify the `socket1.py` program to retrieve the above URL and print out the headers and data. Make sure to change the code to retrieve the above URL - the values are different for each URL.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

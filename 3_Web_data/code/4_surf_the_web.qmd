@@ -1,0 +1,334 @@
+# Programs that surf the web
+
+## Unicode characters and strings
+
+- ASCII, American Standard Code for Information Interchange, commonly used mapping of numbers to letters in programming
+- I.e. H == 72
+
+### Representing simple strings
+
+- Each character is represented by a number between 0 and 256 stored in 8 bits of memory
+- We only have a set amount of numbers that can represent characters, so in the earlier days of programming only upper case characters were represented and lower case "did not exist"
+- We refer to "8 bits of memories" as a **byte**
+- In the 1960s and 1970s we could "put one character in a byte"
+- The `ord()` function tells us the numeric value of a simple ASCII character
+
+```{python}
+print(ord('G'))
+```
+
+
+```{python}
+print(ord('e'))
+```
+
+With the 2 examples above, we can see that H has a lower ordinal number than e, so H < e. All uppercase are less than lower case letters.
+
+```{python}
+print(ord('\n'))
+```
+
+
+### Unicode
+
+Unicode is a universal code for hundreds and millions of different characters. 
+
+
+### Multi-Byte characters
+
+- To represent the wide range of characters a computer must handle, we represent characters with more than one byte:
+
+- UTF-16: Fixed length, two bytes
+- UTF-32: Fixed length, four bytes. Here, each character uses 4 bytes, so this is less efficient in terms of how much space we need to for example UTF-16
+- **UTF-8**: 1-4 bytes:
+    - Most flexible in terms of space requirements
+    - Upwards compatible with ASCII
+    - Automatic detection between ASCII and UTF-8
+    - UTF-8 is recommended practice for encoding data to be exchanged  between systems
+    
+
+### Two kinds of strings in python
+
+- In Py2 we have two kinds of strings: a "normal" str and a unicode str
+- In Py3 all strings are Unicode strings, making all strings the same regardless whether we have Japanese or Latin characters. But in Py3 we have byte strings, i.e. a sequence of bytes that is not human readable and from which we do not know the encoding
+
+
+### Py3 and Unicode
+
+- In Py3 all strings internally are unicode
+- Working with string variables in python programs and reading data usually "just works"
+- When we talk to a network resource using sockets or talk to a datase we have to encode and decode data (usually to UTF-8)
+
+
+### Python strings to bytes
+
+- When we talk to an external resource like a network socket we send bytes, so we need to encode the Py3 strings into a given character encoding
+- When we read data from an external resource, we must decode it based on the character set so it is properly represented in Py3 as a string:
+
+```{python}
+#|eval: false
+import socket 
+
+mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mysock.connect(('data.pr4e.org', 80))
+
+#before sending the data we turn them into bytes
+cmd = 'GET http://data.pr4e.org/romeo.txt HTTP/1.0\r\n\r\n'.encode()
+
+#send request
+mysock.send(cmd)
+
+while True:
+    #data we receive is in bytes
+    data = mysock.recv(512)
+    if (len(data) < 1) :
+        break
+    #by default decode() assumes UFT8 or ASCII
+    mystring = data.decide()
+    print(mystring)
+```
+
+
+## Retrieving webpages
+
+Instead of sockets, we can even go simpler using **urllib**, a library that does all the socket work for us and makes web pages look like a file:
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+
+#get a handle, that does not contain the data but allows us to access the data
+fhand = urllib.request.urlopen('http://data.pr4e.org/romeo.txt')
+
+#iterate through the data using a for loop
+for line in fhand:
+    print(line.decode().strip())
+
+print('')
+```
+
+In contrast to when we used the socket library we only get the body and not the header with the metadata. But urllib keeps and remembers them, so we could ask for this information.
+
+Urllib kind of handles a webpage like a file and we can use this writing whatever loop we want, i.e. we can count words like this:
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+
+#get a handle, that does not contain the data but allows us to access the data
+fhand = urllib.request.urlopen('http://data.pr4e.org/romeo.txt')
+
+counts = dict()
+
+#iterate through the data using a for loop
+for line in fhand:
+    words = line.decode().split()
+    for word in words:
+        counts[word] = counts.get(word, 0) + 1
+
+print(counts)
+```
+
+The only difference to handling a "normal" file is that we need to remember to decode the data after we retrieved it.
+
+We can also use this to retrieve html sites:
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+
+#get a handle, that does not contain the data but allows us to access the data
+fhand = urllib.request.urlopen('http://dr-chuck.com/page1.htm')
+
+#iterate through the data using a for loop
+for line in fhand:
+    print(line.decode().strip())
+
+print('')
+```
+
+### Following links
+
+If we want to identify and print all links on a web page,   
+i.e. the `<a href="http://www.dr-chuck.com/page2.htm">
+we could do it as follows:
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+import re
+
+#get a handle, that does not contain the data but allows us to access the data
+fhand = urllib.request.urlopen('http://dr-chuck.com/page1.htm')
+
+link_l = list()
+
+#iterate through the data using a for loop
+for line in fhand:
+    line = line.decode().strip()
+    link = re.findall('href="(http:.+)"', line)
+    if len(link) == 0:
+        continue
+    link_l = link_l + link
+
+print(link_l)
+```
+
+
+## What is web scraping?
+
+- When a program or a script pretends to be a browser and retrieves web pages, looks at those web pages, extracts information, and then looks at more web pages
+- Search engines scrape web pages, we call this "spidering the web" or "web crawling"
+
+
+## Why scrape?
+
+- To pull out data, particularly social data, who links who?
+- Get your own data back out of some system that has no export capability
+- Monitor a site for new information
+- Spider the web to make a database or a search engine
+- Keep in mind, you have to be allowed to access the data
+- There is some controversy about scraping and some sites have some strict rules around it
+- Republishing copyrighted information is not allowed
+- Violating terms of service is not allowed
+
+
+## Beautiful Soup for parsing HTML
+
+- You could do HTML searches the hard way (since HTML is not allways super consistent)
+- Or use a free software library called BeautifulSoup 
+- To run this software, you have to first install it
+
+Code is found in `code/urllinks.py`
+
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+from bs4 import BeautifulSoup
+
+url = 'http://www.dr-chuck.com/page1.htm'
+html = urllib.request.urlopen(url).read()
+
+#beautify the html object
+soup = BeautifulSoup(html, 'html.parser')
+
+#retrieve all of the anchor tags
+#this code below returns a list
+tags = soup('a')
+
+#extract the href key or nothing
+for tag in tags:
+    print(tag.get('href', None))
+
+print('')
+```
+
+If we have pages that give us SSL certificate errors, we can adjust the code like this:
+
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+from bs4 import BeautifulSoup
+import ssl
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+#beautify the html object
+url = 'http://www.dr-chuck.com/page1.htm'
+html = urllib.request.urlopen(url, context=ctx).read()
+soup = BeautifulSoup(html, 'html.parser')
+
+#retrieve all of the anchor tags
+#this code below returns a list
+tags = soup('a')
+
+#extract the href key or nothing
+for tag in tags:
+    print(tag.get('href', None))
+
+print('')
+```
+
+
+## Exercise 
+
+ The program will use urllib to read the HTML from the data files below, and parse the data, extracting numbers and compute the sum of the numbers in the file.
+
+We provide two files for this assignment. One is a sample file where we give you the sum for your testing and the other is the actual data you need to process for the assignment.
+
+- Sample data: http://py4e-data.dr-chuck.net/comments_42.html (Sum=2553)
+- Actual data: http://py4e-data.dr-chuck.net/comments_1701459.html (Sum ends with 85)
+
+The file is a table of names and comment counts. You can ignore most of the data in the file except for lines like the following:
+
+```
+<tr><td>Modu</td><td><span class="comments">90</span></td></tr>
+<tr><td>Kenzie</td><td><span class="comments">88</span></td></tr>
+<tr><td>Hubert</td><td><span class="comments">87</span></td></tr>
+```
+
+You are to find all the <span> tags in the file and pull out the numbers from the tag and sum the numbers.
+
+Code is found in `code/exercise.py`
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+from bs4 import BeautifulSoup
+import re
+
+#url = 
+url = 'http://py4e-data.dr-chuck.net/comments_1701459.html'
+html = urllib.request.urlopen(url).read()
+
+#beautify
+soup = BeautifulSoup(html, 'html.parser')
+
+#retrieve span tags
+tags = soup('span')
+
+#pull out nrs
+numlist = list()
+
+for tag in tags:
+    tag_string = int(tag.contents[0])
+    numlist.append(tag_string)
+
+print('Count', len(numlist))
+print('Sum', sum(numlist))
+
+```
+
+
+## Exercise 2
+
+The program will use urllib to read the HTML from the data files below, extract the href= vaues from the anchor tags, scan for a tag that is in a particular position relative to the first name in the list, follow that link and repeat the process a number of times and report the last name you find.  
+
+We provide two files for this assignment. One is a sample file where we give you the name for your testing and the other is the actual data you need to process for the assignment
+
+Sample problem: Start at http://py4e-data.dr-chuck.net/known_by_Fikret.html
+Find the link at position 3 (the first name is 1). Follow that link. Repeat this process 4 times. The answer is the last name that you retrieve.
+Sequence of names: Fikret Montgomery Mhairade Butchi Anayah
+Last name in sequence: Anayah
+  
+Actual problem: Start at: http://py4e-data.dr-chuck.net/known_by_Josh.html
+Find the link at position 18 (the first name is 1). Follow that link. Repeat this process 7 times. The answer is the last name that you retrieve.
+Hint: The first character of the name of the last page that you will load is: G
+
+**Strategy**
+The web pages tweak the height between the links and hide the page after a few seconds to make it difficult for you to do the assignment without writing a Python program. But frankly with a little effort and patience you can overcome these attempts to make it a little harder to complete the assignment without writing a Python program. But that is not the point. The point is to write a clever Python program to solve the program.
+
+**Sample execution**
+Here is a sample execution of a solution:
+
+```
+$ python3 solution.py
+Enter URL: http://py4e-data.dr-chuck.net/known_by_Fikret.html
+Enter count: 4
+Enter position: 3
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Fikret.html
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Montgomery.html
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Mhairade.html
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Butchi.html
+Retrieving: http://py4e-data.dr-chuck.net/known_by_Anayah.html
+```
+
+

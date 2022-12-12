@@ -1,0 +1,384 @@
+# JSON and REST
+
+## Javascript Object Notation (JSON)
+
+- Object literal notation in Javascript
+- JSON represents data as nested "lists" and "dictionaries"
+- Its not as rich as XML but more simpler, making it easier to use
+
+```{python}
+import json
+
+#curly braces created an object in JSON, which are similar to PY dictionaries
+data = '''{
+    "name": "Chuck",
+    "phone": {
+        "type": "intl",
+        "number": "222"
+    },
+    "email": {
+        "hide": "yes"
+    }
+}'''
+
+#load from string and give us an object back
+#this gives us back a py dictionary
+info = json.loads(data)
+print(info)
+```
+
+```{python}
+#extract the value using the name key
+print('Name:', info['name'])
+print('Hide:', info['email']['hide'])
+```
+
+An example of a list:
+
+```{python}
+import json
+
+#generate a list of two dictionaries using the square bracket followed by curly ones
+input = '''[
+    {"id":"001",
+    "x": "2",
+    "name": "Chuck"
+    },
+    {"id": "009",
+    "x" : "7",
+    "name": "Jack"
+    }
+]'''
+
+info = json.loads(input)
+print(info)
+```
+
+```{python}
+#how many users are in this file
+print('User counts:', len(info))
+
+#exract user data
+for item in info:
+    print('Name:', item['name'])
+    print('Id', item['id'])
+
+print('')
+```
+
+
+## Service oriented approach
+
+- Most non-trivial web applications use services
+- They use services from other applications, i.e.:
+    - Credit card charge
+    - Hotel reservation systems
+- Services publish the "rules" applications must follow to make use of a service (**API**, application programming interface)
+- Initially two systems cooperate and split the problem
+- As the data/service becomes useful, multiple applications want to use the information/application
+
+Another working example is in `code/geojson.py`
+
+Below, we work with the GoogleMaps API. We have to pass the address using URL encoding:
+
+```
+http://py4e-data.dr-chuck.net/json?address=Den+Helder&key=42
+```
+
+Here:
+
+- Spaces are +
+- `%2C` would be a comma
+
+If the URL is correct this gives us a JSON back. 
+
+We will talk API keys a bit later.
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+import json
+import ssl
+
+api_key = False
+# If you have a Google Places API key, enter it here
+# api_key = 'AIzaSy___IDByT70'
+# https://developers.google.com/maps/documentation/geocoding/intro
+
+#An API's service URL is the URL used to consume the API using the configured authentication method
+if api_key is False:
+    api_key = 42
+    serviceurl = 'http://py4e-data.dr-chuck.net/json?'
+else :
+    serviceurl = 'https://maps.googleapis.com/maps/api/geocode/json?'
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+address = 'Den Helder'
+
+parms = dict()
+parms['address'] = address
+if api_key is not False: parms['key'] = api_key
+
+#add the location to the service URL in the right way
+url = serviceurl + urllib.parse.urlencode(parms)
+print('Retrieving', url)
+
+#get the data handle
+uh = urllib.request.urlopen(url, context=ctx)
+data = uh.read().decode()
+print('Retrieved', len(data), 'characters')
+
+try:
+    js = json.loads(data)
+except:
+    js = None
+
+#ensure that we got good data
+#quit if we got nothing, or no status key
+#in r this gives an error but runs fine in the executable code
+#if not js or 'status' not in js or js['status'] != 'OK':
+#    print(data)
+#    continue
+
+#look at data in a readable format
+#print(json.dumps(js, indent=4))
+
+#walk down the tree to get the data
+lat = js['results'][0]['geometry']['location']['lat']
+lng = js['results'][0]['geometry']['location']['lng']
+print('lat', lat, 'lng', lng)
+
+location = js['results'][0]['formatted_address']
+print(location)
+```
+
+
+## API security and rate limiting
+
+- The compute resources to run these APIs are not free
+- The data provided by these APIs is usually valuable
+- The data providers might limit the number of requests per day, demand an API key or even charge for usage
+- Some APIs, i.e. twitter, require you to be authorized
+- They might change the rules as things progress
+
+An example is found in `code/twitter2.py`
+
+
+```{python}
+#|eval: false
+
+import urllib.request, urllib.parse, urllib.error
+#notice, this only works if twurl.py and dependency py files are in the same dir
+import twurl
+import json
+import ssl
+
+# https://apps.twitter.com/
+# Create App and get the four strings, put them in hidden.py
+
+#read in twitter service url
+TWITTER_URL = 'https://api.twitter.com/1.1/friends/list.json'
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+while True:
+    print('')
+    acct = input('Enter Twitter Account:')
+    if (len(acct) < 1): break
+    url = twurl.augment(TWITTER_URL,
+                        {'screen_name': acct, 'count': '5'})
+    print('Retrieving', url)
+    
+    connection = urllib.request.urlopen(url, context=ctx)
+    data = connection.read().decode()
+
+    js = json.loads(data)
+    print(json.dumps(js, indent=2))
+
+    #urllib eats the headers, but we can retrieve them like this:
+    #this line shows us how many requests we still have
+    headers = dict(connection.getheaders())
+    print('Remaining', headers['x-rate-limit-remaining'])
+
+    for u in js['users']:
+        print(u['screen_name'])
+        if 'status' not in u:
+            print('   * No status found')
+            continue
+        s = u['status']['text']
+        print('  ', s[:50])
+
+print('')
+```
+
+
+## Exercise 1: Extract data from JSON
+
+The program will prompt for a URL, read the JSON data from that URL using urllib and then parse and extract the comment counts from the JSON data, compute the sum of the numbers in the file and enter the sum below:
+
+We provide two files for this assignment. One is a sample file where we give you the sum for your testing and the other is the actual data you need to process for the assignment.
+
+- Sample data: http://py4e-data.dr-chuck.net/comments_42.json (Sum=2553)
+- Actual data: http://py4e-data.dr-chuck.net/comments_1701462.json (Sum ends with 0)  
+
+You do not need to save these files to your folder since your program will read the data directly from the URL. Note: Each student will have a distinct data url for the assignment - so only use your own data url for analysis.
+
+The data consists of a number of names and comment counts in JSON as follows:
+
+```
+{
+  comments: [
+    {
+      name: "Matthias"
+      count: 97
+    },
+    {
+      name: "Geomer"
+      count: 97
+    }
+    ...
+  ]
+}
+```
+
+This is what we want to get:
+
+```
+$ python3 solution.py
+Enter location: http://py4e-data.dr-chuck.net/comments_42.json
+Retrieving http://py4e-data.dr-chuck.net/comments_42.json
+Retrieved 2733 characters
+Count: 50
+Sum: 2...
+```
+
+Code is found in `code/extract_data_json.py`
+
+
+```{python}
+import urllib.request, urllib.parse, urllib.error
+import json
+import ssl 
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+#get data
+url='http://py4e-data.dr-chuck.net/comments_1701462.json'
+input = urllib.request.urlopen(url, context=ctx)
+data = input.read()
+
+#convert
+info = json.loads(data)
+
+#extract counts
+num_list = list()
+
+for item in info['comments']:
+    num = int(item['count'])
+    num_list.append(num)
+
+print('Sum:', sum(num_list))
+```
+
+
+## Exercise 2: Using the GeoJSON API
+
+The program will prompt for a location, contact a web service and retrieve JSON for the web service and parse that data, and retrieve the first place_id from the JSON. A place ID is a textual identifier that uniquely identifies a place as within Google Maps.
+
+To complete this assignment, you should use this API endpoint that has a static subset of the Google Data:
+
+```
+http://py4e-data.dr-chuck.net/json?
+```
+
+This API uses the same parameter (address) as the Google API. This API also has no rate limit so you can test as often as you like. If you visit the URL with no parameters, you get "No address..." response.
+
+To call the API, you need to include a key= parameter and provide the address that you are requesting as the address= parameter that is properly URL encoded using the urllib.parse.urlencode() function.
+
+You can test to see if your program is working with a location of "South Federal University" which will have a place_id of "ChIJNeHD4p-540AR2Q0_ZjwmKJ8".
+
+```
+$ python3 solution.py
+Enter location: South Federal University
+Retrieving http://...
+Retrieved 2445 characters
+Place id ChIJNeHD4p-540AR2Q0_ZjwmKJ8
+```
+
+Please run your program to find the place_id for this location: Marietta College.
+
+Code is in `code/geojson_ex.py`
+
+```{python}
+#|eval: false
+import urllib.request, urllib.parse, urllib.error
+import json
+import ssl
+
+api_key = False
+# If you have a Google Places API key, enter it here
+# api_key = 'AIzaSy___IDByT70'
+# https://developers.google.com/maps/documentation/geocoding/intro
+
+if api_key is False:
+    api_key = 42
+    serviceurl = 'http://py4e-data.dr-chuck.net/json?'
+else :
+    serviceurl = 'https://maps.googleapis.com/maps/api/geocode/json?'
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+while True:
+    address = input('Enter location: ')
+    if len(address) < 1: break
+
+    parms = dict()
+    parms['address'] = address
+    if api_key is not False: parms['key'] = api_key
+    url = serviceurl + urllib.parse.urlencode(parms)
+
+    print('Retrieving', url)
+    uh = urllib.request.urlopen(url, context=ctx)
+    data = uh.read().decode()
+    print('Retrieved', len(data), 'characters')
+
+    try:
+        js = json.loads(data)
+    except:
+        js = None
+
+    if not js or 'status' not in js or js['status'] != 'OK':
+        print('==== Failure To Retrieve ====')
+        print(data)
+        continue
+
+    print(json.dumps(js, indent=4))
+
+    lat = js['results'][0]['geometry']['location']['lat']
+    lng = js['results'][0]['geometry']['location']['lng']
+    print('lat', lat, 'lng', lng)
+    location = js['results'][0]['formatted_address']
+    print(location)
+
+```
+
+
+
+
+
+
+
+
+
