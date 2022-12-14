@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Programming for everybody session 4 - 4&nbsp; Data models and relational SQL</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../code/4_many_to_many_relationships_in_sql.html" rel="next">
+<link href="../code/2_basic_sql.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data models and relational SQL</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Programming for everybody session 4</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Using databases with python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/1_object_oriented_py.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Object oriented Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/2_basic_sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basic SQL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/3_data_models_and_relational_sql.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data models and relational SQL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/4_many_to_many_relationships_in_sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Many to many relationships</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#building-a-data-model" id="toc-building-a-data-model" class="nav-link active" data-scroll-target="#building-a-data-model"><span class="toc-section-number">4.1</span>  Building a data model</a></li>
+  <li><a href="#definitions" id="toc-definitions" class="nav-link" data-scroll-target="#definitions"><span class="toc-section-number">4.2</span>  Definitions</a></li>
+  <li><a href="#relational-power" id="toc-relational-power" class="nav-link" data-scroll-target="#relational-power"><span class="toc-section-number">4.3</span>  Relational power</a></li>
+  <li><a href="#the-join-operation" id="toc-the-join-operation" class="nav-link" data-scroll-target="#the-join-operation"><span class="toc-section-number">4.4</span>  The join operation</a></li>
+  <li><a href="#generating-a-db-with-python" id="toc-generating-a-db-with-python" class="nav-link" data-scroll-target="#generating-a-db-with-python"><span class="toc-section-number">4.5</span>  Generating a db with python</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="toc-section-number">4.6</span>  Exercise</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data models and relational SQL</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="building-a-data-model" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="building-a-data-model"><span class="header-section-number">4.1</span> Building a data model</h2>
+<ul>
+<li>Drawing a picture of the data objects for our application and then figuring out how to represent the objects and their relationships</li>
+<li>Basic rule: Don’t put the same string data in twice, use a relationship instead; i.e.&nbsp;don’t use <code>Chuck</code> twice</li>
+<li>When there is one thing in the “real world” there should be one copy of that thing in the database</li>
+<li>If we build relational databases this reduces redundancy and makes things way faster compared to if we would put everything in a spreadsheet.</li>
+</ul>
+<p>Throughout this exercise, we want to build a database application listing track records and providing info such as track name, album, artist, genre, rating, song length, etc.</p>
+<p>To start drawing the relationships its good to start to think of what the most essential thing for the application is. I.e. here we want something that manages tracks –&gt; so the first table we build is about the tracks and then ask what things are attributes of the track table and what things are tables themselves.</p>
+<p>Table 1 would be the track table including the title, length, rating and counts.</p>
+<p>Next, we ask what is connected to that table, i.e.&nbsp;we decide that tracks belong to albums, so we make a album table. Next, albums belong to groups, so another thing we need is a group/artist table.</p>
+<p>Finally, the question is what we do with the Genre? This will depend a bit on what we want to happen, if we change the genre of one thing. Do we want to only have a change for the track, for all the artists or all the albums? In our case we only want to change it per track, so we say it belongs to the track table.</p>
+</section>
+<section id="definitions" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="definitions"><span class="header-section-number">4.2</span> Definitions</h2>
+<ul>
+<li><strong>Primary key</strong>: A way for us to refer to a particular row with a unique attribute/number. We use that number in a column in a different table to link tables up. The primary key uniquely identifies each record in a table. . Primary keys must contain UNIQUE values, and cannot contain NULL values. A table can have only ONE primary key; and in the table, this primary key can consist of single or multiple columns (fields). I.e. <code>id</code></li>
+<li><strong>Foreign key</strong>: a field (or collection of fields) in one table, that refers to the PRIMARY KEY in another table. The table with the foreign key is called the child table, and the table with the primary key is called the referenced or parent table. I.e. <code>album_id</code></li>
+<li><strong>Logical key</strong>: allows the DBMS Server or your application to assign a unique key value to each row in a table. I.e. a unique thing that we might use to look up this row from the outside world, such as an album title.</li>
+</ul>
+<p><img width="500," src="../images/database_ex.png"></p>
+<ol type="1">
+<li>Open the SQLite browser</li>
+<li>Create a new <code>artist_db</code></li>
+<li>File –&gt; edit –&gt; create table: Artist</li>
+<li>add field with id and INTEGER, click Not (Not null), click PK (primary key), click AI (auto increment, i.e.&nbsp;automatically add the id nrs)</li>
+<li>add new filed with: name, TEXT</li>
+<li>Press ok</li>
+</ol>
+<p>For this we also see the code that is going to be used:</p>
+<pre><code>CREATE TABLE "Artist" (
+    "id"    INTEGER NOT NULL,
+    "name"  TEXT,
+    PRIMARY KEY("id" AUTOINCREMENT)
+);</code></pre>
+<p>We can also create tables using code, i.e.&nbsp;lets do this with the genres table were we add the following code in the execute sql option.</p>
+<p>Generally, <strong>we create tables from outward to in</strong> in order to generate the foreign keys so that we can link them in the final table.</p>
+<pre><code>CREATE TABLE Genre(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name TEXT
+)</code></pre>
+<p>Now, we create the album table. This table has the first example for a foreign key named <code>artist_id</code>:</p>
+<pre><code>CREATE TABLE Album(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    artist_id INTEGER,
+    title TEXT
+)</code></pre>
+<p>Let’s create the final table, tracks:</p>
+<pre><code>CREATE TABLE Track(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    title TEXT,
+    album_id INTEGER,
+    genre_id INTEGER,
+    len INTEGER, rating INTEGER, count INTEGER
+)</code></pre>
+<p>Now we are ready to insert some data. Notice, we don’t enter an ID field, since we set it to auto increment:</p>
+<pre><code>insert into Artist (name) values('Led Zepplin')
+insert into Artist (name) values ('AC/DC')</code></pre>
+<p>Next, lets insert some data into genre. If we use the semicolon we can both commands at once.</p>
+<pre><code>insert into Genre (name) values ('Rock'); 
+insert into Genre (name) values ('Metal')</code></pre>
+<p>Next, lets do the album, the first example were we have a foreign key. The two for <code>who made who</code> links to AC/DC in our Artist table and we have to make sure that we get this right.</p>
+<p>At the moment this is hard to do by hand but we later will write a program to do this.</p>
+<pre><code>insert into Album (title, artist_id) values ('Who Made Who', 2);
+insert into Album (title, artist_id) values ('IV', 1)</code></pre>
+<p>The last table to add is the tracks one. Here, we have some replications since some tracks belong to the same album.</p>
+<pre><code>insert into Track (title, rating, len, count, album_id, genre_id) values ('Black Dog', 5,297, 0, 2, 1);
+
+insert into Track (title, rating, len, count, album_id, genre_id) values ('Stairway', 5,482, 0, 2, 1);
+
+insert into Track (title, rating, len, count, album_id, genre_id) values ('About to Rock', 5,313, 0, 1, 2);
+
+insert into Track (title, rating, len, count, album_id, genre_id) values ('Who Made Who', 5,207, 0, 1, 2);</code></pre>
+</section>
+<section id="relational-power" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="relational-power"><span class="header-section-number">4.3</span> Relational power</h2>
+<ul>
+<li>By removing the replicated data and replacing it with references to a single copy of each bit of data, we build a “web” of information that the relational database can read through very quickly, even for large amounts of data</li>
+<li>Often when you want some data that comes from a number of tables we can link these by their foreign keys</li>
+</ul>
+</section>
+<section id="the-join-operation" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="the-join-operation"><span class="header-section-number">4.4</span> The join operation</h2>
+<ul>
+<li>The join operation links several tables as part of a select operation</li>
+<li>You must tell the join how to use the keys that make the connection between the tables using an <code>ON clause</code></li>
+</ul>
+<pre><code>select Album.title, Artist.name from Album
+join Artist on Album.artist_id = Artist.id</code></pre>
+<p>Here, we say:</p>
+<ul>
+<li>What column we want to see and from what table it comes: <code>Album.title, Artist.name</code></li>
+<li>The tables that hold the data: <code>from Album join Artist</code></li>
+<li>How the tables are linked = <code>Album.artist_id = Artist.id</code></li>
+<li>With the join we make a super table out of two tables</li>
+<li>If we would not add an on clause, this would give us all combinations of the two tables. The on clause is basically only giving us things that match</li>
+</ul>
+<p>Next, let’s extract the tracks title and genre name:</p>
+<pre><code>select Track.title, Genre.name from Track
+join Genre on Track.Genre_id = Genre.id</code></pre>
+<p>We can also go more complex and combine more than 2 tables.</p>
+<pre><code>select Track.title, Artist.name, Album.title, Genre.name from
+Track join Genre join Album join Artist on
+Track.genre_id = Genre.id and
+Track.album_id = Album.id and
+Album.artist_id = Artist.id</code></pre>
+</section>
+<section id="generating-a-db-with-python" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="generating-a-db-with-python"><span class="header-section-number">4.5</span> Generating a db with python</h2>
+<p>Code can be found in <code>code/track_db.py</code></p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xml.etree.cElementTree <span class="im">as</span> ET</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#make a db connection</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">'trackdb.sqlite'</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#make some fresh tables</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>cur.executescript(<span class="st">'''</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="st">DROP TABLE IF EXISTS Artist;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="st">DROP TABLE IF EXISTS Album;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="st">DROP TABLE IF EXISTS Track;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE Artist (</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="st">    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="st">    name TEXT UNIQUE</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="st">);</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE Album (</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="st">    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, </span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">    artist_id INTEGER,</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="st">    title TEXT UNIQUE</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="st">);</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE Track (</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="st">    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, </span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="st">    title TEXT UNIQUE,</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="st">    album_id INTEGER,</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="st">    len INTEGER, rating INTEGER, count INTEGER</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="st">);</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span>)</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="co">#get the data we will use to populate our tables</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>fname <span class="op">=</span> <span class="st">'../data/Library.xml'</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="co">#the syntax for our data looks as follows</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;key&gt;Track ID&lt;/key&gt;&lt;integer&gt;369&lt;/integer&gt;</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;key&gt;Name&lt;/key&gt;&lt;string&gt;Another One Bites The Dust&lt;/string&gt;</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;key&gt;Artist&lt;/key&gt;&lt;string&gt;Queen&lt;/string&gt;</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="co">#lookup function that looks up the key for an object</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lookup(d, key):</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    found <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> child <span class="kw">in</span> d:</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> found: <span class="cf">return</span> child.text</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> child.tag <span class="op">==</span> <span class="st">'key'</span> <span class="kw">and</span> child.text <span class="op">==</span> key:</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>            found <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="co">#parse the filename string returning an xml object</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>stuff <span class="op">=</span> ET.parse(fname)</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="co">#going into the 3rd dict levels gives us the tracks</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="co">#so for each key id we want all the track information</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a><span class="bu">all</span> <span class="op">=</span> stuff.findall(<span class="st">'dict/dict/dict'</span>)</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dict count'</span>, <span class="bu">len</span>(<span class="bu">all</span>))</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a><span class="co">#extract data using the lookup function</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> entry <span class="kw">in</span> <span class="bu">all</span>:</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ( lookup(entry, <span class="st">'Track ID'</span>) <span class="kw">is</span> <span class="va">None</span> ) : <span class="cf">continue</span></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> lookup(entry, <span class="st">'Name'</span>)</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>    artist <span class="op">=</span> lookup(entry, <span class="st">'Artist'</span>)</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>    album <span class="op">=</span> lookup(entry, <span class="st">'Album'</span>)</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>    count <span class="op">=</span> lookup(entry, <span class="st">'Play Count'</span>)</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>    rating <span class="op">=</span> lookup(entry, <span class="st">'Rating'</span>)</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>    length <span class="op">=</span> lookup(entry, <span class="st">'Total Time'</span>)</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> name <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> artist <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> album <span class="kw">is</span> <span class="va">None</span> : </span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print(name, artist, album, count, rating, length)</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>    <span class="co">#populate our tables</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    <span class="co">#INSERT OR INGORE says only put row if text is not there</span></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>    <span class="co">#only works since when we generate the table with `name TEXT UNIQUE`</span></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>    cur.execute(<span class="st">'''INSERT OR IGNORE INTO Artist (name)</span></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a><span class="st">        VALUES (?)'''</span>, (artist,))</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    cur.execute(<span class="st">'SELECT id FROM Artist WHERE name = ?'</span>, (artist,))</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    artist_id <span class="op">=</span> cur.fetchone()[<span class="dv">0</span>]</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>    <span class="co">#since artist_id is the foreign id for the album title, then we can deal with the next table</span></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>    cur.execute(<span class="st">'''INSERT OR IGNORE INTO Album (title, artist_id)</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a><span class="st">        VALUES(?, ?)'''</span>, (album, artist_id))</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>    cur.execute(<span class="st">'SELECT id FROM Album WHERE title = ?'</span>, (album,))</span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>    album_id <span class="op">=</span> cur.fetchone()[<span class="dv">0</span>]</span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>    cur.execute(<span class="st">'''INSERT OR REPLACE INTO Track</span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a><span class="st">        (title, album_id, len, rating, count) </span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a><span class="st">        VALUES ( ?, ?, ?, ?, ? )'''</span>, </span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>        ( name, album_id, length, rating, count ) )</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>    conn.commit()</span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'DB created successfully'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dict count 404</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DB created successfully</code></pre>
+</div>
+</div>
+<p>We can check if this worked by looking at it in the SQL browser, i.e.</p>
+<pre><code>SELECT Track.title, Album.title, Artist.name FROM Track
+JOIN Album JOIN Artist ON Track.album_id = Album.id AND Album.artist_id = Artist.id</code></pre>
+</section>
+<section id="exercise" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">4.6</span> Exercise</h2>
+<p>In this assignment you will parse an XML list of albums, artists, and Genres and produce a properly normalized database using a Python program.</p>
+<p>This application will read an iTunes export file in XML and produce a properly normalized database with this structure by using the library xml file:</p>
+<pre><code>CREATE TABLE Artist (
+    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name    TEXT UNIQUE
+);
+
+CREATE TABLE Genre (
+    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name    TEXT UNIQUE
+);
+
+CREATE TABLE Album (
+    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    artist_id  INTEGER,
+    title   TEXT UNIQUE
+);
+
+CREATE TABLE Track (
+    id  INTEGER NOT NULL PRIMARY KEY 
+        AUTOINCREMENT UNIQUE,
+    title TEXT  UNIQUE,
+    album_id  INTEGER,
+    genre_id  INTEGER,
+    len INTEGER, rating INTEGER, count INTEGER
+);</code></pre>
+<p>Code is found in <code>code/exercise_tracks.py</code></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../code/2_basic_sql.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basic SQL</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../code/4_many_to_many_relationships_in_sql.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Many to many relationships</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

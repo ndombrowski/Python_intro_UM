@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Programming for everybody session 4 - 3&nbsp; Basic SQL</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../code/3_data_models_and_relational_sql.html" rel="next">
+<link href="../code/1_object_oriented_py.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basic SQL</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Programming for everybody session 4</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Using databases with python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/1_object_oriented_py.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Object oriented Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/2_basic_sql.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basic SQL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/3_data_models_and_relational_sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data models and relational SQL</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../code/4_many_to_many_relationships_in_sql.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Many to many relationships</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#terminology" id="toc-terminology" class="nav-link active" data-scroll-target="#terminology"><span class="toc-section-number">3.1</span>  Terminology</a></li>
+  <li><a href="#relational-databases" id="toc-relational-databases" class="nav-link" data-scroll-target="#relational-databases"><span class="toc-section-number">3.2</span>  Relational databases</a></li>
+  <li><a href="#sql" id="toc-sql" class="nav-link" data-scroll-target="#sql"><span class="toc-section-number">3.3</span>  SQL</a></li>
+  <li><a href="#roles-in-large-projects" id="toc-roles-in-large-projects" class="nav-link" data-scroll-target="#roles-in-large-projects"><span class="toc-section-number">3.4</span>  Roles in large projects</a></li>
+  <li><a href="#database-model" id="toc-database-model" class="nav-link" data-scroll-target="#database-model"><span class="toc-section-number">3.5</span>  Database model</a></li>
+  <li><a href="#common-database-systems" id="toc-common-database-systems" class="nav-link" data-scroll-target="#common-database-systems"><span class="toc-section-number">3.6</span>  Common database systems</a></li>
+  <li><a href="#sql-insert" id="toc-sql-insert" class="nav-link" data-scroll-target="#sql-insert"><span class="toc-section-number">3.7</span>  SQL insert</a></li>
+  <li><a href="#sql-delete" id="toc-sql-delete" class="nav-link" data-scroll-target="#sql-delete"><span class="toc-section-number">3.8</span>  SQL delete</a></li>
+  <li><a href="#sql-update" id="toc-sql-update" class="nav-link" data-scroll-target="#sql-update"><span class="toc-section-number">3.9</span>  SQL update</a></li>
+  <li><a href="#retriving-records-select" id="toc-retriving-records-select" class="nav-link" data-scroll-target="#retriving-records-select"><span class="toc-section-number">3.10</span>  Retriving records: Select</a></li>
+  <li><a href="#sorting-with-order-by" id="toc-sorting-with-order-by" class="nav-link" data-scroll-target="#sorting-with-order-by"><span class="toc-section-number">3.11</span>  Sorting with ORDER BY</a></li>
+  <li><a href="#worked-example-counting-email-in-a-database" id="toc-worked-example-counting-email-in-a-database" class="nav-link" data-scroll-target="#worked-example-counting-email-in-a-database"><span class="toc-section-number">3.12</span>  Worked Example: Counting Email in a Database</a></li>
+  <li><a href="#exercise-1-our-first-database" id="toc-exercise-1-our-first-database" class="nav-link" data-scroll-target="#exercise-1-our-first-database"><span class="toc-section-number">3.13</span>  Exercise 1: Our First Database</a></li>
+  <li><a href="#exercise-2-count-email" id="toc-exercise-2-count-email" class="nav-link" data-scroll-target="#exercise-2-count-email"><span class="toc-section-number">3.14</span>  Exercise 2: Count email</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Basic SQL</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="terminology" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="terminology"><span class="header-section-number">3.1</span> Terminology</h2>
+<ul>
+<li>Database: contains many tables</li>
+<li>Relation or table: contains tuples and attributes</li>
+<li>Tuple or row: a set of fields that generally represents an “object”, like a person or a music track</li>
+<li>Attribute also column or field: one of possibly many elements of data corresponding to the object represented by the row</li>
+</ul>
+</section>
+<section id="relational-databases" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="relational-databases"><span class="header-section-number">3.2</span> Relational databases</h2>
+<p>Relational databases model data by storing rows and columns in tables. The power of the relational database lies in its ability to effectively retrieve data from these tables and in particular where there are multiple tables and relationships between those tables involved in the query.</p>
+</section>
+<section id="sql" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sql"><span class="header-section-number">3.3</span> SQL</h2>
+<ul>
+<li>Stands for “Structured Query Language”, the language we use to issue commands to a database:
+<ul>
+<li>Create a table</li>
+<li>Retrieve some data</li>
+<li>Insert data</li>
+<li>Update data</li>
+<li>Delete data</li>
+</ul></li>
+</ul>
+</section>
+<section id="roles-in-large-projects" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="roles-in-large-projects"><span class="header-section-number">3.4</span> Roles in large projects</h2>
+<ul>
+<li><strong>Application developer</strong>: builds the logic for the application, the look and feel of the application, monitors the application for problems</li>
+<li><strong>Database administrator</strong>: Monitors and adjusts the database as the programs runs in production</li>
+<li>Often both people participate in the building of the “data model”</li>
+</ul>
+</section>
+<section id="database-model" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="database-model"><span class="header-section-number">3.5</span> Database model</h2>
+<p>A database model or database schema is the structure or format of a database, described in a formal language supported by the database management system. In other words, a “database model” is the application of a data model when used in conjunction with a database management system.</p>
+</section>
+<section id="common-database-systems" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="common-database-systems"><span class="header-section-number">3.6</span> Common database systems</h2>
+<ul>
+<li>There are three major Database Management Systems in wide use:
+<ul>
+<li>Oracle: Large, commercial, enterprise-scale, very tweakable</li>
+<li>MySQL: Simpler but fast and scalable, and commercial open source</li>
+<li>SqlServer: nice, from Microsoft</li>
+</ul></li>
+<li>Many smaller projects that are free and open source such as HSQL, SQLite, Postgress, …</li>
+</ul>
+<p>For this tutorial we work with SQLite downloaded from: <code>https://sqlitebrowser.org/dl/</code>.</p>
+<p>We start it using the <code>DB Browser for SQLite</code></p>
+<ul>
+<li>Start by saying: new database</li>
+<li>Save as sql1 in the projects data folder</li>
+<li>Now we can add data to this database. We only do this in the SQL browser, we don’t use other tools for this</li>
+</ul>
+<p>Lets start with creating a table by using the ‘execute sql’ tab and entering:</p>
+<pre><code>CREATE TABLE Users(
+name VARCHAR(128),
+email VARCHAR(128)
+)</code></pre>
+<p>Here we create a table with the name user and we add two columns named name and email, each should only include characters with up to 128 characters. This is our contract, our schema.</p>
+<p>By being very explicit about our data things become very fast.</p>
+<p>After we hit the execute button, we get an added table in the DB schema.</p>
+<p>Next, lets add some data:</p>
+<ul>
+<li>Go to browse data, table users</li>
+<li>Click new record add 4 new rows</li>
+<li>If we check the SQL log to see all commands that were run in the back</li>
+</ul>
+</section>
+<section id="sql-insert" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="sql-insert"><span class="header-section-number">3.7</span> SQL insert</h2>
+<p>The insert statement inserts a new row into the table. Above we used the interface to accomplish this but we also can use a SQL commands:</p>
+<pre><code>INSERT INTO Users (name, email) VALUES ('Kirstin', 'kf@umich.edu')</code></pre>
+</section>
+<section id="sql-delete" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="sql-delete"><span class="header-section-number">3.8</span> SQL delete</h2>
+<p>Deletes a row in the table based on a selection criteria:</p>
+<pre><code>DELETE FROM Users WHERE email='fred@umich.edu'</code></pre>
+<p>With the WHERE we say: Only delete were XYZ is true.</p>
+</section>
+<section id="sql-update" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="sql-update"><span class="header-section-number">3.9</span> SQL update</h2>
+<p>Allows us to update a field with a where clause:</p>
+<pre><code>UPDATE Users SET name='Charles' WHERE email='csev@umich.edu'</code></pre>
+<p>Here, the where clause is important, otherwise we would update ALL the names.</p>
+</section>
+<section id="retriving-records-select" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="retriving-records-select"><span class="header-section-number">3.10</span> Retriving records: Select</h2>
+<p>The select statement retrieves a group of records: you can either retrieve all their records or a subset of records with a where clause:</p>
+<pre><code>SELECT * FROM Users</code></pre>
+<pre><code>SELECT * FROM Users WHERE email='csev@umich.edu'</code></pre>
+</section>
+<section id="sorting-with-order-by" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="sorting-with-order-by"><span class="header-section-number">3.11</span> Sorting with ORDER BY</h2>
+<p>You can add an order by clause to select statements to get the result sorted in ascending or descending order</p>
+<pre><code>SELECT * FROM Users ORDER BY email</code></pre>
+</section>
+<section id="worked-example-counting-email-in-a-database" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="worked-example-counting-email-in-a-database"><span class="header-section-number">3.12</span> Worked Example: Counting Email in a Database</h2>
+<p>Code is in <code>code/count_sql.py</code></p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#connect to db, it will create the file if it does not exist</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">'../data/emaildb.sqlite'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#create a database handle</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#i.e. we send commands to the cursor and get responses through that cursor</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#if table exist, delete so we have a fresh start</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">'DROP TABLE IF EXISTS Counts'</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#create a new table from fresh</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">'CREATE TABLE counts (email TEXT, count INTEGER)'</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>fname<span class="op">=</span><span class="st">'../data/mbox-short.txt'</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>fh <span class="op">=</span> <span class="bu">open</span>(fname)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fh:</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> line.startswith(<span class="st">'From: '</span>): </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    pieces <span class="op">=</span> line.split()</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#extract email addresses</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    email <span class="op">=</span> pieces[<span class="dv">1</span>]</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">#prepare the cursor to receive data:</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">#`=?` here, the ? is a placeholder to prevent sql injections</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">#the placeholder ultimately will replaced it with a ONE tuple `(email,)`</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    cur.execute(<span class="st">'SELECT count FROM Counts WHERE email = ? '</span>, (email,))</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">#grep the first one and give it back in row</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> cur.fetchone()</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">#if the row is empty insert the mail and an inital count of 1</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">#if the row exists, i.e. the mail is already in there, update the counter    </span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> row <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>        cur.execute(<span class="st">'''INSERT INTO Counts (email, count) VALUES (?,1)'''</span>, (email,))</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>        cur.execute(<span class="st">'UPDATE Counts SET count = count + 1 WHERE email = ?'</span>,(email,))</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">#write the db to disk</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    conn.commit()</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="co">#create string to extract data</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>sqlstr <span class="op">=</span> <span class="st">'SELECT email, count FROM Counts ORDER BY count DESC LIMIT 10'</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a><span class="co">#extract data</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> cur.execute(sqlstr):</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="bu">str</span>(row[<span class="dv">0</span>]), row[<span class="dv">1</span>])</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>cwen@iupui.edu 5
+zqian@umich.edu 4
+david.horwitz@uct.ac.za 4
+louis@media.berkeley.edu 3
+gsilver@umich.edu 3
+stephen.marquard@uct.ac.za 2
+rjlowe@iupui.edu 2
+wagnermr@iupui.edu 1
+antranig@caret.cam.ac.uk 1
+gopal.ramasammycook@gmail.com 1
+</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-1-our-first-database" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="exercise-1-our-first-database"><span class="header-section-number">3.13</span> Exercise 1: Our First Database</h2>
+<p>Then, create a SQLITE database or use an existing database and create a table in the database called “Ages”:</p>
+<pre><code>CREATE TABLE Ages ( 
+  name VARCHAR(128), 
+  age INTEGER
+)</code></pre>
+<p>Then make sure the table is empty by deleting any rows that you previously inserted, and insert these rows and only these rows with the following commands:</p>
+<pre><code>DELETE FROM Ages;
+INSERT INTO Ages (name, age) VALUES ('Philip', 21);
+INSERT INTO Ages (name, age) VALUES ('Rydha', 18);
+INSERT INTO Ages (name, age) VALUES ('Adana', 23);
+INSERT INTO Ages (name, age) VALUES ('Oscar', 31);
+INSERT INTO Ages (name, age) VALUES ('Kayda', 30);
+INSERT INTO Ages (name, age) VALUES ('Makenna', 27);</code></pre>
+<p>Once the inserts are done, run the following SQL command:</p>
+<pre><code>SELECT hex(name || age) AS X FROM Ages ORDER BY X</code></pre>
+</section>
+<section id="exercise-2-count-email" class="level2" data-number="3.14">
+<h2 data-number="3.14" class="anchored" data-anchor-id="exercise-2-count-email"><span class="header-section-number">3.14</span> Exercise 2: Count email</h2>
+<p>This application will read the mailbox data (mbox.txt) and count the number of email messages per organization (i.e.&nbsp;domain name of the email address) using a database with the following schema to maintain the counts.</p>
+<pre><code>CREATE TABLE Counts (org TEXT, count INTEGER)</code></pre>
+<p>Code is in <code>code/sql_ex1.py</code></p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#connect to db, it will create the file if it does not exist</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">'orga_info.sqlite'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#create a database handle</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#i.e. we send commands to the cursor and get responses through that cursor</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#if table exist, delete so we have a fresh start</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">'DROP TABLE IF EXISTS Counts'</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#create a new table from fresh</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">'CREATE TABLE counts (org TEXT, count INTEGER)'</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>fname<span class="op">=</span><span class="st">'../data/mbox.txt'</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>fh <span class="op">=</span> <span class="bu">open</span>(fname)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> fh:</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> line.startswith(<span class="st">'From: '</span>): </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#extract orga info</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    email <span class="op">=</span> line.split()[<span class="dv">1</span>]</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    orga <span class="op">=</span> email.split(<span class="st">'@'</span>)[<span class="dv">1</span>]</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">#print((orga))</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">#prepare the cursor to receive data:</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">#`=?` here, the ? is a placeholder to prevent sql injections</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">#the placeholder ultimately will replaced it with a ONE tuple `(email,)`</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    cur.execute(<span class="st">'SELECT count FROM Counts WHERE org = ? '</span>, (orga,))</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">#grep the first one and give it back in row</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> cur.fetchone()</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">#if the row is empty insert the mail and an inital count of 1</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if the row exists, i.e. the mail is already in there, update the counter    </span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> row <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>        cur.execute(<span class="st">'''INSERT INTO Counts (org, count) VALUES (?,1)'''</span>, (orga,))</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>        cur.execute(<span class="st">'UPDATE Counts SET count = count + 1 WHERE org = ?'</span>,(orga,))</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>    <span class="co">#write the db to disk</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    conn.commit()</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a><span class="co">#create string to extract data</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>sqlstr <span class="op">=</span> <span class="st">'SELECT org, count FROM Counts ORDER BY count DESC'</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="co">#view data</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="co">##for row in cur.execute(sqlstr):</span></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a><span class="co">#    print(str(row[0]), row[1])</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="co">#count data </span></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>num_list <span class="op">=</span> <span class="bu">list</span>()</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> cur.execute(sqlstr):</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>    num <span class="op">=</span> <span class="bu">int</span>(row[<span class="dv">1</span>])</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    num_list.append(num)</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">sum</span>(num_list))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1797</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../code/1_object_oriented_py.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Object oriented Python</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../code/3_data_models_and_relational_sql.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data models and relational SQL</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,311 @@
+# Data models and relational SQL
+
+## Building a data model
+
+- Drawing a picture of the data objects for our application and then figuring out how to represent the objects and their relationships
+- Basic rule: Don't put the same string data in twice, use a relationship instead; i.e. don't use `Chuck` twice
+- When there is one thing in the "real world" there should be one copy of that thing in the database
+- If we build relational databases this reduces redundancy and makes things way faster compared to if we would put everything in a spreadsheet.
+
+Throughout this exercise, we want to build a database application listing track records and providing info such as track name, album, artist, genre, rating, song length, etc.  
+
+To start drawing the relationships its good to start to think of what the most essential thing for the application is. I.e. here we want something that manages tracks --> so the first table we build is about the tracks and then ask what things are attributes of the track table and what things are tables themselves.  
+
+Table 1 would be the track table including the title, length, rating and counts.  
+
+Next, we ask what is connected to that table, i.e. we decide that tracks belong to albums, so we make a album table. Next, albums belong to groups, so another thing we need is a group/artist table.
+
+Finally, the question is what we do with the Genre? This will depend a bit on what we want to happen, if we change the genre of one thing. Do we want to only have a change for the track, for all the artists or all the albums?  In our case we only want to change it per track, so we say it belongs to the track table.
+
+
+## Definitions
+
+- **Primary key**: A way for us to refer to a particular row with a unique attribute/number. We use that number in a column in a different table to link tables up. The primary key uniquely identifies each record in a table. . Primary keys must contain UNIQUE values, and cannot contain NULL values. A table can have only ONE primary key; and in the table, this primary key can consist of single or multiple columns (fields). I.e. `id`
+- **Foreign key**: a field (or collection of fields) in one table, that refers to the PRIMARY KEY in another table. The table with the foreign key is called the child table, and the table with the primary key is called the referenced or parent table. I.e. `album_id`
+- **Logical key**: allows the DBMS Server or your application to assign a unique key value to each row in a table. I.e. a unique thing that we might use to look up this row from the outside world, such as an album title.
+
+<img width=500, src="../images/database_ex.png">
+
+1. Open the SQLite browser
+2. Create a new `artist_db`
+3. File --> edit --> create table: Artist
+4. add field with id and INTEGER, click Not (Not null), click PK (primary key), click AI (auto increment, i.e. automatically add the id nrs)
+5. add new filed with: name, TEXT
+6. Press ok
+
+For this we also see the code that is going to be used:
+
+```
+CREATE TABLE "Artist" (
+	"id"	INTEGER NOT NULL,
+	"name"	TEXT,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+```
+
+We can also create tables using code, i.e. lets do this with the genres table were we add the following code in the execute sql option.
+
+Generally, **we create tables from outward to in** in order to generate the foreign keys so that we can link them in the final table.
+
+```
+CREATE TABLE Genre(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name TEXT
+)
+```
+
+Now, we create the album table. This table has the first example for a foreign key named `artist_id`:
+
+```
+CREATE TABLE Album(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    artist_id INTEGER,
+    title TEXT
+)
+```
+
+Let's create the final table, tracks:
+
+```
+CREATE TABLE Track(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    title TEXT,
+    album_id INTEGER,
+    genre_id INTEGER,
+    len INTEGER, rating INTEGER, count INTEGER
+)
+```
+
+Now we are ready to insert some data. Notice, we don't enter an ID field, since we set it to auto increment:
+
+```
+insert into Artist (name) values('Led Zepplin')
+insert into Artist (name) values ('AC/DC')
+```
+
+Next, lets insert some data into genre. If we use the semicolon we can both commands at once.
+
+```
+insert into Genre (name) values ('Rock'); 
+insert into Genre (name) values ('Metal')
+```
+
+Next, lets do the album, the first example were we have a foreign key. The two for `who made who` links to AC/DC in our Artist table and we have to make sure that we get this right.
+
+At the moment this is hard to do by hand but we later will write a program to do this.
+
+```
+insert into Album (title, artist_id) values ('Who Made Who', 2);
+insert into Album (title, artist_id) values ('IV', 1)
+```
+
+The last table to add is the tracks one. Here, we have some replications since some tracks belong to the same album. 
+
+```
+insert into Track (title, rating, len, count, album_id, genre_id) values ('Black Dog', 5,297, 0, 2, 1);
+
+insert into Track (title, rating, len, count, album_id, genre_id) values ('Stairway', 5,482, 0, 2, 1);
+
+insert into Track (title, rating, len, count, album_id, genre_id) values ('About to Rock', 5,313, 0, 1, 2);
+
+insert into Track (title, rating, len, count, album_id, genre_id) values ('Who Made Who', 5,207, 0, 1, 2);
+```
+
+
+## Relational power
+
+- By removing the replicated data and replacing it with references to a single copy of each bit of data, we build a "web" of information that the relational database can read through very quickly, even for large amounts of data
+- Often when you want some data that comes from a number of tables we can link these by their foreign keys
+
+
+## The join operation
+
+- The join operation links several tables as part of a select operation
+- You must tell the join how to use the keys that make the connection between the tables using an `ON clause`
+
+```
+select Album.title, Artist.name from Album
+join Artist on Album.artist_id = Artist.id
+```
+
+Here, we say:
+
+- What column we want to see and from what table it comes: `Album.title, Artist.name`
+- The tables that hold the data: `from Album join Artist`
+- How the tables are linked = `Album.artist_id = Artist.id`
+- With the join we make a super table out of two tables
+- If we would not add an on clause, this would give us all combinations of the two tables. The on clause is basically only giving us things that match
+
+Next, let's extract the tracks title and genre name:
+
+```
+select Track.title, Genre.name from Track
+join Genre on Track.Genre_id = Genre.id
+```
+
+We can also go more complex and combine more than 2 tables.
+
+```
+select Track.title, Artist.name, Album.title, Genre.name from
+Track join Genre join Album join Artist on
+Track.genre_id = Genre.id and
+Track.album_id = Album.id and
+Album.artist_id = Artist.id
+```
+
+
+## Generating a db with python
+
+Code can be found in `code/track_db.py`
+
+```{python}
+import xml.etree.cElementTree as ET
+import sqlite3
+
+#make a db connection
+conn = sqlite3.connect('trackdb.sqlite')
+cur = conn.cursor()
+
+#make some fresh tables
+cur.executescript('''
+DROP TABLE IF EXISTS Artist;
+DROP TABLE IF EXISTS Album;
+DROP TABLE IF EXISTS Track;
+
+CREATE TABLE Artist (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name TEXT UNIQUE
+);
+
+CREATE TABLE Album (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 
+    artist_id INTEGER,
+    title TEXT UNIQUE
+);
+
+CREATE TABLE Track (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 
+    title TEXT UNIQUE,
+    album_id INTEGER,
+    len INTEGER, rating INTEGER, count INTEGER
+);
+''')
+
+#get the data we will use to populate our tables
+fname = '../data/Library.xml'
+
+#the syntax for our data looks as follows
+# <key>Track ID</key><integer>369</integer>
+# <key>Name</key><string>Another One Bites The Dust</string>
+# <key>Artist</key><string>Queen</string>
+
+#lookup function that looks up the key for an object
+def lookup(d, key):
+    found = False
+    for child in d:
+        if found: return child.text
+        if child.tag == 'key' and child.text == key:
+            found = True
+    return None
+
+#parse the filename string returning an xml object
+stuff = ET.parse(fname)
+
+#going into the 3rd dict levels gives us the tracks
+#so for each key id we want all the track information
+all = stuff.findall('dict/dict/dict')
+print('Dict count', len(all))
+
+#extract data using the lookup function
+for entry in all:
+    if ( lookup(entry, 'Track ID') is None ) : continue
+
+    name = lookup(entry, 'Name')
+    artist = lookup(entry, 'Artist')
+    album = lookup(entry, 'Album')
+    count = lookup(entry, 'Play Count')
+    rating = lookup(entry, 'Rating')
+    length = lookup(entry, 'Total Time')
+
+    if name is None or artist is None or album is None : 
+        continue
+
+    #print(name, artist, album, count, rating, length)
+
+    #populate our tables
+    #INSERT OR INGORE says only put row if text is not there
+    #only works since when we generate the table with `name TEXT UNIQUE`
+    cur.execute('''INSERT OR IGNORE INTO Artist (name)
+        VALUES (?)''', (artist,))
+    cur.execute('SELECT id FROM Artist WHERE name = ?', (artist,))
+    artist_id = cur.fetchone()[0]
+
+    #since artist_id is the foreign id for the album title, then we can deal with the next table
+    cur.execute('''INSERT OR IGNORE INTO Album (title, artist_id)
+        VALUES(?, ?)''', (album, artist_id))
+    cur.execute('SELECT id FROM Album WHERE title = ?', (album,))
+    album_id = cur.fetchone()[0]
+
+    cur.execute('''INSERT OR REPLACE INTO Track
+        (title, album_id, len, rating, count) 
+        VALUES ( ?, ?, ?, ?, ? )''', 
+        ( name, album_id, length, rating, count ) )
+
+    conn.commit()
+
+print('DB created successfully')
+```
+
+We can check if this worked by looking at it in the SQL browser, i.e.
+
+```
+SELECT Track.title, Album.title, Artist.name FROM Track
+JOIN Album JOIN Artist ON Track.album_id = Album.id AND Album.artist_id = Artist.id
+```
+
+## Exercise 
+
+In this assignment you will parse an XML list of albums, artists, and Genres and produce a properly normalized database using a Python program.
+
+This application will read an iTunes export file in XML and produce a properly normalized database with this structure by using the library xml file:
+
+```
+CREATE TABLE Artist (
+    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name    TEXT UNIQUE
+);
+
+CREATE TABLE Genre (
+    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    name    TEXT UNIQUE
+);
+
+CREATE TABLE Album (
+    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    artist_id  INTEGER,
+    title   TEXT UNIQUE
+);
+
+CREATE TABLE Track (
+    id  INTEGER NOT NULL PRIMARY KEY 
+        AUTOINCREMENT UNIQUE,
+    title TEXT  UNIQUE,
+    album_id  INTEGER,
+    genre_id  INTEGER,
+    len INTEGER, rating INTEGER, count INTEGER
+);
+```
+
+Code is found in `code/exercise_tracks.py`
+
+
+
+
+
+
+
+
+
+
+
+

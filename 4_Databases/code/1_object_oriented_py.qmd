@@ -1,0 +1,210 @@
+# Object oriented Python
+
+## Definitions
+
+- **Class**: A template, a shape of an object, i.e. a string is a class. A class defines the abstract characteristics of a thing (object) including the things characteristics (its attributes, fields or properties) and the things behaviors (the things it can do or methods).
+- **Method** or Message: A defined capability of a class; an objects abilities.
+- Field or **attribute**: A bit of data in a class
+- **Object** or instance: A particular instance of a class. I.e. in `x='abc'` x is the object.
+- Constructor: Code that runs when an object is created
+- Inheritance: The ability to extend a class to make a new class
+
+
+## Object oriented
+
+- A program is made up of many cooperating objects
+- Instead of being the "whole program", each object is a little "island" within the program and cooperatively working with other objects
+- A program is made up of one or more objects working together, objects make use of each others capabilities
+
+
+## Objects
+
+- An object is a bit of self-contained code and data
+- A key aspect of the Object approach is to break the problem into smaller, understandable parts (divide and conquer)
+-Objects have boundaries that allow us to ignore un-needed detail
+- We have been already using objects: String objects, integer objects, dictionary objects, list objects ...
+- Objects hide detail, they allow the "rest of the program" to ignore the detail
+
+
+## Building our own class
+
+- Class is a reserved word
+- Each 'PartyAnimal' object has a bit of code
+
+
+```{python}
+#make an object with a bit of data in it
+class PartyAnimal:
+    x = 0
+    
+    # add a bit of code
+    #self is used to refer to the instance in which the method is being called
+    def party(self):
+        self.x = self.x + 1
+        print('So far', self.x)
+
+#construct a PartyAnimal object, an, and store it in a variable
+#same as `x = list()`
+#this makes an an alias to self , which gets used in the method above
+an = PartyAnimal()
+
+#tell the object to run the party() code within it
+#i.e. invoke methods inside an object
+#this basically does this: PartyAnimal.party(an)
+an.party()
+an.party()
+an.party()
+```
+
+- The `dir()` command lists the capabilities of an object
+- In the output, ognore the ones with underscores, these are used by python itself
+- The rest are real operations that the object can perform
+
+```{python}
+type(an)
+```
+
+```{python}
+dir(an)
+```
+
+
+## Object lifecycle
+
+- Objects are created, used and discarded
+- We have special blocks of code (methods) that get called:
+    - At the moment of creation = constructor
+    - At the moment of destruction = destructor
+- Constructors are used a lot
+- Destructors are seldom used
+- The constructor and destructor are optional. 
+- The constructor is typically used to set up variables.
+
+
+## Constructor
+
+- The primary purpose of the constructor is to set up some instance variables to have the proper initial values when the object is created
+
+
+```{python}
+#make an object with a bit of data in it
+class PartyAnimal:
+    x = 0
+    
+    def __init__(self):
+        print('I am constructed')
+        
+    def party(self):
+        self.x = self.x + 1
+        print('So far', self.x)
+    
+    def __del__(self):
+        print('I am destructed', self.x)
+        
+an = PartyAnimal()  
+
+print(an.party())
+print(an.party())
+
+#if we run step by step, then we get the destruction call here
+an = 42
+```
+
+```{python}
+print('an contains', an)
+```
+
+
+## Many **Instances**
+
+- We can create lots of objects, the class is the template for the object
+- We can store each distinct object in its own variable
+- We call this having multiple instances of the same class
+- Each instance has its own copy of the instance variables
+
+Constructors, i.e. def__init__, can have additional parameters, i.e. z. These can be used to setup instance variables, i.e. name or self.name, for the particular instance of the class.
+
+```{python}
+class PartyAnimal:
+    x = 0
+    name = ""
+    
+    def __init__(self, z):
+        self.name = z
+        print(self.name, "constructed")
+    
+    def party(self):
+        self.x = self.x + 1
+        print(self.name, "party count", self.x)
+
+#make me an object, with Sally as a parameter
+s = PartyAnimal("Sally")
+s.party()
+```
+
+```{python}
+#make another template
+#this creates a second, independent, instance
+j = PartyAnimal("Jim")
+j.party()
+```
+
+
+```{python}
+s.party()
+```
+
+
+## Object inheritance
+
+- When we make a new class, we can reuse an existing class and inherit all the capabilities of an existing class and then add our own little bit to it to make our new class
+- This is another form of store and reuse
+- Write once, reuse many times
+- The new class (child) has all the capabilities of the old class (parent) and then some more
+- "Subclasses" are a more specialized version of a class, which inherit attributes and behaviors from their parent classes and can introduce their own
+
+
+Below FootballFan is a class which extends PartyAnimal. It has all the capabilities of PartyAnimal and more.
+
+```{python}
+class PartyAnimal:
+    x = 0
+    name = ""
+    
+    def __init__(self, name):
+        self.name = name
+        print(self.name, "constructed")
+        
+    def party(self):
+        self.x = self.x + 1
+        print(self.name, "party count", self.x)
+    
+#create a new class extending PartyAnimal
+class FootballFan(PartyAnimal):
+    points = 0
+    
+    def touchdown(self):
+        self.points = self.points + 7
+        self.party()
+        print(self.name, "points", self.points)
+
+s = PartyAnimal('Sally')
+s.party()
+```
+
+```{python}
+j = FootballFan('Jim')
+j.party()
+```
+
+```{python}
+j.touchdown()
+```
+
+
+
+
+
+
+
+
