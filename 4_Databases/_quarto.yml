@@ -12,7 +12,7 @@ book:
     - code/2_basic_sql.qmd
     - code/3_data_models_and_relational_sql.qmd
     - code/4_many_to_many_relationships_in_sql.qmd
-    #- code/5_databases_and_vis.qmd
+    - code/5_databases_and_vis.qmd
 
 format:
   html:
