@@ -5,3 +5,5 @@
 *.png
 *.DS_Store
 *.Rhistory
+*content.sqlite*
+*index.sqlite
